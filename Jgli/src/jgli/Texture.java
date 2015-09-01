@@ -10,6 +10,14 @@ package jgli;
  * @author gbarbieri
  */
 public class Texture {
-    
+
     public int type;
+    public int formatType;
+    public int targetType;
+
+    /**
+     * Create an empty texture instance
+     */
+    public Texture() {
+    }
 }

@@ -176,4 +176,18 @@ public class Format {
     public static final int FORMAT_RGBA_ASTC_12X12_SRGB = 144;
     public static final int FORMAT_COMPRESSED_LAST = FORMAT_RGBA_ASTC_12X12_SRGB;
     public static final int FORMAT_LAST = FORMAT_RGBA_ASTC_12X12_SRGB;
+
+    public static final int FORMAT_INVALID = -1;
+    public static final int FORMAT_COUNT = FORMAT_LAST - FORMAT_FIRST + 1;
+    public static final int FORMAT_COMPRESSED_COUNT = FORMAT_COMPRESSED_LAST - FORMAT_COMPRESSED_FIRST + 1;
+
+    public static boolean isCompressed(int format) {
+        return format >= FORMAT_COMPRESSED_FIRST && format <= FORMAT_COMPRESSED_LAST;
+    }
+
+    public static boolean isValid(int format) {
+        return format >= FORMAT_FIRST && format <= FORMAT_LAST;
+    }
+
+    
 }
