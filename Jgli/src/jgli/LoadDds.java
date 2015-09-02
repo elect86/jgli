@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
+import resources.DdsHeader;
 
 /**
  *
@@ -32,5 +33,9 @@ public class LoadDds {
     public static Texture loadDds(ByteBuffer byteBuffer) throws IOException {
 
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        
+        if(byteBuffer.capacity() < DdsHeader.sizeOf) {
+            throw new Error("Data size smaller than dds header size");
+        }
     }
 }
