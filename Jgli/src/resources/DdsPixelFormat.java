@@ -5,8 +5,7 @@
  */
 package resources;
 
-import resources.dx.D3dFormat;
-import resources.dx.Ddpf;
+import java.nio.ByteBuffer;
 
 /**
  *
@@ -14,11 +13,22 @@ import resources.dx.Ddpf;
  */
 public class DdsPixelFormat {
 
-    public int size; // 32
-    public Ddpf flags;
-    public D3dFormat fourCC;
+    public int size;
+    public int flags;
+    public int fourCC;
     public int bpp;
-    public int[] mask; // 4
-    
+    public int[] mask = new int[4];
+
     public static final int sizeOf = (4 + 4) * Integer.BYTES;
+
+    public DdsPixelFormat(ByteBuffer byteBuffer) {
+        
+        size = byteBuffer.getInt();
+        flags = byteBuffer.getInt();
+        fourCC = byteBuffer.getInt();
+        bpp = byteBuffer.getInt();
+        for (int i = 0; i < mask.length; i++) {
+            mask[i] = byteBuffer.getInt();
+        }
+    }
 }
