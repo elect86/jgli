@@ -5,19 +5,29 @@
  */
 package jgli;
 
+import java.nio.ByteBuffer;
+
 /**
  *
  * @author gbarbieri
  */
 public class Texture {
 
-    public int type;
-    public int formatType;
-    public int targetType;
+    public ByteBuffer data;
+    public int format;
+    public int target;
+    public int baseLayer;
+    public int maxLayer;
+    public int baseFace;
+    public int maxFace;
+    public int baseLevel;
+    public int maxLevel;
 
     /**
      * Create an empty texture instance
      */
-    public Texture() {
+    public Texture(int target, int format, int[] dimensions, int layers, int faces, int levels) {
+        
+        data = ByteBuffer.allocateDirect(faces)
     }
 }
