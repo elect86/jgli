@@ -10,28 +10,102 @@ package jgli;
  * @author elect
  */
 public class Glm {
-    
+
     public static boolean[] equal(int[] vec0, int[] vec1) {
-        
+
         if (vec0.length != vec1.length) {
             throw new Error("Length of vectors differs!");
         }
-        
+
         boolean[] result = new boolean[vec0.length];
-        
+
         for (int component = 0; component < vec0.length; component++) {
             result[component] = vec0[component] == vec1[component];
         }
         return result;
     }
-    
+
     public static boolean all(boolean[] vec) {
-                
-        for(boolean b : vec) {
-            if(!b) {
+
+        for (boolean b : vec) {
+            if (!b) {
                 return false;
             }
         }
         return true;
+    }
+
+    public static byte[] divide(int[] vec0, byte[] vec1) {
+
+        if (vec0.length != vec1.length) {
+            throw new Error("Length of vectors differs!");
+        }
+
+        byte[] result = new byte[vec0.length];
+
+        for (int component = 0; component < vec0.length; component++) {
+            result[component] = (byte) (vec0[component] / vec1[component]);
+        }
+        return result;
+    }
+
+    public static byte[] maxB(byte[] vec0, byte[] vec1) {
+
+        if (vec0.length != vec1.length) {
+            throw new Error("Length of vectors differs!");
+        }
+
+        byte[] result = new byte[vec0.length];
+
+        for (int component = 0; component < vec0.length; component++) {
+            result[component] = vec0[component] > vec1[component] ? vec0[component] : vec1[component];
+        }
+        return result;
+    }
+    
+    public static int[] maxI(byte[] vec0, byte[] vec1) {
+
+        if (vec0.length != vec1.length) {
+            throw new Error("Length of vectors differs!");
+        }
+
+        int[] result = new int[vec0.length];
+
+        for (int component = 0; component < vec0.length; component++) {
+            result[component] = vec0[component] > vec1[component] ? vec0[component] : vec1[component];
+        }
+        return result;
+    }
+
+    public static boolean[] greaterThan(int[] vec0, byte[] vec1) {
+
+        if (vec0.length != vec1.length) {
+            throw new Error("Length of vectors differs!");
+        }
+
+        boolean[] result = new boolean[vec0.length];
+
+        for (int component = 0; component < vec0.length; component++) {
+            result[component] = vec0[component] > vec1[component];
+        }
+        return result;
+    }
+
+    public static int compMul(int[] vec) {
+
+        int result = 1;
+
+        for (int i = 0; i < vec.length; i++) {
+            result *= vec[i];
+        }
+        return result;
+    }
+
+    public static byte[] shiftRight(byte[] vec, int shift) {
+
+        for (int i = 0; i < vec.length; i++) {
+            vec[i] = (byte) (vec[i] >> shift);
+        }
+        return vec;
     }
 }

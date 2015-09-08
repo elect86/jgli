@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package resources;
+package jgli;
 
 import jgli.Jgli;
 import static jgli.Jgli.FORMAT_COUNT;
@@ -197,7 +197,7 @@ public class Dx {
             new Format(DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_ASTC_12X12_UNORM_SRGB, new int[]{0, 0, 0, 0}), //SRGB_ALPHA_ASTC_12x12,
         };
 
-        if (table.length != Jgli.FORMAT_COUNT) {
+        if (!(table.length == Jgli.FORMAT_COUNT)) {
             throw new Error("GLI error: format descriptor list doesn't match number of supported formats");
         }
 

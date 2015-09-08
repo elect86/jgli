@@ -187,7 +187,7 @@ public class Detail {
         }
     }
 
-    public static final FormatInfo[] table = new FormatInfo[]{
+    private static final FormatInfo[] table = new FormatInfo[]{
         // snorm formats
         new FormatInfo((byte) 1, new byte[]{1, 1, 1}, (byte) 1, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_R8_UNORM,
         new FormatInfo((byte) 2, new byte[]{1, 1, 1}, (byte) 2, (short) (CAP_NORMALIZED_BIT | CAP_SIGNED_BIT)), //FORMAT_RG8_SNORM,
@@ -242,7 +242,7 @@ public class Detail {
         new FormatInfo((byte) 12, new byte[]{1, 1, 1}, (byte) 3, (short) (CAP_INTEGER_BIT | CAP_SIGNED_BIT)), //FORMAT_RGB32_SINT,
         new FormatInfo((byte) 16, new byte[]{1, 1, 1}, (byte) 4, (short) (CAP_INTEGER_BIT | CAP_SIGNED_BIT)), //FORMAT_RGBA32_SINT,
 
-        /// Floating formats
+        // Floating formats
         new FormatInfo((byte) 2, new byte[]{1, 1, 1}, (byte) 1, (short) (CAP_FLOAT_BIT | CAP_SIGNED_BIT)), //FORMAT_R16_SFLOAT,
         new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 2, (short) (CAP_FLOAT_BIT | CAP_SIGNED_BIT)), //FORMAT_RG16_SFLOAT,
         new FormatInfo((byte) 6, new byte[]{1, 1, 1}, (byte) 3, (short) (CAP_FLOAT_BIT | CAP_SIGNED_BIT)), //FORMAT_RGB16_SFLOAT,
@@ -253,13 +253,13 @@ public class Detail {
         new FormatInfo((byte) 12, new byte[]{1, 1, 1}, (byte) 3, (short) (CAP_FLOAT_BIT | CAP_SIGNED_BIT)), //FORMAT_RGB32_SFLOAT,
         new FormatInfo((byte) 16, new byte[]{1, 1, 1}, (byte) 4, (short) (CAP_FLOAT_BIT | CAP_SIGNED_BIT)), //FORMAT_RGBA32_SFLOAT,
 
-        /// sRGB formats
+        // sRGB formats
         new FormatInfo((byte) 3, new byte[]{1, 1, 1}, (byte) 3, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_COLORSPACE_SRGB_BIT)), //FORMAT_R8_SRGB,
         new FormatInfo((byte) 3, new byte[]{1, 1, 1}, (byte) 3, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_COLORSPACE_SRGB_BIT)), //FORMAT_RG8_SRGB,
         new FormatInfo((byte) 3, new byte[]{1, 1, 1}, (byte) 3, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_COLORSPACE_SRGB_BIT)), //FORMAT_RGB8_SRGB,
         new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 4, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_COLORSPACE_SRGB_BIT)), //FORMAT_RGBA8_SRGB,
 
-        /// Packed formats
+        // Packed formats
         new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 4, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_PACKED_BIT)), //FORMAT_RGB10A2_UNORM,
         new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 4, (short) (CAP_INTEGER_BIT | CAP_UNSIGNED_BIT | CAP_PACKED_BIT)), //FORMAT_RGB10A2_UINT,
         new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 3, (short) (CAP_PACKED_BIT | CAP_FLOAT_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB9E5_UFLOAT,
@@ -282,7 +282,115 @@ public class Detail {
         new FormatInfo((byte) 2, new byte[]{1, 1, 1}, (byte) 1, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_LUMINANCE_ALPHA_BIT)), //FORMAT_L16_UNORM,
         new FormatInfo((byte) 2, new byte[]{1, 1, 1}, (byte) 1, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_LUMINANCE_ALPHA_BIT)), //FORMAT_A16_UNORM,
         new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 2, (short) (CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_LUMINANCE_ALPHA_BIT)), //FORMAT_LA16_UNORM,
+
+        // Depth formats
+        new FormatInfo((byte) 2, new byte[]{1, 1, 1}, (byte) 1, (short) (CAP_DEPTH_BIT | CAP_INTEGER_BIT)), //FORMAT_D16_UNORM,
+        new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 1, (short) (CAP_DEPTH_BIT | CAP_INTEGER_BIT)), //FORMAT_D24_UNORM,
+        new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 2, (short) (CAP_DEPTH_BIT | CAP_STENCIL_BIT)), //FORMAT_D24S8_UNORM,
+        new FormatInfo((byte) 4, new byte[]{1, 1, 1}, (byte) 1, (short) (CAP_DEPTH_BIT | CAP_FLOAT_BIT)), //FORMAT_D32_UFLOAT,
+        new FormatInfo((byte) 8, new byte[]{1, 1, 1}, (byte) 2, (short) (CAP_DEPTH_BIT | CAP_STENCIL_BIT | CAP_FLOAT_BIT)), //FORMAT_D32_UFLOAT_S8_UNORM,
+
+        /// Compressed formats
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_DXT1_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_DXT1_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_DXT3_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_DXT5_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 1, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_R_ATI1N_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 1, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_SIGNED_BIT)), //FORMAT_R_ATI1N_SNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 2, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RG_ATI2N_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 2, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_SIGNED_BIT)), //FORMAT_RG_ATI2N_SNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_FLOAT_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_BP_UFLOAT,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_FLOAT_BIT | CAP_SIGNED_BIT)), //FORMAT_RGB_BP_SFLOAT,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_BP_UNORM,
+        new FormatInfo((byte) 32, new byte[]{8, 8, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_PVRTC1_8X8_UNORM,
+        new FormatInfo((byte) 32, new byte[]{16, 8, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_PVRTC1_16X8_UNORM,
+        new FormatInfo((byte) 32, new byte[]{8, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_PVRTC1_8X8_UNORM,
+        new FormatInfo((byte) 32, new byte[]{16, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_PVRTC1_16X8_UNORM,
+        new FormatInfo((byte) 32, new byte[]{8, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_PVRTC2_8X8_UNORM,
+        new FormatInfo((byte) 32, new byte[]{16, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_PVRTC2_16X8_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_ATC_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ATC_EXPLICIT_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ATC_INTERPOLATED_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_ETC_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_ETC2_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ETC2_PUNCHTHROUGH_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ETC2_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 1, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_R11_EAC_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 1, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_SIGNED_BIT)), //FORMAT_R11_EAC_SNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 2, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RG11_EAC_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 2, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_SIGNED_BIT)), //FORMAT_RG11_EAC_SNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_4X4_UNORM,
+        new FormatInfo((byte) 16, new byte[]{5, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_5X4_UNORM,
+        new FormatInfo((byte) 16, new byte[]{5, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_5X5_UNORM,
+        new FormatInfo((byte) 16, new byte[]{6, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_6X5_UNORM,
+        new FormatInfo((byte) 16, new byte[]{6, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_6X6_UNORM,
+        new FormatInfo((byte) 16, new byte[]{8, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_8X5_UNORM,
+        new FormatInfo((byte) 16, new byte[]{8, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_8X6_UNORM,
+        new FormatInfo((byte) 16, new byte[]{8, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_8X8_UNORM,
+        new FormatInfo((byte) 16, new byte[]{10, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_10X5_UNORM,
+        new FormatInfo((byte) 16, new byte[]{10, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_10X6_UNORM,
+        new FormatInfo((byte) 16, new byte[]{10, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_10X8_UNORM,
+        new FormatInfo((byte) 16, new byte[]{10, 10, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_10X10_UNORM,
+        new FormatInfo((byte) 16, new byte[]{12, 10, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_12X10_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ATC_EXPLICIT_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ATC_INTERPOLATED_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_ETC_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_ETC2_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ETC2_PUNCHTHROUGH_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ETC2_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 1, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_R11_EAC_UNORM,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 1, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_SIGNED_BIT)), //FORMAT_R11_EAC_SNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 2, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RG11_EAC_UNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 2, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_SIGNED_BIT)), //FORMAT_RG11_EAC_SNORM,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_4X4_UNORM,
+        new FormatInfo((byte) 16, new byte[]{5, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_5X4_UNORM,
+        new FormatInfo((byte) 16, new byte[]{5, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_5X5_UNORM,
+        new FormatInfo((byte) 16, new byte[]{6, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_6X5_UNORM,
+        new FormatInfo((byte) 16, new byte[]{6, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_6X6_UNORM,
+        new FormatInfo((byte) 16, new byte[]{8, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_8X5_UNORM,
+        new FormatInfo((byte) 16, new byte[]{8, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_8X6_UNORM,
+        new FormatInfo((byte) 16, new byte[]{8, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_8X8_UNORM,
+        new FormatInfo((byte) 16, new byte[]{10, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_10X5_UNORM,
+        new FormatInfo((byte) 16, new byte[]{10, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_10X6_UNORM,
+        new FormatInfo((byte) 16, new byte[]{10, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_10X8_UNORM,
+        new FormatInfo((byte) 16, new byte[]{10, 10, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_10X10_UNORM,
+        new FormatInfo((byte) 16, new byte[]{12, 10, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_12X10_UNORM,
+        new FormatInfo((byte) 16, new byte[]{12, 12, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC_12X12_UNORM,
+
+        // Compressed sRGB formats
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_DXT1_SRGB,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_DXT1_SRGB,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_DXT3_SRGB,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_DXT5_SRGB,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_BP_SRGB,
+        new FormatInfo((byte) 32, new byte[]{8, 8, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_PVRTC1_8X8_SRGB,
+        new FormatInfo((byte) 32, new byte[]{16, 8, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_PVRTC1_16X8_SRGB,
+        new FormatInfo((byte) 32, new byte[]{8, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_PVRTC1_8X8_SRGB,
+        new FormatInfo((byte) 32, new byte[]{16, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_PVRTC1_16X8_SRGB,
+        new FormatInfo((byte) 32, new byte[]{8, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_PVRTC2_8X8_SRGB,
+        new FormatInfo((byte) 32, new byte[]{16, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_PVRTC2_16X8_SRGB,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 3, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGB_ETC2_SRGB,
+        new FormatInfo((byte) 8, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ETC2_PUNCHTHROUGH_SRGB,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ETC2_SRGB,
+        new FormatInfo((byte) 16, new byte[]{4, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC4X4_SRGB,
+        new FormatInfo((byte) 16, new byte[]{5, 4, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC5X4_SRGB,
+        new FormatInfo((byte) 16, new byte[]{5, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC5X5_SRGB,
+        new FormatInfo((byte) 16, new byte[]{6, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC6X5_SRGB,
+        new FormatInfo((byte) 16, new byte[]{6, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC6X6_SRGB,
+        new FormatInfo((byte) 16, new byte[]{8, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC8X5_SRGB,
+        new FormatInfo((byte) 16, new byte[]{8, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC8X6_SRGB,
+        new FormatInfo((byte) 16, new byte[]{8, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC8X8_SRGB,
+        new FormatInfo((byte) 16, new byte[]{10, 5, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC10X5_SRGB,
+        new FormatInfo((byte) 16, new byte[]{10, 6, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC10X6_SRGB,
+        new FormatInfo((byte) 16, new byte[]{10, 8, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC10X8_SRGB,
+        new FormatInfo((byte) 16, new byte[]{10, 10, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC10X10_SRGB,
+        new FormatInfo((byte) 16, new byte[]{12, 10, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC12X10_SRGB,
+        new FormatInfo((byte) 16, new byte[]{12, 12, 1}, (byte) 4, (short) (CAP_COMPRESSED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT)), //FORMAT_RGBA_ASTC12X12_SRGB,
     };
+    
+    public static FormatInfo get_format_info(int format) {
+        return table[format];
+    }
 
     public static final int bitsPerPixel(int format) {
 
