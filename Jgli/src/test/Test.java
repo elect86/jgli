@@ -220,7 +220,7 @@ public class Test implements GLEventListener, KeyListener {
         
         Texture texture;
         try {
-            texture = Jgli.loadDds("/src/test/data/kueken7_rgba8_unorm.dds");
+            texture = Jgli.loadDds("/test/data/kueken7_rgba8_unorm.dds");
         } catch (IOException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }

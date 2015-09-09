@@ -28,7 +28,6 @@ import static jgli.Target.TARGET_CUBE_ARRAY;
 public class Jgli {
 
     public static Texture loadDds(String filename) throws IOException {
-        System.out.println(""+Jgli.class.getResource(filename).getFile());
         return loadDds(new File(Jgli.class.getResource(filename).getFile()));
     }
 
@@ -188,7 +187,8 @@ public class Jgli {
             header.height, depthCount}, Math.max(header10.arraySize, 1), faceCount, mipmapCount);
 
         if (!(offset + texture.size == byteBuffer.capacity())) {
-            throw new Error("!(offset + texture.size == byteBuffer.capacity())");
+            throw new Error("!(offset " + offset + " + texture.size " + texture.size
+                    + " == byteBuffer.capacity()) " + byteBuffer.capacity());
         }
 
         byteBuffer.position(offset);
