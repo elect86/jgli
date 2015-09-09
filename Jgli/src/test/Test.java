@@ -44,7 +44,7 @@ import jgli.Texture;
  * @author elect
  */
 public class Test implements GLEventListener, KeyListener {
-    
+
     public static GLWindow glWindow;
     public static Animator animator;
 
@@ -103,7 +103,7 @@ public class Test implements GLEventListener, KeyListener {
         initVao(gl4);
 
         initProgram(gl4);
-        
+
         initTexture(gl4);
     }
 
@@ -217,16 +217,24 @@ public class Test implements GLEventListener, KeyListener {
     }
 
     private void initTexture(GL4 gl4) {
-        
-        Texture texture;
+
+        jgli.GL gl = new jgli.GL();
+
         try {
-            texture = Jgli.loadDds("/test/data/kueken7_rgba8_unorm.dds");
+            Texture texture = Jgli.loadDds("/test/data/kueken7_rgba8_unorm.dds");
+
+            gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
+
+            jgli.GL.Format glFormat = gl.translate(texture.format);
+            
+//            int glTarget = gl.tr
+
         } catch (IOException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     @Override
     public void dispose(GLAutoDrawable drawable) {
         System.out.println("dispose");
@@ -252,7 +260,7 @@ public class Test implements GLEventListener, KeyListener {
 //        System.out.println("display");
 
         GL4 gl4 = drawable.getGL().getGL4();
-        
+
         gl4.glClearColor(0f, .33f, 0.66f, 1f);
         gl4.glClearDepthf(1f);
         gl4.glClear(GL4.GL_COLOR_BUFFER_BIT | GL4.GL_DEPTH_BUFFER_BIT);
@@ -266,7 +274,7 @@ public class Test implements GLEventListener, KeyListener {
             gl4.glBindVertexArray(0);
         }
         gl4.glUseProgram(0);
-        
+
         checkError(gl4, "display");
     }
 

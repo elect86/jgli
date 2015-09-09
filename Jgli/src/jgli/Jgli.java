@@ -388,7 +388,7 @@ public class Jgli {
         return Detail.get_format_info(format).blockSize;
     }
 
-    public static byte[] block_dimension(int format) {
+    public static int[] block_dimension(int format) {
 
         return Detail.get_format_info(format).blockDimension;
     }

@@ -5,7 +5,6 @@
  */
 package jgli;
 
-import jgli.Jgli;
 import static jgli.Jgli.FORMAT_COUNT;
 import static jgli.Jgli.FORMAT_INVALID;
 
@@ -15,7 +14,7 @@ import static jgli.Jgli.FORMAT_INVALID;
  */
 public class Dx {
 
-    Format[] translation;
+    private Format[] translation;
 
     public Dx() {
 

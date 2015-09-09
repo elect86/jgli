@@ -35,16 +35,29 @@ public class Glm {
         return true;
     }
 
-    public static byte[] divide(int[] vec0, byte[] vec1) {
+    public static int[] divide(int[] vec0, int[] vec1) {
 
         if (vec0.length != vec1.length) {
             throw new Error("Length of vectors differs!");
         }
 
-        byte[] result = new byte[vec0.length];
+        int[] result = new int[vec0.length];
 
         for (int component = 0; component < vec0.length; component++) {
-            result[component] = (byte) (vec0[component] / vec1[component]);
+            result[component] = vec0[component] / vec1[component];
+        }
+        return result;
+    }
+    
+    public static int[] max(int[] vec0, int[] vec1) {
+        if (vec0.length != vec1.length) {
+            throw new Error("Length of vectors differs!");
+        }
+
+        int[] result = new int[vec0.length];
+
+        for (int component = 0; component < vec0.length; component++) {
+            result[component] = Math.max(vec0[component], vec1[component]);
         }
         return result;
     }
@@ -101,11 +114,12 @@ public class Glm {
         return result;
     }
 
-    public static byte[] shiftRight(byte[] vec, int shift) {
-
+    public static int[] shiftRight(int[] vec, int shift) {
+        
+        int[] result = new int[vec.length];
         for (int i = 0; i < vec.length; i++) {
-            vec[i] = (byte) (vec[i] >> shift);
+            result[i] = vec[i] >> shift;
         }
-        return vec;
+        return result;
     }
 }

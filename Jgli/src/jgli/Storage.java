@@ -17,7 +17,7 @@ public class Storage {
     private int faces;
     private int levels;
     private int blockSize;
-    private byte[] blockCount;
+    private int[] blockCount;
     private int[] dimensions;
     private ByteBuffer data;
 
@@ -27,7 +27,7 @@ public class Storage {
         this.faces = faces;
         this.levels = levels;
         blockSize = Jgli.block_size(format);
-        blockCount = Glm.maxB(Glm.divide(dimensions, Jgli.block_dimension(format)), new byte[]{1, 1, 1});
+        blockCount = Glm.max(Glm.divide(dimensions, Jgli.block_dimension(format)), new int[]{1, 1, 1});
         this.dimensions = dimensions;
 
         if (layers <= 0) {
@@ -44,7 +44,6 @@ public class Storage {
         }
 
 //        data = ByteBuffer.allocateDirect(faces)
-        
     }
 
     public int layer_size(int baseFace, int maxFace, int baseLevel, int maxLevel) {
@@ -72,26 +71,27 @@ public class Storage {
 
         // The size of a face is the sum of the size of each level.
         for (int level = baseLevel; level <= maxLevel; level++) {
+            System.out.println("level_size(" + level + ") " + level_size(level));
             faceSize += level_size(level);
         }
         return faceSize;
     }
-    
+
     private int level_size(int level) {
-        
-        if(level >= levels) {
+
+        if (level >= levels) {
             throw new Error("level >= levels!");
         }
-        
+
         return blockSize * Glm.compMul(block_count(level));
     }
-    
+
     private int[] block_count(int level) {
-        
-        if(!(level < levels)) {
+
+        if (!(level < levels)) {
             throw new Error("!(level < levels)");
         }
-        
-        return Glm.maxI(Glm.shiftRight(blockCount, level), new byte[]{1, 1, 1});
+
+        return Glm.max(Glm.shiftRight(blockCount, level), new int[]{1, 1, 1});
     }
 }

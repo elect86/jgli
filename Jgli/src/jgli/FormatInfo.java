@@ -12,11 +12,11 @@ package jgli;
 public class FormatInfo {
 
     public byte blockSize;
-    public byte[] blockDimension;
+    public int[] blockDimension;
     public byte component;
     public short flags;
 
-    public FormatInfo(byte blockSize, byte[] blockDimension, byte component, short flags) {
+    public FormatInfo(byte blockSize, int[] blockDimension, byte component, short flags) {
         this.blockSize = blockSize;
         this.blockDimension = blockDimension;
         this.component = component;

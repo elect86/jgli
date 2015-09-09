@@ -47,6 +47,7 @@ public class Semantic {
         public static final int VBO = 1;
         public static final int IBO = 2;
         public static final int SAMPLER = 3;
-        public static final int SIZE = 4;
+        public static final int TEXTURE = 4;
+        public static final int SIZE = 5;
     }
 }
