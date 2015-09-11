@@ -21,13 +21,13 @@ public class Storage {
     private int[] dimensions;
     private ByteBuffer data;
 
-    public Storage(int format, int[] dimensions, int layers, int faces, int levels) {
+    public Storage(jgli.Format format, int[] dimensions, int layers, int faces, int levels) {
 
         this.layers = layers;
         this.faces = faces;
         this.levels = levels;
-        blockSize = Jgli.block_size(format);
-        blockCount = Glm.max(Glm.divide(dimensions, Jgli.block_dimension(format)), new int[]{1, 1, 1});
+        blockSize = format.blockSize();
+        blockCount = Glm.max(Glm.divide(dimensions, format.blockDimensions()), new int[]{1, 1, 1});
         this.dimensions = dimensions;
 
         if (layers <= 0) {
@@ -46,7 +46,7 @@ public class Storage {
 //        data = ByteBuffer.allocateDirect(faces)
     }
 
-    public int layer_size(int baseFace, int maxFace, int baseLevel, int maxLevel) {
+    public int layerSize(int baseFace, int maxFace, int baseLevel, int maxLevel) {
 
         if (maxFace >= faces) {
             throw new Error("maxFace >= faces!");
@@ -58,10 +58,10 @@ public class Storage {
          * The size of a layer is the sum of the size of each face. All the
          * faces have the same size.
          */
-        return face_size(baseLevel, maxLevel) * (maxFace - baseFace + 1);
+        return faceSize(baseLevel, maxLevel) * (maxFace - baseFace + 1);
     }
 
-    private int face_size(int baseLevel, int maxLevel) {
+    private int faceSize(int baseLevel, int maxLevel) {
 
         if (maxLevel >= levels) {
             throw new Error("maxLevel >= levels!");
@@ -71,22 +71,22 @@ public class Storage {
 
         // The size of a face is the sum of the size of each level.
         for (int level = baseLevel; level <= maxLevel; level++) {
-            System.out.println("level_size(" + level + ") " + level_size(level));
-            faceSize += level_size(level);
+            System.out.println("level_size(" + level + ") " + levelSize(level));
+            faceSize += levelSize(level);
         }
         return faceSize;
     }
 
-    private int level_size(int level) {
+    private int levelSize(int level) {
 
         if (level >= levels) {
             throw new Error("level >= levels!");
         }
 
-        return blockSize * Glm.compMul(block_count(level));
+        return blockSize * Glm.compMul(blockCount(level));
     }
 
-    private int[] block_count(int level) {
+    private int[] blockCount(int level) {
 
         if (!(level < levels)) {
             throw new Error("!(level < levels)");

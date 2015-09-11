@@ -218,16 +218,21 @@ public class Test implements GLEventListener, KeyListener {
 
     private void initTexture(GL4 gl4) {
 
-        jgli.GL gl = new jgli.GL();
+        jgli.Gl gl = new jgli.Gl();
 
         try {
             Texture texture = Jgli.loadDds("/test/data/kueken7_rgba8_unorm.dds");
 
             gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
 
-            jgli.GL.Format glFormat = gl.translate(texture.format);
-            
-//            int glTarget = gl.tr
+            jgli.Gl.Format glFormat = gl.translate(texture.format);
+
+            jgli.Gl.Target glTarget = gl.translate(texture.target);
+
+            for (int level = 0; level < texture.maxLevel; level++) {
+                
+                
+            }
 
         } catch (IOException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);

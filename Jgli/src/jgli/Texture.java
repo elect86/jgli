@@ -15,8 +15,8 @@ import static jgli.Target.*;
 public class Texture {
 
     public ByteBuffer data;
-    public int format;
-    public int target;
+    public jgli.Format format;
+    public jgli.Target target;
     public int baseLayer;
     public int maxLayer;
     public int baseFace;
@@ -38,9 +38,15 @@ public class Texture {
 //        this
 //    }
     /**
-     * Create an empty texture instance
+     * Create an empty texture instance.
+     * @param target
+     * @param format
+     * @param dimensions
+     * @param layers
+     * @param faces
+     * @param levels 
      */
-    public Texture(int target, int format, int[] dimensions, int layers, int faces, int levels) {
+    public Texture(jgli.Target target, jgli.Format format, int[] dimensions, int layers, int faces, int levels) {
 
         this.format = format;
         this.target = target;
@@ -60,6 +66,6 @@ public class Texture {
         
         storage = new Storage(format, dimensions, layers, faces, levels);
         
-        size = storage.layer_size(baseFace, maxFace, baseLevel, maxLevel) * layers;
+        size = storage.layerSize(baseFace, maxFace, baseLevel, maxLevel) * layers;
     }
 }

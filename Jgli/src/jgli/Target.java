@@ -9,47 +9,67 @@ package jgli;
  *
  * @author elect
  */
-public class Target {
+public enum Target {
 
-    public static final int TARGET_1D = 0;
-    public static final int TARGET_FIRST = TARGET_1D;
-    public static final int TARGET_1D_ARRAY = 1;
-    public static final int TARGET_2D = 2;
-    public static final int TARGET_2D_ARRAY = 3;
-    public static final int TARGET_3D = 4;
-    public static final int TARGET_CUBE = 5;
-    public static final int TARGET_CUBE_ARRAY = 6;
-    public static final int TARGET_LAST = TARGET_CUBE_ARRAY;
+    TARGET_1D,
+    TARGET_FIRST(TARGET_1D),
+    TARGET_1D_ARRAY,
+    TARGET_2D,
+    TARGET_2D_ARRAY,
+    TARGET_3D,
+    TARGET_CUBE,
+    TARGET_CUBE_ARRAY,
+    TARGET_LAST(TARGET_CUBE_ARRAY),
+    TARGET_COUNT(TARGET_LAST.value - TARGET_FIRST.value + 1),
+    TARGET_INVALID(-1);
 
-    public static final int TARGET_COUNT = TARGET_LAST - TARGET_FIRST + 1;
-    public static final int TARGET_INVALID = -1;
+    public final int value;
+
+    private Target(int value) {
+        this.value = value;
+    }
+
+    private Target() {
+        this.value = Counter.nextValue;
+        Counter.nextValue++;
+    }
+
+    private Target(Target target) {
+        value = target.value;
+    }
+
+    /**
+     * Trick to get automatic incremental values.
+     */
+    private static class Counter {
+
+        private static int nextValue = 0;
+    }
 
     /**
      * Check whether a target is a 1D target.
      *
-     * @param target
      * @return
      */
-    public static boolean isTarget1d(int target) {
-        return target == TARGET_1D || target == TARGET_1D_ARRAY;
+    public boolean isTarget1d() {
+        return value == TARGET_1D.value || value == TARGET_1D_ARRAY.value;
     }
 
     /**
      * Check whether a target is an array target.
      *
-     * @param target
      * @return
      */
-    public static boolean isTargetArray(int target) {
-        return target == TARGET_1D_ARRAY || target == TARGET_2D_ARRAY || target == TARGET_CUBE_ARRAY;
+    public boolean isTargetArray() {
+        return value == TARGET_1D_ARRAY.value || value == TARGET_2D_ARRAY.value || value == TARGET_CUBE_ARRAY.value;
     }
 
     /**
      * Check whether a target is a cube map target.
-     * @param target
-     * @return 
+     *
+     * @return
      */
-    public static boolean isTargetCube(int target) {
-        return target == TARGET_CUBE || target == TARGET_CUBE_ARRAY;
+    public boolean isTargetCube() {
+        return value == TARGET_CUBE.value || value == TARGET_CUBE_ARRAY.value;
     }
 }
