@@ -212,6 +212,15 @@ public enum Format {
     public int componentCount() {
         return getFormatInfo(this).component;
     }
+    
+    public static Format get(int value) {
+        for(Format format : values()) {
+            if(format.value == value) {
+                return format;
+            }
+        }
+        return FORMAT_INVALID;
+    }
 
     /**
      * Trick to get automatic incremental values.

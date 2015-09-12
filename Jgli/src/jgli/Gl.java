@@ -203,8 +203,8 @@ public class Gl {
         }
     }
 
-    public static Gl.Target translate(jgli.Target target) {
-        if (Gl.Target.values().length != jgli.Target.values().length) {
+    public Gl.Target translate(jgli.Target target) {
+        if (Gl.Target.values().length != jgli.Target.TARGET_COUNT.value) {
             throw new Error("GLI error: format descriptor list doesn't match number of supported formats");
         }
         return Gl.Target.values()[target.value];

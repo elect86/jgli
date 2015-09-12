@@ -42,8 +42,6 @@ public class Storage {
         if (!Glm.all(Glm.greaterThan(dimensions, new byte[]{0, 0, 0}))) {
             throw new Error("Not all dimensions > 0!");
         }
-
-//        data = ByteBuffer.allocateDirect(faces)
     }
 
     public int layerSize(int baseFace, int maxFace, int baseLevel, int maxLevel) {
@@ -71,7 +69,7 @@ public class Storage {
 
         // The size of a face is the sum of the size of each level.
         for (int level = baseLevel; level <= maxLevel; level++) {
-            System.out.println("level_size(" + level + ") " + levelSize(level));
+//            System.out.println("level_size(" + level + ") " + levelSize(level));
             faceSize += levelSize(level);
         }
         return faceSize;
@@ -93,5 +91,48 @@ public class Storage {
         }
 
         return Glm.max(Glm.shiftRight(blockCount, level), new int[]{1, 1, 1});
+    }
+
+    public boolean empty() {
+        return data == null;
+    }
+
+    public void setData(ByteBuffer data) {
+        this.data = data;
+    }
+
+    public int[] dimensions(int level) {
+        return Glm.max(Glm.shiftRight(dimensions, level), new int[]{1, 1, 1});
+    }
+
+    public ByteBuffer data(int layer, int face, int level) {
+        int offset = offset(layer, face, level);
+        int levelSize = levelSize(level);
+        data.position(offset);
+        data.limit(offset + levelSize);
+        ByteBuffer result = data.slice();
+        data.position(0);
+        data.limit(data.capacity());
+        return result;
+    }
+
+    public int offset(int layer, int face, int level) {
+        if (layer >= layers) {
+            throw new Error("layer >= layers");
+        }
+        if (face >= faces) {
+            throw new Error("face >= faces");
+        }
+        if (level >= levels) {
+            throw new Error("level >= levels");
+        }
+        int layerSize = layerSize(0, faces - 1, 0, levels - 1);
+        int faceSize = faceSize(0, levels - 1);
+        int baseOffset = layerSize * layer + faceSize * face;
+
+        for (int levelIndex = 0, levelCount = level; levelIndex < levelCount; levelIndex++) {
+            baseOffset += levelSize(levelIndex);
+        }
+        return baseOffset;
     }
 }

@@ -14,7 +14,6 @@ import static jgli.Target.*;
  */
 public class Texture {
 
-    public ByteBuffer data;
     public jgli.Format format;
     public jgli.Target target;
     public int baseLayer;
@@ -39,12 +38,13 @@ public class Texture {
 //    }
     /**
      * Create an empty texture instance.
+     *
      * @param target
      * @param format
      * @param dimensions
      * @param layers
      * @param faces
-     * @param levels 
+     * @param levels
      */
     public Texture(jgli.Target target, jgli.Format format, int[] dimensions, int layers, int faces, int levels) {
 
@@ -63,9 +63,25 @@ public class Texture {
         if (!(target != TARGET_CUBE_ARRAY || (target == TARGET_CUBE_ARRAY && dimensions[0] == dimensions[1]))) {
             throw new Error("!(target != TARGET_CUBE_ARRAY || (target == TARGET_CUBE_ARRAY && dimensions[0] == dimensions[1]))");
         }
-        
+
         storage = new Storage(format, dimensions, layers, faces, levels);
-        
+
         size = storage.layerSize(baseFace, maxFace, baseLevel, maxLevel) * layers;
+    }
+
+    public boolean empty() {
+        return storage.empty();
+    }
+
+    public int[] dimensions(int level) {
+        return storage.dimensions(baseLevel + level);
+    }
+    
+    public ByteBuffer data(int layer, int face, int level) {
+        return storage.data(layer, face, level);
+    }
+    
+    public void setData(ByteBuffer data) {
+        storage.setData(data);
     }
 }

@@ -211,7 +211,7 @@ public class Dx {
             if (table[formatIndex].d3DFormat != fourCC) {
                 continue;
             }
-            return jgli.Format.values()[formatIndex];
+            return jgli.Format.get(formatIndex);
         }
         return FORMAT_INVALID;
     }
@@ -221,7 +221,7 @@ public class Dx {
             if (table[formatIndex].dxgiFormat != format) {
                 continue;
             }
-            return jgli.Format.values()[formatIndex];
+            return jgli.Format.get(formatIndex);
         }
         return FORMAT_INVALID;
     }
@@ -330,10 +330,10 @@ public class Dx {
         public static int jgliMakeFourCC(char ch0, char ch1, char ch2, char ch3) {
             return (((int) ch0)) | (((int) ch1) << 8) | (((int) ch2) << 16) | (((int) ch3) << 24);
         }
-        
+
         public static D3dFormat get(int value) {
-            for(D3dFormat d3dFormat : values()) {
-                if(d3dFormat.value == value) {
+            for (D3dFormat d3dFormat : values()) {
+                if (d3dFormat.value == value) {
                     return d3dFormat;
                 }
             }

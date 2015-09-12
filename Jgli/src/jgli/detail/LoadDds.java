@@ -197,8 +197,8 @@ public class LoadDds {
 
         jgli.Format format = FORMAT_INVALID;
 
-        if (((header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value | DDPF_YUV.value
-                | DDPF_LUMINANCE.value))) != 0 && format == FORMAT_INVALID
+        if (((header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value
+                | DDPF_YUV.value | DDPF_LUMINANCE.value))) != 0 && format == FORMAT_INVALID
                 && header.format.flags != DDPF_FOURCC_ALPHAPIXELS.value) {
 
             switch (header.format.bpp) {
@@ -291,7 +291,7 @@ public class LoadDds {
         }
 
         byteBuffer.position(offset);
-        texture.data = byteBuffer.slice();
+        texture.setData(byteBuffer.slice());
         byteBuffer.position(0);
 
         return texture;

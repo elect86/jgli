@@ -18,7 +18,7 @@ public class DdsPixelFormat {
     public int flags;
     public Dx.D3dFormat fourCC;
     public int bpp;
-    public int[] mask;
+    public int[] mask = new int[4];
 
     public static final int sizeOf = (4 + 4) * Integer.BYTES;
 

@@ -5,7 +5,6 @@
  */
 package test;
 
-import com.jogamp.common.util.IOUtil;
 import com.jogamp.newt.Display;
 import com.jogamp.newt.NewtFactory;
 import com.jogamp.newt.Screen;
@@ -36,8 +35,8 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jgli.Jgli;
 import jgli.Texture;
+import jgli.detail.LoadDds;
 
 /**
  *
@@ -74,17 +73,16 @@ public class Test implements GLEventListener, KeyListener {
     }
 
     private int[] objects = new int[Semantic.Object.SIZE];
-    // Position interleaved with colors (to be normalized).
     private float[] vertexData = new float[]{
-        +0.25f, +0.25f, 0.75f, 1.0f, 1.0f,
-        +0.25f, -0.25f, 0.75f, 1.0f, 0.0f,
-        -0.25f, -0.25f, 0.75f, 0.0f, 0.0f,
-        -0.25f, +0.25f, 0.75f, 0.0f, 1.0f};
+        +1f, +1f, 0.75f, 1.0f, 0.0f,
+        +1f, +0f, 0.75f, 1.0f, 1.0f,
+        +0f, +0f, 0.75f, 0.0f, 1.0f,
+        +0f, +1f, 0.75f, 0.0f, 0.0f};
     private short[] indexData = new short[]{
         0, 1, 2,
         0, 2, 3
     };
-    private int program, modelToClipMatrixUL, texture0;
+    private int program, modelToClipMatrixUL, texture0UL, lodUL;
     private final String SHADERS_ROOT = "src/test/shaders";
 
     public Test() {
@@ -105,6 +103,8 @@ public class Test implements GLEventListener, KeyListener {
         initProgram(gl4);
 
         initTexture(gl4);
+
+        initSampler(gl4);
     }
 
     private void initVbo(GL4 gl4) {
@@ -136,42 +136,20 @@ public class Test implements GLEventListener, KeyListener {
     }
 
     private void initVao(GL4 gl4) {
-        /**
-         * Let's create the VAO and save in it all the attributes properties.
-         */
+
         gl4.glGenVertexArrays(1, objects, Semantic.Object.VAO);
         gl4.glBindVertexArray(objects[Semantic.Object.VAO]);
         {
-            /**
-             * Ibo is part of the VAO, so we need to bind it and leave it bound.
-             */
             gl4.glBindBuffer(GL4.GL_ELEMENT_ARRAY_BUFFER, objects[Semantic.Object.IBO]);
             {
-                /**
-                 * VBO is not part of VAO, we need it to bind it only when we
-                 * call glEnableVertexAttribArray and glVertexAttribPointer, so
-                 * that VAO knows which VBO the attributes refer to, then we can
-                 * unbind it.
-                 */
                 gl4.glBindBuffer(GL4.GL_ARRAY_BUFFER, objects[Semantic.Object.VBO]);
                 {
                     int stride = (3 + 2) * Float.BYTES;
-                    /**
-                     * We draw in 2D on the xy plane, so we need just two
-                     * coordinates for the position, it will be padded to vec4
-                     * as (x, y, 0, 1) in the vertex shader.
-                     */
+
                     gl4.glEnableVertexAttribArray(Semantic.Attr.POSITION);
                     gl4.glVertexAttribPointer(Semantic.Attr.POSITION, 3, GL4.GL_FLOAT,
                             false, stride, 0 * Float.BYTES);
-                    /**
-                     * Color needs three coordinates. We show the usage of
-                     * normalization, where signed value get normalized [-1, 1]
-                     * like in this case. unsigned will get normalized in the
-                     * [0, 1] instead, but take in account java use always
-                     * signed, althought you can trick it. Vec3 color will be
-                     * padded to (x, y, z, 1) in the fragment shader.
-                     */
+
                     gl4.glEnableVertexAttribArray(Semantic.Attr.TEXCOORD);
                     gl4.glVertexAttribPointer(Semantic.Attr.TEXCOORD, 2, GL4.GL_FLOAT,
                             false, stride, 3 * Float.BYTES);
@@ -198,20 +176,15 @@ public class Test implements GLEventListener, KeyListener {
 
         program = shaderProgram.program();
 
-        /**
-         * These links don't go into effect until you link the program. If you
-         * want to change index, you need to link the program again.
-         */
         gl4.glBindAttribLocation(program, Semantic.Attr.POSITION, "position");
         gl4.glBindAttribLocation(program, Semantic.Attr.TEXCOORD, "inUV");
         gl4.glBindFragDataLocation(program, Semantic.Frag.COLOR, "outputColor");
 
         shaderProgram.link(gl4, System.out);
-        /**
-         * Take in account that JOGL offers a GLUniformData class, here we don't
-         * use it, but take a look to it since it may be interesting for you.
-         */
-//        modelToClipMatrixUL = gl4.glGetUniformLocation(program, "modelToClipMatrix");
+
+        modelToClipMatrixUL = gl4.glGetUniformLocation(program, "modelToClipMatrix");
+        texture0UL = gl4.glGetUniformLocation(program, "texture0");
+        lodUL = gl4.glGetUniformLocation(program, "lod");
 
         checkError(gl4, "initProgram");
     }
@@ -221,7 +194,7 @@ public class Test implements GLEventListener, KeyListener {
         jgli.Gl gl = new jgli.Gl();
 
         try {
-            Texture texture = Jgli.loadDds("/test/data/kueken7_rgba8_unorm.dds");
+            Texture texture = LoadDds.loadDds("/test/data/kueken7_rgba8_unorm.dds");
 
             gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
 
@@ -229,15 +202,37 @@ public class Test implements GLEventListener, KeyListener {
 
             jgli.Gl.Target glTarget = gl.translate(texture.target);
 
-            for (int level = 0; level < texture.maxLevel; level++) {
-                
-                
+            gl4.glBindTexture(GL4.GL_TEXTURE_2D, objects[Semantic.Object.TEXTURE]);
+            {
+                for (int level = 0; level < texture.maxLevel + 1; level++) {
+                    
+                    gl4.glTexImage2D(glTarget.value, level, glFormat.internal.value,
+                            texture.dimensions(level)[0], texture.dimensions(level)[1],
+                            0, glFormat.external.value, glFormat.type.value, texture.data(0, 0, level));
+                }
+                gl4.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
+                gl4.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 0);
             }
+            gl4.glBindTexture(GL4.GL_TEXTURE_2D, 0);
+
+            gl4.glUseProgram(program);
+            {
+                gl4.glUniform1i(texture0UL, 0);
+            }
+            gl4.glUseProgram(0);
 
         } catch (IOException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
+    private void initSampler(GL4 gl4) {
+
+        gl4.glGenSamplers(1, objects, Semantic.Object.SAMPLER);
+        gl4.glSamplerParameteri(objects[Semantic.Object.SAMPLER], GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_NEAREST);
+        gl4.glSamplerParameteri(objects[Semantic.Object.SAMPLER], GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_NEAREST_MIPMAP_NEAREST);
+        gl4.glSamplerParameteri(objects[Semantic.Object.SAMPLER], GL4.GL_TEXTURE_WRAP_S, GL4.GL_CLAMP_TO_EDGE);
+        gl4.glSamplerParameteri(objects[Semantic.Object.SAMPLER], GL4.GL_TEXTURE_WRAP_T, GL4.GL_CLAMP_TO_EDGE);
     }
 
     @Override
@@ -247,15 +242,16 @@ public class Test implements GLEventListener, KeyListener {
         GL4 gl4 = drawable.getGL().getGL4();
 
         gl4.glDeleteProgram(program);
-        /**
-         * Clean VAO first in order to minimize problems. If you delete IBO
-         * first, VAO will still have the IBO id, this may lead to crashes.
-         */
+
         gl4.glDeleteVertexArrays(1, objects, objects[Semantic.Object.VAO]);
 
         gl4.glDeleteBuffers(1, objects, Semantic.Object.VBO);
 
         gl4.glDeleteBuffers(1, objects, Semantic.Object.IBO);
+
+        gl4.glDeleteTextures(1, objects, Semantic.Object.TEXTURE);
+
+        gl4.glDeleteSamplers(1, objects, Semantic.Object.SAMPLER);
 
         System.exit(0);
     }
@@ -274,7 +270,27 @@ public class Test implements GLEventListener, KeyListener {
         {
             gl4.glBindVertexArray(objects[Semantic.Object.VAO]);
             {
-                gl4.glDrawElements(GL4.GL_TRIANGLES, indexData.length, GL4.GL_UNSIGNED_SHORT, 0);
+                float[] a = FloatUtil.makeOrtho(new float[16], 0, true,
+                        0, glWindow.getWidth(), 0, glWindow.getHeight(), -1f, 1f);
+                float[] b = FloatUtil.makeTranslation(new float[16], true, 256, 256, 0);
+                float[] c = FloatUtil.makeScale(new float[16], true, 256, 256, 1);
+
+                FloatUtil.multMatrix(a, b);
+                FloatUtil.multMatrix(a, c);
+
+                gl4.glUniformMatrix4fv(modelToClipMatrixUL, 1, false, a, 0);
+
+//                gl4.glUniform1f(lodUL, 8f);
+                gl4.glBindSampler(0, objects[Semantic.Object.SAMPLER]);
+                {
+                    gl4.glActiveTexture(GL4.GL_TEXTURE0 + 0);
+                    gl4.glBindTexture(GL4.GL_TEXTURE_2D, objects[Semantic.Object.TEXTURE]);
+                    {
+                        gl4.glDrawElements(GL4.GL_TRIANGLES, indexData.length, GL4.GL_UNSIGNED_SHORT, 0);
+                    }
+                    gl4.glBindTexture(GL4.GL_TEXTURE_2D, 0);
+                }
+                gl4.glBindSampler(0, 0);
             }
             gl4.glBindVertexArray(0);
         }
@@ -318,10 +334,7 @@ public class Test implements GLEventListener, KeyListener {
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         System.out.println("reshape");
         GL4 gl4 = drawable.getGL().getGL4();
-        /**
-         * Just the glViewport for this sample, normally here you update your
-         * projection matrix.
-         */
+
         gl4.glViewport(x, y, width, height);
     }
 
@@ -335,6 +348,5 @@ public class Test implements GLEventListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 }
