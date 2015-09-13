@@ -10,7 +10,5 @@ uniform float lod;
 
 void main()
 {
-    outputColor = textureLod(texture0, uv, 3f);
-    //ivec2 iTexCoord = uv*textureSize(texture0, 5);
-    //outputColor = texelFetch(texture0, iTexCoord, 5);
+    outputColor = textureLod(texture0, uv, lod);
 }

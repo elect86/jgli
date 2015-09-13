@@ -12,37 +12,29 @@ import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GL;
-import static com.jogamp.opengl.GL.GL_INVALID_ENUM;
-import static com.jogamp.opengl.GL.GL_INVALID_FRAMEBUFFER_OPERATION;
-import static com.jogamp.opengl.GL.GL_INVALID_OPERATION;
-import static com.jogamp.opengl.GL.GL_INVALID_VALUE;
-import static com.jogamp.opengl.GL.GL_NO_ERROR;
-import static com.jogamp.opengl.GL.GL_OUT_OF_MEMORY;
-import static com.jogamp.opengl.GL2ES2.GL_FRAGMENT_SHADER;
-import static com.jogamp.opengl.GL2ES2.GL_VERTEX_SHADER;
+import static com.jogamp.opengl.GL2ES2.*;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.math.FloatUtil;
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.glsl.ShaderCode;
 import com.jogamp.opengl.util.glsl.ShaderProgram;
-import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import jgli.Texture;
-import jgli.detail.LoadDds;
+import test.textures.*;
 
 /**
  *
  * @author elect
  */
-public class Test implements GLEventListener, KeyListener {
+public class Main implements GLEventListener, KeyListener {
 
     public static GLWindow glWindow;
     public static Animator animator;
@@ -64,7 +56,7 @@ public class Test implements GLEventListener, KeyListener {
         glWindow.confinePointer(false);
         glWindow.setVisible(true);
 
-        Test test = new Test();
+        Main test = new Main();
         glWindow.addGLEventListener(test);
         glWindow.addKeyListener(test);
 
@@ -78,14 +70,17 @@ public class Test implements GLEventListener, KeyListener {
         +1f, +0f, 0.75f, 1.0f, 1.0f,
         +0f, +0f, 0.75f, 0.0f, 1.0f,
         +0f, +1f, 0.75f, 0.0f, 0.0f};
-    private short[] indexData = new short[]{
+    public static short[] indexData = new short[]{
         0, 1, 2,
         0, 2, 3
     };
-    private int program, modelToClipMatrixUL, texture0UL, lodUL;
+    public static int program, modelToClipMatrixUL, texture0UL, lodUL, currentTest = -1;
+    private Texture texture;
     private final String SHADERS_ROOT = "src/test/shaders";
+    private ArrayList<Test> tests = new ArrayList<>();
+    private long start;
 
-    public Test() {
+    public Main() {
     }
 
     @Override
@@ -102,9 +97,12 @@ public class Test implements GLEventListener, KeyListener {
 
         initProgram(gl4);
 
-        initTexture(gl4);
+        tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
+        tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
+        tests.add(new Test(gl4, "kueken7_rgba8_unorm.dds"));
+        
 
-        initSampler(gl4);
+        start = System.nanoTime();
     }
 
     private void initVbo(GL4 gl4) {
@@ -186,53 +184,13 @@ public class Test implements GLEventListener, KeyListener {
         texture0UL = gl4.glGetUniformLocation(program, "texture0");
         lodUL = gl4.glGetUniformLocation(program, "lod");
 
-        checkError(gl4, "initProgram");
-    }
-
-    private void initTexture(GL4 gl4) {
-
-        jgli.Gl gl = new jgli.Gl();
-
-        try {
-            Texture texture = LoadDds.loadDds("/test/data/kueken7_rgba8_unorm.dds");
-
-            gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
-
-            jgli.Gl.Format glFormat = gl.translate(texture.format);
-
-            jgli.Gl.Target glTarget = gl.translate(texture.target);
-
-            gl4.glBindTexture(GL4.GL_TEXTURE_2D, objects[Semantic.Object.TEXTURE]);
-            {
-                for (int level = 0; level < texture.maxLevel + 1; level++) {
-                    
-                    gl4.glTexImage2D(glTarget.value, level, glFormat.internal.value,
-                            texture.dimensions(level)[0], texture.dimensions(level)[1],
-                            0, glFormat.external.value, glFormat.type.value, texture.data(0, 0, level));
-                }
-                gl4.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
-                gl4.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 0);
-            }
-            gl4.glBindTexture(GL4.GL_TEXTURE_2D, 0);
-
-            gl4.glUseProgram(program);
-            {
-                gl4.glUniform1i(texture0UL, 0);
-            }
-            gl4.glUseProgram(0);
-
-        } catch (IOException ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        gl4.glUseProgram(program);
+        {
+            gl4.glUniform1i(texture0UL, 0);
         }
-    }
+        gl4.glUseProgram(0);
 
-    private void initSampler(GL4 gl4) {
-
-        gl4.glGenSamplers(1, objects, Semantic.Object.SAMPLER);
-        gl4.glSamplerParameteri(objects[Semantic.Object.SAMPLER], GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_NEAREST);
-        gl4.glSamplerParameteri(objects[Semantic.Object.SAMPLER], GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_NEAREST_MIPMAP_NEAREST);
-        gl4.glSamplerParameteri(objects[Semantic.Object.SAMPLER], GL4.GL_TEXTURE_WRAP_S, GL4.GL_CLAMP_TO_EDGE);
-        gl4.glSamplerParameteri(objects[Semantic.Object.SAMPLER], GL4.GL_TEXTURE_WRAP_T, GL4.GL_CLAMP_TO_EDGE);
+        checkError(gl4, "initProgram");
     }
 
     @Override
@@ -248,10 +206,6 @@ public class Test implements GLEventListener, KeyListener {
         gl4.glDeleteBuffers(1, objects, Semantic.Object.VBO);
 
         gl4.glDeleteBuffers(1, objects, Semantic.Object.IBO);
-
-        gl4.glDeleteTextures(1, objects, Semantic.Object.TEXTURE);
-
-        gl4.glDeleteSamplers(1, objects, Semantic.Object.SAMPLER);
 
         System.exit(0);
     }
@@ -270,25 +224,16 @@ public class Test implements GLEventListener, KeyListener {
         {
             gl4.glBindVertexArray(objects[Semantic.Object.VAO]);
             {
-                float[] a = FloatUtil.makeOrtho(new float[16], 0, true,
-                        0, glWindow.getWidth(), 0, glWindow.getHeight(), -1f, 1f);
-                float[] b = FloatUtil.makeTranslation(new float[16], true, 256, 256, 0);
-                float[] c = FloatUtil.makeScale(new float[16], true, 256, 256, 1);
-
-                FloatUtil.multMatrix(a, b);
-                FloatUtil.multMatrix(a, c);
-
-                gl4.glUniformMatrix4fv(modelToClipMatrixUL, 1, false, a, 0);
-
-//                gl4.glUniform1f(lodUL, 8f);
                 gl4.glBindSampler(0, objects[Semantic.Object.SAMPLER]);
                 {
-                    gl4.glActiveTexture(GL4.GL_TEXTURE0 + 0);
-                    gl4.glBindTexture(GL4.GL_TEXTURE_2D, objects[Semantic.Object.TEXTURE]);
-                    {
-                        gl4.glDrawElements(GL4.GL_TRIANGLES, indexData.length, GL4.GL_UNSIGNED_SHORT, 0);
+                    int seconds = (int) ((System.nanoTime() - start) / 1_000_000_000);
+//                    System.out.println("test " + ((int) seconds / 3));
+                    int newTest = (seconds / 3) % tests.size();
+                    if (currentTest != newTest) {
+                        System.out.println("" + tests.get(newTest).getName());
+                        currentTest = newTest;
                     }
-                    gl4.glBindTexture(GL4.GL_TEXTURE_2D, 0);
+                    tests.get(currentTest).render(gl4);
                 }
                 gl4.glBindSampler(0, 0);
             }
@@ -341,8 +286,8 @@ public class Test implements GLEventListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            Test.animator.stop();
-            Test.glWindow.destroy();
+            Main.animator.stop();
+            Main.glWindow.destroy();
         }
     }
 

@@ -22,6 +22,14 @@ public class DdsHeader10 {
     public int reserved;
     public static final int sizeOf = 5 * Integer.BYTES;
 
+    public DdsHeader10() {
+        format = Dx.DxgiFormat.DXGI_FORMAT_UNKNOWN;
+        resourceDimension = D3d10ResourceDimension.D3D10_RESOURCE_DIMENSION_UNKNOWN;
+        miscFlag = 0;
+        arraySize = 0;
+        reserved = 0;
+    }
+
     public DdsHeader10(ByteBuffer byteBuffer) {
         format = Dx.DxgiFormat.get(byteBuffer.getInt());
         resourceDimension = D3d10ResourceDimension.values()[byteBuffer.getInt()];

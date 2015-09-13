@@ -185,7 +185,7 @@ public class LoadDds {
 
         int offset = DdsHeader.sizeOf;
 
-        DdsHeader10 header10 = null;
+        DdsHeader10 header10 = new DdsHeader10();
 
         if ((header.format.flags & DDPF_FOURCC.value) != 0 && header.format.fourCC == D3DFMT_DX10) {
 

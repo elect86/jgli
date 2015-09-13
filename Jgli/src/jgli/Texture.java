@@ -76,11 +76,11 @@ public class Texture {
     public int[] dimensions(int level) {
         return storage.dimensions(baseLevel + level);
     }
-    
+
     public ByteBuffer data(int layer, int face, int level) {
         return storage.data(layer, face, level);
     }
-    
+
     public void setData(ByteBuffer data) {
         storage.setData(data);
     }
