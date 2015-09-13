@@ -16,12 +16,12 @@ public class Texture {
 
     public jgli.Format format;
     public jgli.Target target;
-    public int baseLayer;
-    public int maxLayer;
-    public int baseFace;
-    public int maxFace;
-    public int baseLevel;
-    public int maxLevel;
+    private int baseLayer;
+    private int maxLayer;
+    private int baseFace;
+    private int maxFace;
+    private int baseLevel;
+    private int maxLevel;
     private Storage storage;
     public int size;
 
@@ -69,6 +69,17 @@ public class Texture {
         size = storage.layerSize(baseFace, maxFace, baseLevel, maxLevel) * layers;
     }
 
+    public int size(int level) {
+        if (storage.empty()) {
+            throw new Error("no data!");
+        }
+        if (!(level >= baseLevel && level <= maxLevel)) {
+            throw new Error("level >= baseLevel && level <= maxLevel");
+        }
+
+        return storage.levelSize(level);
+    }
+
     public boolean empty() {
         return storage.empty();
     }
@@ -82,6 +93,47 @@ public class Texture {
     }
 
     public void setData(ByteBuffer data) {
+//        for (int i = 0; i < data.capacity(); i++) {
+////            System.out.println("data[" + i + "] " + (data.get(i) & 0xff));
+//            System.out.println("data[" + i + "] " + data.get(i));
+//        }
+
         storage.setData(data);
+    }
+
+    public int baseLayer() {
+        return baseLayer;
+    }
+
+    public int maxLayer() {
+        return maxLayer;
+    }
+
+    public int layers() {
+        return maxLayer - baseLayer + 1;
+    }
+
+    public int baseFace() {
+        return baseFace;
+    }
+
+    public int maxFace() {
+        return maxFace;
+    }
+
+    public int faces() {
+        return maxFace - baseFace + 1;
+    }
+
+    public int baseLevel() {
+        return baseLevel;
+    }
+
+    public int maxLevel() {
+        return maxLevel;
+    }
+
+    public int levels() {
+        return maxLevel - baseLevel + 1;
     }
 }

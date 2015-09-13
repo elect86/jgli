@@ -75,7 +75,7 @@ public class Storage {
         return faceSize;
     }
 
-    private int levelSize(int level) {
+    public int levelSize(int level) {
 
         if (level >= levels) {
             throw new Error("level >= levels!");
@@ -99,6 +99,7 @@ public class Storage {
 
     public void setData(ByteBuffer data) {
         this.data = data;
+        System.out.println("capacity " + data.capacity());
     }
 
     public int[] dimensions(int level) {
