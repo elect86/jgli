@@ -106,8 +106,8 @@ public class Gl {
         new Format(INTERNAL_SRGB8_ALPHA8, EXTERNAL_BGRA, TYPE_U8, new Swizzle[]{SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA}), //FORMAT_BGRA8_SRGB,
 
         // Luminance Alpha formats
-//        new Format(INTERNAL_RG8_UNORM, EXTERNAL_RED, TYPE_U8, new Swizzle[]{SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ONE}), //L8_UNORM,
-//        new Format(INTERNAL_RGB8_UNORM, EXTERNAL_RED, TYPE_U8, new Swizzle[]{SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_RED}), //A8_UNORM,
+        //        new Format(INTERNAL_RG8_UNORM, EXTERNAL_RED, TYPE_U8, new Swizzle[]{SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ONE}), //L8_UNORM,
+        //        new Format(INTERNAL_RGB8_UNORM, EXTERNAL_RED, TYPE_U8, new Swizzle[]{SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_RED}), //A8_UNORM,
         new Format(INTERNAL_R8_UNORM, EXTERNAL_RED, TYPE_U8, new Swizzle[]{SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ONE}), //L8_UNORM,
         new Format(INTERNAL_R8_UNORM, EXTERNAL_RED, TYPE_U8, new Swizzle[]{SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_RED}), //A8_UNORM,
         new Format(INTERNAL_RG8_UNORM, EXTERNAL_RG, TYPE_U8, new Swizzle[]{SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_GREEN}), //LA8_UNORM,
@@ -218,13 +218,13 @@ public class Gl {
 
     public static jgli.Format find(InternalFormat internalFormat, ExternalFormat externalFormat, TypeFormat type) {
         for (int formatIndex = 0; formatIndex < FORMAT_COUNT.value; formatIndex++) {
-            if(table[formatIndex].internal != internalFormat) {
+            if (table[formatIndex].internal != internalFormat) {
                 continue;
             }
-            if(table[formatIndex].external != externalFormat) {
+            if (table[formatIndex].external != externalFormat) {
                 continue;
             }
-            if(table[formatIndex].type != type) {
+            if (table[formatIndex].type != type) {
                 continue;
             }
             return jgli.Format.values()[formatIndex];
@@ -232,6 +232,21 @@ public class Gl {
         return jgli.Format.FORMAT_INVALID;
     }
 
+    /**
+     * https://www.opengl.org/wiki/Image_Format.
+     *
+     * "": No type suffix means unsigned normalized integer format.
+     *
+     * "_SNORM": Signed normalized integer format. "F": Floating-point. Thus,
+     * GL_RGBA32F is a floating-point format where each component is a 32-bit
+     * IEEE floating-point value.
+     *
+     * "I": Signed integral format. Thus GL_RGBA8I gives a signed integer format
+     * where each of the four components is an integer on the range [-128, 127].
+     *
+     * "UI": Unsigned integral format. The values go from [0, MAX_INT] for the
+     * integer size.
+     */
     public enum InternalFormat {
 
         /**

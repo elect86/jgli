@@ -76,10 +76,10 @@ public class Test {
 
                                 } else {
 
-                                    System.out.println("level: " + level + ", dimensions ("
-                                            + texture.dimensions(level)[0] + ", "
-                                            + texture.dimensions(level)[1] + "), "
-                                            + "capacity: " + texture.data(layer, face, level).capacity());
+//                                    System.out.println("level: " + level + ", dimensions ("
+//                                            + texture.dimensions(level)[0] + ", "
+//                                            + texture.dimensions(level)[1] + "), "
+//                                            + "capacity: " + texture.data(layer, face, level).capacity());
                                     gl4.glTexImage1D(glTarget.value, level, glFormat.internal.value,
                                             texture.dimensions(level)[0], 0, glFormat.external.value,
                                             glFormat.type.value, texture.data(layer, face, level));
@@ -123,11 +123,11 @@ public class Test {
 
                                 } else {
 
-                                    System.out.println("level: " + level + ", dimensions ("
-                                            + texture.dimensions(level)[0] + ", "
-                                            + texture.dimensions(level)[1] + ", "
-                                            + texture.dimensions(level)[2] + "), "
-                                            + "capacity: " + texture.data(layer, face, level).capacity());
+//                                    System.out.println("level: " + level + ", dimensions ("
+//                                            + texture.dimensions(level)[0] + ", "
+//                                            + texture.dimensions(level)[1] + ", "
+//                                            + texture.dimensions(level)[2] + "), "
+//                                            + "capacity: " + texture.data(layer, face, level).capacity());
                                     gl4.glTexImage3D(glTarget.value, level, glFormat.internal.value,
                                             texture.dimensions(level)[0], texture.dimensions(level)[1],
                                             texture.dimensions(level)[2], 0, glFormat.external.value,

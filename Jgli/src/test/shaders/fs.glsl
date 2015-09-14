@@ -5,13 +5,26 @@ in vec2 uv;
 out vec4 outputColor;
 
 uniform sampler2D texture0;
+uniform isampler2D iTexture0;
+uniform usampler2D uTexture0;
 
 uniform float lod;
+uniform int sampler;
 
 void main()
 {
-    outputColor = textureLod(texture0, uv, lod);
+    switch(sampler) 
+    {
+        case 0:
+            outputColor = textureLod(texture0, uv, lod);
+            break;
 
-    //if(outputColor.x == 0) outputColor.y = 1;
-    //else outputColor.x = 1;
+        case 1:
+            outputColor = textureLod(iTexture0, uv, lod);
+            break;
+
+        case 2:
+            outputColor = textureLod(uTexture0, uv, lod);
+            break;
+    }
 }
