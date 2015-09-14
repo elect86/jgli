@@ -22,6 +22,8 @@ import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.glsl.ShaderCode;
 import com.jogamp.opengl.util.glsl.ShaderProgram;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
@@ -97,12 +99,76 @@ public class Main implements GLEventListener, KeyListener {
 
         initProgram(gl4);
 
-        tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
-        tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
-        tests.add(new Test(gl4, "kueken7_rgba8_unorm.dds"));
-        
+        gl4.glTexImage3D(GL4.GL_TEXTURE_2D_ARRAY, 0, GL4.GL_R8UI, 3, 2, 2, 0,
+                GL4.GL_RED_INTEGER, GL4.GL_BYTE, ByteBuffer.allocateDirect(4));
 
+//        tests.add(new Test(gl4, "array_r8_unorm.dds"));
+//        tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
+//        
+//        tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
+//        tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_bgrx8_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_l8_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_r5g6b5_unorm.dds"));
+        /**
+         * Not working.
+         */
+//        tests.add(new Test(gl4, "kueken7_r8_snorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_r8_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_r16_unorm.dds"));
+//        
+//        tests.add(new Test(gl4, "kueken7_r_ati1n_unorm.dds"));
+        /**
+         * Unsure.
+         */
+//        tests.add(new Test(gl4, "kueken7_rg11b10_ufloat.dds"));
+//        
+//        tests.add(new Test(gl4, "kueken7_rg_ati2n_unorm.dds"));
+        /**
+         * Incomplete, 20 Bytes missing.
+         */
+//        tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));        
+//        tests.add(new Test(gl4, "kueken7_rgb8_unorm.dds"));
+//        
+//        tests.add(new Test(gl4, "kueken7_rgb9e5_ufloat.dds"));
+        /**
+         * Probabily working but format type unsupported by jogl.
+         */
+//        tests.add(new Test(gl4, "kueken7_rgb10a2u.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgb10a2_unorm.dds"));
+//        
+//        tests.add(new Test(gl4, "kueken7_rgba8_snorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgba8_srgb.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgba8_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgba16_sfloat.dds"));
+        /**
+         * I cant test, my gtx 680 doesnt support AMD_compressed_ATC_texture.
+         */
+//        tests.add(new Test(gl4, "kueken7_rgba_atc_explicit_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgba_atc_interpolate_unorm.dds"));
+//        
+//        tests.add(new Test(gl4, "kueken7_rgba_dxt5_srgb.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.dds"));
+        /**
+         * I cant test, my gtx 680 doesnt support AMD_compressed_ATC_texture.
+         */
+//        tests.add(new Test(gl4, "kueken7_rgb_atc_unorm.dds"));
+//        
+//        tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgb_dxt1_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.dds"));
+        /**
+         * I cant test, my gtx 680 doesnt support
+         * GL_IMG_texture_compression_pvrtc
+         */
+//        tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_unorm.dds"));
+//        tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_unorm.dds"));
+//        
+//        tests.add(new Test(gl4, "kueken8_rgba8_srgb.dds"));
         start = System.nanoTime();
+
+        checkError(gl4, "init");
     }
 
     private void initVbo(GL4 gl4) {

@@ -11,4 +11,7 @@ uniform float lod;
 void main()
 {
     outputColor = textureLod(texture0, uv, lod);
+
+    //if(outputColor.x == 0) outputColor.y = 1;
+    //else outputColor.x = 1;
 }
