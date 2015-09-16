@@ -94,8 +94,8 @@ public class Texture {
 
     public void setData(ByteBuffer data) {
 //        for (int i = 0; i < data.capacity(); i++) {
-////            System.out.println("data[" + i + "] " + (data.get(i) & 0xff));
-//            System.out.println("data[" + i + "] " + data.get(i));
+//            System.out.println("data[" + i + "] " + (data.get(i) & 0xff));
+////            System.out.println("data[" + i + "] " + data.get(i));
 //        }
 
         storage.setData(data);

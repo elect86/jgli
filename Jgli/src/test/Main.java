@@ -22,13 +22,9 @@ import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.glsl.ShaderCode;
 import com.jogamp.opengl.util.glsl.ShaderProgram;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import jgli.Texture;
 import test.textures.*;
 
@@ -77,7 +73,7 @@ public class Main implements GLEventListener, KeyListener {
         0, 2, 3
     };
     public static int modelToClipMatrixUL, lodUL, samplerUL;
-    public int program, texture0UL, currentTest = -1;
+    public int program, currentTest = -1;
     private Texture texture;
     private final String SHADERS_ROOT = "src/test/shaders";
     private ArrayList<Test> tests = new ArrayList<>();
@@ -102,14 +98,14 @@ public class Main implements GLEventListener, KeyListener {
 
         int[] alignment = new int[1];
         gl4.glGetIntegerv(GL4.GL_UNPACK_ALIGNMENT, alignment, 0);
-        System.out.println("alignment: " + alignment[0]);
+//        System.out.println("alignment: " + alignment[0]);
         gl4.glPixelStorei(GL4.GL_UNPACK_ALIGNMENT, 1);
         {
 //        gl4.glTexImage3D(GL4.GL_TEXTURE_2D_ARRAY, 0, GL4.GL_R8UI, 3, 2, 2, 0,
 //                GL4.GL_RED_INTEGER, GL4.GL_BYTE, ByteBuffer.allocateDirect(12));
 
             tests.add(new Test(gl4, "array_r8_unorm.dds"));
-//        tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
+//            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
 //        
 //        tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
 //        tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
@@ -258,12 +254,18 @@ public class Main implements GLEventListener, KeyListener {
         shaderProgram.link(gl4, System.out);
 
         modelToClipMatrixUL = gl4.glGetUniformLocation(program, "modelToClipMatrix");
-        texture0UL = gl4.glGetUniformLocation(program, "texture0");
         lodUL = gl4.glGetUniformLocation(program, "lod");
+        samplerUL = gl4.glGetUniformLocation(program, "sampler");
+
+        int texture0UL = gl4.glGetUniformLocation(program, "texture0");
+//        int iTexture0UL = gl4.glGetUniformLocation(program, "iTexture0");
+//        int uTexture0UL = gl4.glGetUniformLocation(program, "uTexture0");
 
         gl4.glUseProgram(program);
         {
             gl4.glUniform1i(texture0UL, 0);
+//            gl4.glUniform1i(iTexture0UL, 0);
+//            gl4.glUniform1i(uTexture0UL, 0);
         }
         gl4.glUseProgram(0);
 

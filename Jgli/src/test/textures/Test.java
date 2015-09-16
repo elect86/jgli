@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jgli.Gl;
 import jgli.Texture;
 import jgli.detail.LoadDds;
 import test.Main;
@@ -164,8 +165,8 @@ public class Test {
                 + ", " + glFormat.internal.name()
                 + ", level 0 (" + texture.dimensions(0)[0] + ", " + texture.dimensions(0)[1] + ")"
                 + ", " + glFormat.external.name()
-                + ", " + glFormat.type.name()
-                + ", (" + glFormat.swizzle[0].name() + ", " + glFormat.swizzle[1].name()
+                + ", " + glFormat.type.name());
+        System.out.println("(" + glFormat.swizzle[0].name() + ", " + glFormat.swizzle[1].name()
                 + ", " + glFormat.swizzle[2].name() + ", " + glFormat.swizzle[3].name() + ")");
     }
 
@@ -183,9 +184,14 @@ public class Test {
         gl4.glActiveTexture(GL4.GL_TEXTURE0 + 0);
         gl4.glBindTexture(glTarget.value, objects[Semantic.Object.TEXTURE]);
         {
-            int[] offset = new int[]{10, 10};
+            int[] offset = new int[2];
+
+            gl4.glUniform1i(Main.samplerUL, 2);
 
             for (int layer = 0; layer < texture.layers(); layer++) {
+                
+                offset[0] = 10 + (texture.dimensions(0)[0] + 10) * layer;
+                offset[1] = 100 - 10 * layer;
 
                 for (int face = 0; face < texture.faces(); face++) {
 
@@ -205,14 +211,14 @@ public class Test {
 
                         gl4.glUniform1f(Main.lodUL, (float) level);
 
+                        gl4.glUniform1i(Main.samplerUL, Sampler.get(texture));
+
                         gl4.glDrawElements(GL4.GL_TRIANGLES, Main.indexData.length, GL4.GL_UNSIGNED_SHORT, 0);
 
                         offset[0] += texture.dimensions(level)[0];
                         offset[1] += texture.dimensions(level)[1];
                     }
                 }
-                offset[0] = 100 + (texture.dimensions(0)[0] + 100) * layer;
-                offset[1] = 100;
             }
         }
         gl4.glBindTexture(glTarget.value, 0);
@@ -220,5 +226,44 @@ public class Test {
 
     public String getName() {
         return name;
+    }
+
+    private enum Sampler {
+
+        sampler1D,
+        isampler1D,
+        usampler1D,
+        //        
+        sampler2D,
+        isampler2D,
+        usampler2D,
+        //        
+        sampler3D,
+        isampler3D,
+        usampler3D,
+        //        
+        samplerCube,
+        isamplerCube,
+        usamplerCube,
+        //        
+        sampler1DArray,
+        isampler1DArray,
+        usampler1DArray,
+        //        
+        sampler2DArray,
+        isampler2DArray,
+        usampler2DArray;
+        
+        public Sampler get(Texture texture) {
+            switch(texture.target) {
+                case TARGET_2D:
+//                    switch(texture.f) {
+//                        case TYPE_U8:
+//                            return usampler2D;
+//                    }
+                    break;
+            }
+            return sampler2D;
+        }
     }
 }
