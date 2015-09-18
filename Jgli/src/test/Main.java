@@ -96,6 +96,8 @@ public class Main implements GLEventListener, KeyListener {
 
         initProgram(gl4);
 
+        gl4.glEnable(GL4.GL_DEBUG_OUTPUT);
+
         int[] alignment = new int[1];
         gl4.glGetIntegerv(GL4.GL_UNPACK_ALIGNMENT, alignment, 0);
 //        System.out.println("alignment: " + alignment[0]);
@@ -104,72 +106,96 @@ public class Main implements GLEventListener, KeyListener {
 //        gl4.glTexImage3D(GL4.GL_TEXTURE_2D_ARRAY, 0, GL4.GL_R8UI, 3, 2, 2, 0,
 //                GL4.GL_RED_INTEGER, GL4.GL_BYTE, ByteBuffer.allocateDirect(12));
 
+            /**
+             * Probabily working, but glTexSubImage3D is bugged in jogl.
+             *
+             * For three-dimensional textures, the z index refers to the third
+             * dimension. For two-dimensional array textures, the z index refers
+             * to the slice index.
+             *
+             * but glTexSubImage3D interprets the z always as third dimension.
+             */
 //            tests.add(new Test(gl4, "array_r8_unorm.dds"));
-            
-            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
-//        
-//        tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
-//        tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_bgrx8_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_l8_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_r5g6b5_unorm.dds"));
+//            
+//            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
             /**
-             * Not working, need to change sampler!.
+             * Bug, getting FORMAT_RGB8_SRGB instead that FORMAT_BGRX8_SRGB.
+             * This will lead to a wrong exstimated texture size.
              */
+//            tests.add(new Test(gl4, "kueken7_bgrx8_srgb.dds"));
+//            
+//            tests.add(new Test(gl4, "kueken7_bgrx8_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_l8_unorm.dds"));
+            /**
+             * Wrong header, header.format.fourCC is D3DFMT_DX10 but
+             * header10.format is DXGI_FORMAT_UNKNOWN.
+             */
+//            tests.add(new Test(gl4, "kueken7_la8_unorm.dds"));
+//            
+//            tests.add(new Test(gl4, "kueken7_r_ati1n_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_r5g6b5_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_r8_snorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_r8_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_r16_unorm.dds"));
-//        
-//        tests.add(new Test(gl4, "kueken7_r_ati1n_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_r8_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_r16_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rg_ati2n_unorm.dds"));
             /**
-             * Unsure.
+             * Unsure, working but not sure about the result.
              */
-//        tests.add(new Test(gl4, "kueken7_rg11b10_ufloat.dds"));
-//        
-//        tests.add(new Test(gl4, "kueken7_rg_ati2n_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rg11b10_ufloat.dds"));
             /**
-             * Incomplete, 20 Bytes missing.
+             * Untested, I dont have AMD_compressed_ATC_texture.
              */
-//        tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));        
-//        tests.add(new Test(gl4, "kueken7_rgb8_unorm.dds"));
-//        
-//        tests.add(new Test(gl4, "kueken7_rgb9e5_ufloat.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb_atc_unorm.dds"));
+//            
+//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb_etc2_srgb.dds"));
             /**
-             * Probabily working but format type unsupported by jogl.
+             * Wrong header, header.format.fourCC is D3DFMT_DX10 but
+             * header10.format is DXGI_FORMAT_UNKNOWN.
              */
-//        tests.add(new Test(gl4, "kueken7_rgb10a2u.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgb10a2_unorm.dds"));
-//        
+//            tests.add(new Test(gl4, "kueken7_rgb_etc2_unorm.dds"));
+            /**
+             * Untested, I dont have GL_IMG_texture_compression_pvrtc.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_unorm.dds"));
+//            
+//            tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb8_unorm.dds"));        
+//            tests.add(new Test(gl4, "kueken7_rgb9e5_ufloat.dds"));
+            /**
+             * Probabily working but format type enum unsupported by jogl.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb10a2_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb10a2u.dds"));
+            /**
+             * Wrong header, header.format.fourCC is D3DFMT_DX10 but
+             * header10.format is DXGI_FORMAT_UNKNOWN.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgba_astc8x8_unorm.dds"));
+            /**
+             * I cant test, I dont have AMD_compressed_ATC_texture.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgba_atc_explicit_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgba_atc_interpolate_unorm.dds"));
+//            
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.dds"));
+            /**
+             * Wrong header, header.format.fourCC is D3DFMT_DX10 but
+             * header10.format is DXGI_FORMAT_UNKNOWN.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_4bpp_unorm.dds"));
+//            
 //        tests.add(new Test(gl4, "kueken7_rgba8_snorm.dds"));
 //        tests.add(new Test(gl4, "kueken7_rgba8_srgb.dds"));
 //        tests.add(new Test(gl4, "kueken7_rgba8_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgba16_sfloat.dds"));
-            /**
-             * I cant test, my gtx 680 doesnt support
-             * AMD_compressed_ATC_texture.
-             */
-//        tests.add(new Test(gl4, "kueken7_rgba_atc_explicit_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgba_atc_interpolate_unorm.dds"));
-//        
-//        tests.add(new Test(gl4, "kueken7_rgba_dxt5_srgb.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.dds"));
-            /**
-             * I cant test, my gtx 680 doesnt support
-             * AMD_compressed_ATC_texture.
-             */
-//        tests.add(new Test(gl4, "kueken7_rgb_atc_unorm.dds"));
-//        
-//        tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgb_dxt1_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.dds"));
-            /**
-             * I cant test, my gtx 680 doesnt support
-             * GL_IMG_texture_compression_pvrtc.
-             */
-//        tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_unorm.dds"));
-//        
+//        tests.add(new Test(gl4, "kueken7_rgba16_sfloat.dds"));        
 //        tests.add(new Test(gl4, "kueken8_rgba8_srgb.dds"));
         }
         gl4.glPixelStorei(GL4.GL_UNPACK_ALIGNMENT, alignment[0]);

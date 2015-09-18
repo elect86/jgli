@@ -84,6 +84,10 @@ public class Texture {
         return storage.empty();
     }
 
+    public int[] dimensions() {
+        return dimensions(0);
+    }
+    
     public int[] dimensions(int level) {
         return storage.dimensions(baseLevel + level);
     }

@@ -197,6 +197,10 @@ public class LoadDds {
 
         jgli.Format format = FORMAT_INVALID;
 
+//        System.out.println("(header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value "
+//                + "| DDPF_YUV.value | DDPF_LUMINANCE.value)) " + (header.format.flags & (DDPF_RGB.value
+//                | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value | DDPF_YUV.value | DDPF_LUMINANCE.value)));
+
         if (((header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value
                 | DDPF_YUV.value | DDPF_LUMINANCE.value))) != 0 && format == FORMAT_INVALID
                 && header.format.flags != DDPF_FOURCC_ALPHAPIXELS.value) {
@@ -267,7 +271,7 @@ public class LoadDds {
             format = dx.find(header10.format);
         }
 
-        if (!(format != FORMAT_INVALID)) {
+        if (format == FORMAT_INVALID) {
             throw new Error("format invalid");
         }
 
