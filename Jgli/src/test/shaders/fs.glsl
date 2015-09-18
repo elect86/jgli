@@ -28,6 +28,10 @@ uniform sampler2DArray _sampler2DArray;
 uniform isampler2DArray _isampler2DArray;
 uniform usampler2DArray _usampler2DArray;
 
+uniform samplerCubeArray _samplerCubeArray;
+uniform isamplerCubeArray _isamplerCubeArray;
+uniform usamplerCubeArray _usamplerCubeArray;
+
 uniform float lod;
 uniform int sampler;
 uniform int layer;
@@ -59,5 +63,9 @@ void main()
         case 15:outputColor = textureLod(_sampler2DArray, vec3(uv, layer), lod);    break;
         case 16:outputColor = textureLod(_isampler2DArray, vec3(uv, layer), lod);   break;
         case 17:outputColor = textureLod(_usampler2DArray, vec3(uv, layer), lod);   break;
+
+        case 18:outputColor = textureLod(_samplerCubeArray, vec4(uv, layer, 1), lod);   break;
+        case 19:outputColor = textureLod(_isamplerCubeArray, vec4(uv, layer, 1), lod);   break;
+        case 20:outputColor = textureLod(_usamplerCubeArray, vec4(uv, layer, 1), lod);   break;
     }
 }

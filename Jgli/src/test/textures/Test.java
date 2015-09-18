@@ -29,6 +29,7 @@ public class Test {
     private int[] objects = new int[Semantic.Object.SIZE];
     private jgli.Gl.Format glFormat;
     private jgli.Gl.Target glTarget;
+    private Sampler sampler;
 
     public Test(GL4 gl4, String name) {
 
@@ -54,6 +55,8 @@ public class Test {
         glFormat = gl.translate(texture.format);
 
         glTarget = gl.translate(texture.target);
+
+        sampler = Sampler.get(glTarget, glFormat);
 
         printInfo();
 
@@ -144,6 +147,11 @@ public class Test {
                             default:
                                 throw new Error("Invalid target");
                         }
+                        Main.checkError(gl4, "level: " + level + ", dimensions ("
+                                + texture.dimensions(level)[0] + ", "
+                                + texture.dimensions(level)[1] + ", "
+                                + texture.dimensions(level)[2] + "), "
+                                + "capacity: " + texture.data(layer, face, level).capacity());
                     }
                 }
             }
@@ -189,7 +197,7 @@ public class Test {
             gl4.glUniform1i(Main.samplerUL, 2);
 
             for (int layer = 0; layer < texture.layers(); layer++) {
-                
+
                 offset[0] = 10 + (texture.dimensions(0)[0] + 10) * layer;
                 offset[1] = 100 - 10 * layer;
 
@@ -211,12 +219,23 @@ public class Test {
 
                         gl4.glUniform1f(Main.lodUL, (float) level);
 
-                        gl4.glUniform1i(Main.samplerUL, Sampler.get(texture));
+                        gl4.glUniform1i(Main.layerUL, layer);
+
+                        gl4.glUniform1i(Main.samplerUL, sampler.ordinal());
 
                         gl4.glDrawElements(GL4.GL_TRIANGLES, Main.indexData.length, GL4.GL_UNSIGNED_SHORT, 0);
 
-                        offset[0] += texture.dimensions(level)[0];
-                        offset[1] += texture.dimensions(level)[1];
+                        if (level == 0 || texture.layers() == 1) {
+                            offset[0] += texture.dimensions(level)[0];
+                            offset[1] += texture.dimensions(level)[1];
+                        } else {
+                            if (level % 2 == 0) {
+                                offset[0] += texture.dimensions(level)[0];
+                            } else {
+                                offset[0] -= texture.dimensions(level + 1)[0];
+                            }
+                            offset[1] += texture.dimensions(level)[1];
+                        }
                     }
                 }
             }
@@ -252,15 +271,33 @@ public class Test {
         //        
         sampler2DArray,
         isampler2DArray,
-        usampler2DArray;
-        
-        public Sampler get(Texture texture) {
-            switch(texture.target) {
+        usampler2DArray,
+        //        
+        samplerCubeArray,
+        isamplerCubeArray,
+        usamplerCubeArray;
+
+        public static Sampler get(Gl.Target glTarget, Gl.Format glFormat) {
+            switch (glTarget) {
                 case TARGET_2D:
-//                    switch(texture.f) {
-//                        case TYPE_U8:
-//                            return usampler2D;
-//                    }
+                    switch (glFormat.type) {
+                        case TYPE_U8:
+                            return usampler2D;
+                    }
+                    break;
+
+                case TARGET_2D_ARRAY:
+                    switch (glFormat.type) {
+                        case TYPE_U8:
+                            return usampler2DArray;
+                    }
+                    break;
+
+                case TARGET_CUBE_ARRAY:
+                    switch (glFormat.type) {
+                        case TYPE_U8:
+                            return usamplerCubeArray;
+                    }
                     break;
             }
             return sampler2D;

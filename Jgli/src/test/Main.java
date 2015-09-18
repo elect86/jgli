@@ -72,7 +72,7 @@ public class Main implements GLEventListener, KeyListener {
         0, 1, 2,
         0, 2, 3
     };
-    public static int modelToClipMatrixUL, lodUL, samplerUL;
+    public static int modelToClipMatrixUL, lodUL, samplerUL, layerUL;
     public int program, currentTest = -1;
     private Texture texture;
     private final String SHADERS_ROOT = "src/test/shaders";
@@ -104,8 +104,9 @@ public class Main implements GLEventListener, KeyListener {
 //        gl4.glTexImage3D(GL4.GL_TEXTURE_2D_ARRAY, 0, GL4.GL_R8UI, 3, 2, 2, 0,
 //                GL4.GL_RED_INTEGER, GL4.GL_BYTE, ByteBuffer.allocateDirect(12));
 
-            tests.add(new Test(gl4, "array_r8_unorm.dds"));
-//            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
+//            tests.add(new Test(gl4, "array_r8_unorm.dds"));
+            
+            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
 //        
 //        tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
 //        tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
@@ -256,16 +257,13 @@ public class Main implements GLEventListener, KeyListener {
         modelToClipMatrixUL = gl4.glGetUniformLocation(program, "modelToClipMatrix");
         lodUL = gl4.glGetUniformLocation(program, "lod");
         samplerUL = gl4.glGetUniformLocation(program, "sampler");
+        layerUL = gl4.glGetUniformLocation(program, "layer");
 
         int texture0UL = gl4.glGetUniformLocation(program, "texture0");
-//        int iTexture0UL = gl4.glGetUniformLocation(program, "iTexture0");
-//        int uTexture0UL = gl4.glGetUniformLocation(program, "uTexture0");
 
         gl4.glUseProgram(program);
         {
             gl4.glUniform1i(texture0UL, 0);
-//            gl4.glUniform1i(iTexture0UL, 0);
-//            gl4.glUniform1i(uTexture0UL, 0);
         }
         gl4.glUseProgram(0);
 
@@ -323,7 +321,7 @@ public class Main implements GLEventListener, KeyListener {
         checkError(gl4, "display");
     }
 
-    protected boolean checkError(GL gl, String title) {
+    public static boolean checkError(GL gl, String title) {
 
         int error = gl.glGetError();
         if (error != GL_NO_ERROR) {
