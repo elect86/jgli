@@ -116,6 +116,10 @@ public class Storage {
         data.limit(data.capacity());
         return result;
     }
+    
+    public ByteBuffer data() {
+        return data;
+    }
 
     public int offset(int layer, int face, int level) {
         if (layer >= layers) {

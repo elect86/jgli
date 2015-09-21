@@ -289,8 +289,8 @@ public class LoadDds {
         Texture texture = new Texture(getTarget(header, header10), format, new int[]{header.width,
             header.height, depthCount}, Math.max(header10.arraySize, 1), faceCount, mipmapCount);
 
-        if (!(offset + texture.size == byteBuffer.capacity())) {
-            throw new Error("!(offset " + offset + " + texture.size " + texture.size
+        if (!(offset + texture.size() == byteBuffer.capacity())) {
+            throw new Error("!(offset " + offset + " + texture.size " + texture.size()
                     + " == byteBuffer.capacity()) " + byteBuffer.capacity());
         }
 
