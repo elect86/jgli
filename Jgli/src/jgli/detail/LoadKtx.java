@@ -78,6 +78,11 @@ public class LoadKtx {
 
         int blockSize = format.blockSize();
 
-        texture = new Texture(Target.TARGET_1D, format, dimensions, offset, offset, offset)
+        Texture texture = new Texture(getTarget(header), format, new int[]{header.pixelWidth,
+            Math.max(header.pixelHeight, 1), Math.max(header.pixelDepth, 1)},
+                Math.max(header.numberOfArrayElements, 1), Math.max(header.numberOfFaces, 1),
+                Math.max(header.numberOfMipmapLevels, 1));
+
+        return texture;
     }
 }
