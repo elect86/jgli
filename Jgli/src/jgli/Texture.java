@@ -14,28 +14,21 @@ import static jgli.Target.*;
  */
 public class Texture {
 
-    public jgli.Format format;
-    public jgli.Target target;
-    private int baseLayer;
-    private int maxLayer;
-    private int baseFace;
-    private int maxFace;
-    private int baseLevel;
-    private int maxLevel;
-    private Storage storage;
-    public int size;
+    protected jgli.Format format;
+    protected jgli.Target target;
+    protected int baseLayer;
+    protected int maxLayer;
+    protected int baseFace;
+    protected int maxFace;
+    protected int baseLevel;
+    protected int maxLevel;
+    protected Storage storage;
+    protected int size;
 
     public Texture() {
 
     }
 
-//    public Texture(ByteBuffer data, int format, int target, int baseLayer, int maxLayer, int baseFace, int maxFace, int baseLevel, int maxLevel) {
-//
-//        this(target, format, dimensions, maxLayer, target, maxLevel);
-//        this.data = data;
-//
-//        this
-//    }
     /**
      * Create an empty texture instance.
      *
@@ -66,7 +59,57 @@ public class Texture {
 
         storage = new Storage(format, dimensions, layers, faces, levels);
 
-        size = storage.layerSize(baseFace, maxFace, baseLevel, maxLevel) * layers;
+        buildCache();
+    }
+
+    public Texture(Texture texture, jgli.Target target, jgli.Format format) {
+
+        storage = texture.storage;
+        this.target = target;
+        this.format = format;
+        baseLayer = texture.baseLayer();
+        maxLayer = texture.maxLayer();
+        baseFace = texture.baseFace();
+        maxFace = texture.maxFace();
+        baseLevel = texture.baseLevel();
+        maxLevel = texture.maxLevel();
+
+        if (empty()) {
+            return;
+        }
+
+        boolean error = false;
+
+        if (!(target != TARGET_1D || (target == TARGET_1D && layers() == 1 && faces() == 1 && dimensions()[1] == 1 && dimensions()[2] == 1))) {
+            error = true;
+        }
+        if (!(target != TARGET_1D_ARRAY || (target == TARGET_1D_ARRAY && layers() >= 1 && faces() == 1 && dimensions()[1] == 1 && dimensions()[2] == 1))) {
+            error = true;
+        }
+        if (!(target != TARGET_2D || (target == TARGET_2D && layers() == 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] == 1))) {
+            error = true;
+        }
+        if (!(target != TARGET_2D_ARRAY || (target == TARGET_2D_ARRAY && layers() >= 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] == 1))) {
+            error = true;
+        }
+        if (!(target != TARGET_3D || (target == TARGET_3D && layers() == 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] >= 1))) {
+            error = true;
+        }
+        if (!(target != TARGET_CUBE || (target == TARGET_CUBE && layers() == 1 && faces() >= 1 && dimensions()[1] >= 1 && dimensions()[2] == 1))) {
+            error = true;
+        }
+        if (!(target != TARGET_CUBE_ARRAY || (target == TARGET_CUBE_ARRAY && layers() >= 1 && faces() >= 1 && dimensions()[1] >= 1 && dimensions()[2] == 1))) {
+            error = true;
+        }
+        if (error) {
+            throw new Error("wrong parameters");
+        }
+        
+        buildCache();
+    }
+
+    private void buildCache() {
+        size = storage.layerSize(baseFace(), maxFace(), baseLevel(), maxLevel()) * layers();
     }
 
     public int size(int level) {
@@ -80,14 +123,14 @@ public class Texture {
         return storage.levelSize(level);
     }
 
-    public boolean empty() {
+    public final boolean empty() {
         return storage.empty();
     }
 
-    public int[] dimensions() {
+    public final int[] dimensions() {
         return dimensions(0);
     }
-    
+
     public int[] dimensions(int level) {
         return storage.dimensions(baseLevel + level);
     }
@@ -113,7 +156,7 @@ public class Texture {
         return maxLayer;
     }
 
-    public int layers() {
+    public final int layers() {
         return maxLayer - baseLayer + 1;
     }
 
@@ -125,7 +168,7 @@ public class Texture {
         return maxFace;
     }
 
-    public int faces() {
+    public final int faces() {
         return maxFace - baseFace + 1;
     }
 
@@ -139,5 +182,20 @@ public class Texture {
 
     public int levels() {
         return maxLevel - baseLevel + 1;
+    }
+
+    public jgli.Format format() {
+        return format;
+    }
+
+    public jgli.Target target() {
+        return target;
+    }
+    
+    public int size() {
+        if(empty()) {
+            throw new Error("empty");
+        }
+        return size;
     }
 }

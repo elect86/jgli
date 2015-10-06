@@ -55,9 +55,9 @@ public class Test {
 
         gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
 
-        glFormat = gl.translate(texture.format);
+        glFormat = gl.translate(texture.format());
 
-        glTarget = gl.translate(texture.target);
+        glTarget = gl.translate(texture.target());
 
         sampler = Sampler.get(texture, glTarget, glFormat);
 //        sampler = Sampler.isampler2D;
@@ -70,7 +70,7 @@ public class Test {
 
         gl4.glBindTexture(glTarget.value, objects[Semantic.Object.TEXTURE]);
         {
-            switch (texture.target) {
+            switch (texture.target()) {
                 case TARGET_1D:
                     gl4.glTexStorage1D(glTarget.value, texture.levels(), glFormat.internal.value, dimensions[0]);
                     break;
@@ -78,13 +78,13 @@ public class Test {
                 case TARGET_2D:
                 case TARGET_CUBE:
                     gl4.glTexStorage2D(glTarget.value, texture.levels(), glFormat.internal.value,
-                            dimensions[0], texture.target == TARGET_2D ? dimensions[1] : faceTotal);
+                            dimensions[0], texture.target() == TARGET_2D ? dimensions[1] : faceTotal);
                     break;
                 case TARGET_2D_ARRAY:
                 case TARGET_3D:
                 case TARGET_CUBE_ARRAY:
                     gl4.glTexStorage3D(glTarget.value, texture.levels(), glFormat.internal.value, dimensions[0],
-                            dimensions[1], texture.target == TARGET_3D ? dimensions[2] : faceTotal);
+                            dimensions[1], texture.target() == TARGET_3D ? dimensions[2] : faceTotal);
                     break;
                 default:
                     throw new Error("invalid target");
@@ -97,11 +97,11 @@ public class Test {
 
                         dimensions = texture.dimensions(level);
 
-                        switch (texture.target) {
+                        switch (texture.target()) {
 
                             case TARGET_1D:
 
-                                if (texture.format.isCompressed()) {
+                                if (texture.format().isCompressed()) {
 
                                     gl4.glCompressedTexSubImage1D(glTarget.value, level, 0, dimensions[0],
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
@@ -117,16 +117,16 @@ public class Test {
                             case TARGET_2D:
                             case TARGET_CUBE:
 
-                                if (texture.format.isCompressed()) {
+                                if (texture.format().isCompressed()) {
 
                                     gl4.glCompressedTexSubImage2D(glTarget.value, level, 0, 0, dimensions[0],
-                                            texture.target == TARGET_1D_ARRAY ? layer : dimensions[1],
+                                            texture.target() == TARGET_1D_ARRAY ? layer : dimensions[1],
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
 
                                 } else {
 
                                     gl4.glTexSubImage2D(glTarget.value, level, 0, 0, dimensions[0],
-                                            texture.target == TARGET_1D_ARRAY ? layer : dimensions[1],
+                                            texture.target() == TARGET_1D_ARRAY ? layer : dimensions[1],
                                             glFormat.external.value, glFormat.type.value, texture.data(layer, face, level));
                                 }
                                 break;
@@ -135,10 +135,10 @@ public class Test {
                             case TARGET_3D:
                             case TARGET_CUBE_ARRAY:
 
-                                if (texture.format.isCompressed()) {
+                                if (texture.format().isCompressed()) {
 
                                     gl4.glCompressedTexSubImage3D(glTarget.value, level, 0, 0, 0, dimensions[0],
-                                            dimensions[1], texture.target == TARGET_3D ? dimensions[2] : layer,
+                                            dimensions[1], texture.target() == TARGET_3D ? dimensions[2] : layer,
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
 
                                 } else {
@@ -147,7 +147,7 @@ public class Test {
 //                                            + "), glFormat: " + glFormat.external + ", type: " + glFormat.type
 //                                            + ", data.capacity: " + texture.data(layer, face, level).capacity());
                                     gl4.glTexSubImage3D(glTarget.value, level, 0, 0, 0, dimensions[0], dimensions[1],
-                                            texture.target == TARGET_3D ? dimensions[2] : layer,
+                                            texture.target() == TARGET_3D ? dimensions[2] : layer,
                                             glFormat.external.value, glFormat.type.value, texture.data(layer, face, level));
                                 }
                                 break;
@@ -287,7 +287,7 @@ public class Test {
         usamplerCubeArray;
 
         public static Sampler get(Texture texture, Gl.Target glTarget, Gl.Format glFormat) {
-            if (texture.format.isCompressed()) {
+            if (texture.format().isCompressed()) {
                 return sampler2D;
             }
             switch (glTarget) {
