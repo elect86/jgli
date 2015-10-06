@@ -442,6 +442,16 @@ public class Gl {
         private InternalFormat(int value) {
             this.value = value;
         }
+
+        public static InternalFormat get(int value) {
+            for (InternalFormat internalFormat : values()) {
+                if (internalFormat.value == value) {
+                    return internalFormat;
+                }
+            }
+            // First as default
+            return INTERNAL_R8_UNORM;
+        }
     }
 
     public enum ExternalFormat {
@@ -470,6 +480,15 @@ public class Gl {
 
         private ExternalFormat(int value) {
             this.value = value;
+        }
+        
+        public static ExternalFormat get(int value) {
+            for (ExternalFormat externalFormat : values()) {
+                if (externalFormat.value == value) {
+                    return externalFormat;
+                }
+            }
+            return EXTERNAL_NONE;
         }
     }
 
@@ -501,6 +520,15 @@ public class Gl {
 
         private TypeFormat(int value) {
             this.value = value;
+        }
+        
+        public static TypeFormat get(int value) {
+            for (TypeFormat typeFormat : values()) {
+                if (typeFormat.value == value) {
+                    return typeFormat;
+                }
+            }
+            return TYPE_NONE;
         }
     }
 

@@ -22,6 +22,7 @@ import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.glsl.ShaderCode;
 import com.jogamp.opengl.util.glsl.ShaderProgram;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
@@ -103,17 +104,8 @@ public class Main implements GLEventListener, KeyListener {
 //        System.out.println("alignment: " + alignment[0]);
         gl4.glPixelStorei(GL4.GL_UNPACK_ALIGNMENT, 1);
         {
-//        gl4.glTexImage3D(GL4.GL_TEXTURE_2D_ARRAY, 0, GL4.GL_R8UI, 3, 2, 2, 0,
-//                GL4.GL_RED_INTEGER, GL4.GL_BYTE, ByteBuffer.allocateDirect(12));
-
             /**
-             * Probabily working, but glTexSubImage3D is bugged in jogl.
-             *
-             * For three-dimensional textures, the z index refers to the third
-             * dimension. For two-dimensional array textures, the z index refers
-             * to the slice index.
-             *
-             * but glTexSubImage3D interprets the z always as third dimension.
+             * To test.
              */
 //            tests.add(new Test(gl4, "array_r8_unorm.dds"));
 //            
