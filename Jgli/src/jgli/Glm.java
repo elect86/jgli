@@ -48,7 +48,7 @@ public class Glm {
         }
         return result;
     }
-    
+
     public static int[] max(int[] vec0, int[] vec1) {
         if (vec0.length != vec1.length) {
             throw new Error("Length of vectors differs!");
@@ -75,7 +75,7 @@ public class Glm {
         }
         return result;
     }
-    
+
     public static int[] maxI(byte[] vec0, byte[] vec1) {
 
         if (vec0.length != vec1.length) {
@@ -115,11 +115,20 @@ public class Glm {
     }
 
     public static int[] shiftRight(int[] vec, int shift) {
-        
+
         int[] result = new int[vec.length];
         for (int i = 0; i < vec.length; i++) {
             result[i] = vec[i] >> shift;
         }
         return result;
+    }
+
+    public static float ceilMultiple(float source, float multiple) {
+        if (source > 0) {
+            float tmp = source - 1;
+            return tmp + (multiple - (tmp % multiple));
+        } else {
+            return source + (-source % multiple);
+        }
     }
 }

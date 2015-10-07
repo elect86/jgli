@@ -117,6 +117,10 @@ public class Storage {
         return result;
     }
     
+    public void setData(ByteBuffer data, int layer, int face, int level) {
+        
+    }
+    
     public ByteBuffer data() {
         return data;
     }

@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jgli.Gl;
 import jgli.GlLogger;
+import jgli.Load;
 import static jgli.Target.*;
 import jgli.Texture;
 import jgli.detail.LoadDds;
@@ -51,7 +52,7 @@ public class Test {
 
         jgli.Gl gl = new jgli.Gl();
 
-        texture = LoadDds.loadDds(data + name);
+        texture = Load.load(data + name);
 
         gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
 

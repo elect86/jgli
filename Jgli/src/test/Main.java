@@ -108,8 +108,10 @@ public class Main implements GLEventListener, KeyListener {
              * To test.
              */
 //            tests.add(new Test(gl4, "array_r8_unorm.dds"));
+//            tests.add(new Test(gl4, "array_r8_unorm.ktx"));
 //            
 //            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
+//            tests.add(new Test(gl4, "cube_rgba8_unorm.ktx"));
 //            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
@@ -128,24 +130,61 @@ public class Main implements GLEventListener, KeyListener {
 //            tests.add(new Test(gl4, "kueken7_la8_unorm.dds"));
 //            
 //            tests.add(new Test(gl4, "kueken7_r_ati1n_unorm.dds"));
+            /**
+             * to check.
+             */
+            tests.add(new Test(gl4, "kueken7_r_eac_snorm.ktx"));
+//            tests.add(new Test(gl4, "kueken7_r_eac_unorm.ktx"));
+//            
 //            tests.add(new Test(gl4, "kueken7_r5g6b5_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_r8_snorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_r8_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_r16_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_rg_ati2n_unorm.dds"));
             /**
+             * to check.
+             */
+//            tests.add(new Test(gl4, "kueken7_rg_eac_snorm.ktx"));            
+//            tests.add(new Test(gl4, "kueken7_rg_eac_unorm.ktx"));            
+            /**
              * Unsure, working but not sure about the result.
              */
 //            tests.add(new Test(gl4, "kueken7_rg11b10_ufloat.dds"));
+//            tests.add(new Test(gl4, "kueken7_rg11b10_ufloat.ktx"));
             /**
              * Untested, I dont have AMD_compressed_ATC_texture.
              */
 //            tests.add(new Test(gl4, "kueken7_rgb_atc_unorm.dds"));
 //            
 //            tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.dds"));
+            /**
+             * Wrong header, glInternalFormat should be:
+             *
+             * INTERNAL_SRGB_DXT1(0x8C4C)
+             *
+             * instead of:
+             *
+             * INTERNAL_RGB_DXT1(0x83F0).
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.ktx"));
+//            
 //            tests.add(new Test(gl4, "kueken7_rgb_dxt1_unorm.dds"));
+            /**
+             * Working not properly, probabily some block disalignment.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_unorm.ktx"));
+//            
 //            tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.dds"));
+            /**
+             * Working not properly, probabily some block disalignment.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.ktx"));
+//            
 //            tests.add(new Test(gl4, "kueken7_rgb_etc2_srgb.dds"));
+            /**
+             * Working not properly, probabily some block disalignment.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_etc2_srgb.ktx"));
             /**
              * Wrong header, header.format.fourCC is D3DFMT_DX10 but
              * header10.format is DXGI_FORMAT_UNKNOWN.
@@ -155,9 +194,21 @@ public class Main implements GLEventListener, KeyListener {
              * Untested, I dont have GL_IMG_texture_compression_pvrtc.
              */
 //            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_srgb.ktx"));
 //            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_srgb.ktx"));
+            /**
+             * Buffer problem.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc2_2bpp_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc2_4bpp_srgb.ktx"));
 //            
 //            tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));
+            /**
+             * Buffer problem.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb8_srgb.ktx"));
+//            
 //            tests.add(new Test(gl4, "kueken7_rgb8_unorm.dds"));        
 //            tests.add(new Test(gl4, "kueken7_rgb9e5_ufloat.dds"));
             /**

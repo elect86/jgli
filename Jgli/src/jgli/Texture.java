@@ -193,9 +193,9 @@ public class Texture {
     }
     
     public int size() {
-        if(empty()) {
-            throw new Error("empty");
-        }
+//        if(empty()) {
+//            throw new Error("empty");
+//        }
         return size;
     }
 }
