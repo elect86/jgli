@@ -158,9 +158,9 @@ public class LoadDds {
         }
     }
 
-    public static Texture loadDds(String filename) throws IOException {
-        return loadDds(new File(LoadDds.class.getResource(filename).getFile()));
-    }
+//    public static Texture loadDds(String filename) throws IOException {
+//        return loadDds(new File(LoadDds.class.getResource(filename).getFile()));
+//    }
 
     public static Texture loadDds(File file) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(file);
@@ -293,7 +293,7 @@ public class LoadDds {
             throw new Error("!(offset " + offset + " + texture.size " + texture.size()
                     + " == byteBuffer.capacity()) " + byteBuffer.capacity());
         }
-
+        
         byteBuffer.position(offset);
         texture.setData(byteBuffer.slice());
         byteBuffer.position(0);

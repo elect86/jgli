@@ -89,12 +89,7 @@ public class LoadKtx {
             Math.max(header.pixelHeight, 1), Math.max(header.pixelDepth, 1)},
                 Math.max(header.numberOfArrayElements, 1), Math.max(header.numberOfFaces, 1),
                 Math.max(header.numberOfMipmapLevels, 1));
-
-//        byteBuffer.position(offset);
-//        texture.setData(byteBuffer.slice());
-        texture.setData(byteBuffer);
-//        byteBuffer.position(0);
-
+        
         for (int level = 0; level < texture.levels(); level++) {
 
             System.out.println("offset " + offset);
@@ -112,7 +107,17 @@ public class LoadKtx {
 
                     System.out.println("Math.max(" + blockSize + ", Glm.ceilMultiple(" + faceSize + ", 4)) "
                             + Math.max(blockSize, Glm.ceilMultiple(faceSize, 4)));
-                    
+
+                    byteBuffer.position(offset);
+                    byteBuffer.limit(offset + faceSize);
+//                    {
+                        ByteBuffer data = byteBuffer.slice();
+//                    }
+                    byteBuffer.position(0);
+                    byteBuffer.limit(byteBuffer.capacity());
+
+                    texture.setData(data, layer, face, level);
+
                     offset += Math.max(blockSize, Glm.ceilMultiple(faceSize, 4));
                 }
             }
@@ -122,9 +127,9 @@ public class LoadKtx {
     }
 
     public static void main(String[] args) {
-        System.out.println(""+ceilMultiple1(32768, 4));
-        System.out.println(""+ceilMultiple2(32768, 4));
-        System.out.println(""+ceilMultiple3(32768, 4));
+        System.out.println("" + ceilMultiple1(32768, 4));
+        System.out.println("" + ceilMultiple2(32768, 4));
+        System.out.println("" + ceilMultiple3(32768, 4));
     }
 
     private static float ceilMultiple1(float source, float multiple) {

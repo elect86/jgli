@@ -147,6 +147,10 @@ public class Texture {
 
         storage.setData(data);
     }
+    
+    public void setData(ByteBuffer data, int layer, int face, int level) {
+        storage.setData(data, layer, face, level);
+    }
 
     public int baseLayer() {
         return baseLayer;
@@ -193,9 +197,9 @@ public class Texture {
     }
     
     public int size() {
-//        if(empty()) {
-//            throw new Error("empty");
-//        }
+        if(empty()) {
+            throw new Error("empty");
+        }
         return size;
     }
 }
