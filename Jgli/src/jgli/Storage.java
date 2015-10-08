@@ -71,7 +71,7 @@ public class Storage {
 
         // The size of a face is the sum of the size of each level.
         for (int level = baseLevel; level <= maxLevel; level++) {
-            
+
             faceSize += levelSize(level);
         }
         return faceSize;
@@ -122,9 +122,9 @@ public class Storage {
     public void setData(ByteBuffer data, int layer, int face, int level) {
         int offset = offset(layer, face, level);
         int levelSize = levelSize(level);
-        System.out.println("data: "+data.toString());
-        System.out.println("this.data: "+this.data.toString());
-        this.data.put(data.array(), offset, levelSize);
+        for (int b = 0; b < levelSize; b++) {
+            this.data.put(offset + b, data.get(b));
+        }
     }
 
     public ByteBuffer data() {

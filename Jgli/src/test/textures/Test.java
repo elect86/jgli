@@ -119,7 +119,7 @@ public class Test {
                             case TARGET_CUBE:
 
                                 if (texture.format().isCompressed()) {
-
+                                    
                                     gl4.glCompressedTexSubImage2D(glTarget.value, level, 0, 0, dimensions[0],
                                             texture.target() == TARGET_1D_ARRAY ? layer : dimensions[1],
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));

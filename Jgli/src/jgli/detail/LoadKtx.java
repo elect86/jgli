@@ -89,11 +89,11 @@ public class LoadKtx {
             Math.max(header.pixelHeight, 1), Math.max(header.pixelDepth, 1)},
                 Math.max(header.numberOfArrayElements, 1), Math.max(header.numberOfFaces, 1),
                 Math.max(header.numberOfMipmapLevels, 1));
-        
+
         for (int level = 0; level < texture.levels(); level++) {
 
-            System.out.println("offset " + offset);
-            System.out.println("Size " + byteBuffer.getInt(offset));
+//            System.out.println("offset " + offset);
+//            System.out.println("Size " + byteBuffer.getInt(offset));
             offset += Integer.BYTES;
 
             for (int layer = 0; layer < texture.layers(); layer++) {
@@ -102,21 +102,20 @@ public class LoadKtx {
 
                     int faceSize = texture.size(level);
 
-                    System.out.println("texture.data(" + layer + ", " + face + ", " + level + ").capacity() "
-                            + texture.data(layer, face, level).capacity());
-
-                    System.out.println("Math.max(" + blockSize + ", Glm.ceilMultiple(" + faceSize + ", 4)) "
-                            + Math.max(blockSize, Glm.ceilMultiple(faceSize, 4)));
+//                    System.out.println("texture.data(" + layer + ", " + face + ", " + level + ").capacity() "
+//                            + texture.data(layer, face, level).capacity());
+//
+//                    System.out.println("Math.max(" + blockSize + ", Glm.ceilMultiple(" + faceSize + ", 4)) "
+//                            + Math.max(blockSize, Glm.ceilMultiple(faceSize, 4)));
 
                     byteBuffer.position(offset);
                     byteBuffer.limit(offset + faceSize);
-//                    {
+                    {
                         ByteBuffer data = byteBuffer.slice();
-//                    }
+                        texture.setData(data, layer, face, level);
+                    }
                     byteBuffer.position(0);
                     byteBuffer.limit(byteBuffer.capacity());
-
-                    texture.setData(data, layer, face, level);
 
                     offset += Math.max(blockSize, Glm.ceilMultiple(faceSize, 4));
                 }
