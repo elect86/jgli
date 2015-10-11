@@ -42,9 +42,11 @@ public class Storage {
         if (!Glm.all(Glm.greaterThan(dimensions, new byte[]{0, 0, 0}))) {
             throw new Error("Not all dimensions > 0!");
         }
+
+        data = ByteBuffer.allocateDirect(layerSize(0, faces - 1, 0, levels - 1) * layers);
     }
 
-    public int layerSize(int baseFace, int maxFace, int baseLevel, int maxLevel) {
+    public final int layerSize(int baseFace, int maxFace, int baseLevel, int maxLevel) {
 
         if (maxFace >= faces) {
             throw new Error("maxFace >= faces!");
@@ -69,7 +71,7 @@ public class Storage {
 
         // The size of a face is the sum of the size of each level.
         for (int level = baseLevel; level <= maxLevel; level++) {
-//            System.out.println("level_size(" + level + ") " + levelSize(level));
+
             faceSize += levelSize(level);
         }
         return faceSize;
@@ -116,7 +118,15 @@ public class Storage {
         data.limit(data.capacity());
         return result;
     }
-    
+
+    public void setData(ByteBuffer data, int layer, int face, int level) {
+        int offset = offset(layer, face, level);
+        int levelSize = levelSize(level);
+        for (int b = 0; b < levelSize; b++) {
+            this.data.put(offset + b, data.get(b));
+        }
+    }
+
     public ByteBuffer data() {
         return data;
     }

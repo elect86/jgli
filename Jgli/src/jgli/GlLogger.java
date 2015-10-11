@@ -32,7 +32,7 @@ public class GlLogger {
                     types, 0, ids, 0, severities, 0, lengths, 0, messageLog, 0);
 
             System.out.println("source: " + getSource(sources[0]) + ", type: " + getType(types[0]) + ", id: " + ids[0]
-                    + ", severity: " + getSeverity(severities[0]) + " messageLog: " + new String(messageLog));
+                    + ", severity: " + getSeverity(severities[0]) + ", messageLog: " + new String(messageLog));
 
             gl4.glGetIntegerv(GL4.GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH, nextMsgLength, 0);
         }

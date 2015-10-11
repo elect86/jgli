@@ -6,6 +6,7 @@
 package jgli.detail;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.nio.ByteBuffer;
  */
 public class KtxHeader {
 
-    public char[] identifier = new char[12];
+    public byte[] identifier = new byte[12];
     public int endianness;
     public int glType;
     public int glTypeSize;
@@ -28,14 +29,20 @@ public class KtxHeader {
     public int numberOfMipmapLevels;
     public int bytesOfKeyValueData;
 
-    public static final int sizeOf = 12 * Character.BYTES + 13 * Integer.BYTES;
+    public static final int sizeOf = 12 * Byte.BYTES + 13 * Integer.BYTES;
+    private static final int littleEndian = 0x01020304;
 
     public KtxHeader(ByteBuffer byteBuffer) {
 
         for (int i = 0; i < identifier.length; i++) {
-            identifier[i] = byteBuffer.getChar();
+            identifier[i] = byteBuffer.get();
         }
         endianness = byteBuffer.getInt();
+        
+        if(endianness == littleEndian) {
+            byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        }
+        
         glType = byteBuffer.getInt();
         glTypeSize = byteBuffer.getInt();
         glFormat = byteBuffer.getInt();
