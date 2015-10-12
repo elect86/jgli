@@ -16,6 +16,14 @@ public class FormatInfo {
     public byte component;
     public short flags;
 
+    public FormatInfo(byte blockSize, byte[] blockDimension, byte component, short flags) {
+        this(blockSize, new int[]{blockDimension[0], blockDimension[1], blockDimension[2]}, component, flags);
+    }
+
+    public FormatInfo(byte blockSize, int blockDimension, byte component, short flags) {
+        this(blockSize, new int[]{blockDimension, blockDimension, blockDimension}, component, flags);
+    }
+
     public FormatInfo(byte blockSize, int[] blockDimension, byte component, short flags) {
         this.blockSize = blockSize;
         this.blockDimensions = blockDimension;

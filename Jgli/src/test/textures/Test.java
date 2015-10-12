@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jgli.Format;
 import jgli.Gl;
 import jgli.GlLogger;
 import jgli.Load;
@@ -102,7 +103,7 @@ public class Test {
 
                             case TARGET_1D:
 
-                                if (texture.format().isCompressed()) {
+                                if (jgli.detail.Format.isCompressed(texture.format())) {
 
                                     gl4.glCompressedTexSubImage1D(glTarget.value, level, 0, dimensions[0],
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
@@ -118,7 +119,7 @@ public class Test {
                             case TARGET_2D:
                             case TARGET_CUBE:
 
-                                if (texture.format().isCompressed()) {
+                                if (jgli.detail.Format.isCompressed(texture.format())) {
                                     
                                     gl4.glCompressedTexSubImage2D(glTarget.value, level, 0, 0, dimensions[0],
                                             texture.target() == TARGET_1D_ARRAY ? layer : dimensions[1],
@@ -136,7 +137,7 @@ public class Test {
                             case TARGET_3D:
                             case TARGET_CUBE_ARRAY:
 
-                                if (texture.format().isCompressed()) {
+                                if (jgli.detail.Format.isCompressed(texture.format())) {
 
                                     gl4.glCompressedTexSubImage3D(glTarget.value, level, 0, 0, 0, dimensions[0],
                                             dimensions[1], texture.target() == TARGET_3D ? dimensions[2] : layer,
@@ -288,7 +289,7 @@ public class Test {
         usamplerCubeArray;
 
         public static Sampler get(Texture texture, Gl.Target glTarget, Gl.Format glFormat) {
-            if (texture.format().isCompressed()) {
+            if (jgli.detail.Format.isCompressed(texture.format())) {
                 return sampler2D;
             }
             switch (glTarget) {
