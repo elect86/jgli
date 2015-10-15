@@ -178,6 +178,16 @@ Every texture listed here works except where differently specified
             tests.add(new Test(gl4, "kueken8_rgba8_srgb.dds"));
             tests.add(new Test(gl4, "kueken8_rgba8_srgb.ktx"));
 
+## Release notes
+
+- Added support for many new formats
+- Added texture swizzle support #51
+- Fixed PVRTC2
+- Fixed BPTC enum names
+- Added TARGET_RECT and TARGET_RECT_ARRAY texture target support
+- Fixed DXGI_FORMAT_B8G8R8X8_UNORM_SRGB support #59
+- Fixed FORMAT_RGBA8_UNORM DDS loading using DDPF_RGBA mode #60
+
 #### [JGLI 0.7.0.0](https://github.com/elect86/jgli/releases/tag/0.7.0.0) - 2015-10-09
 
 - first true ported version 
