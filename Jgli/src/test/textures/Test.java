@@ -103,7 +103,7 @@ public class Test {
 
                             case TARGET_1D:
 
-                                if (jgli.detail.Format.isCompressed(texture.format())) {
+                                if (texture.format().isCompressed()) {
 
                                     gl4.glCompressedTexSubImage1D(glTarget.value, level, 0, dimensions[0],
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
@@ -119,8 +119,8 @@ public class Test {
                             case TARGET_2D:
                             case TARGET_CUBE:
 
-                                if (jgli.detail.Format.isCompressed(texture.format())) {
-                                    
+                                if (texture.format().isCompressed()) {
+
                                     gl4.glCompressedTexSubImage2D(glTarget.value, level, 0, 0, dimensions[0],
                                             texture.target() == TARGET_1D_ARRAY ? layer : dimensions[1],
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
@@ -137,7 +137,7 @@ public class Test {
                             case TARGET_3D:
                             case TARGET_CUBE_ARRAY:
 
-                                if (jgli.detail.Format.isCompressed(texture.format())) {
+                                if (texture.format().isCompressed()) {
 
                                     gl4.glCompressedTexSubImage3D(glTarget.value, level, 0, 0, 0, dimensions[0],
                                             dimensions[1], texture.target() == TARGET_3D ? dimensions[2] : layer,
@@ -169,11 +169,7 @@ public class Test {
             gl4.glTexParameteri(glTarget.value, GL4.GL_TEXTURE_BASE_LEVEL, 0);
             gl4.glTexParameteri(glTarget.value, GL4.GL_TEXTURE_MAX_LEVEL, texture.maxLevel());
 
-            int[] swizzle = new int[glFormat.swizzle.length];
-            for (int i = 0; i < swizzle.length; i++) {
-                swizzle[i] = glFormat.swizzle[i].value;
-            }
-            gl4.glTexParameterIiv(glTarget.value, GL4.GL_TEXTURE_SWIZZLE_RGBA, swizzle, 0);
+            gl4.glTexParameterIiv(glTarget.value, GL4.GL_TEXTURE_SWIZZLE_RGBA, glFormat.swizzles.toArray(), 0);
         }
         gl4.glBindTexture(glTarget.value, 0);
     }
@@ -185,8 +181,8 @@ public class Test {
                 + ", level 0 (" + texture.dimensions(0)[0] + ", " + texture.dimensions(0)[1] + ")"
                 + ", " + glFormat.external.name()
                 + ", " + glFormat.type.name());
-        System.out.println("(" + glFormat.swizzle[0].name() + ", " + glFormat.swizzle[1].name()
-                + ", " + glFormat.swizzle[2].name() + ", " + glFormat.swizzle[3].name() + ")");
+        System.out.println("(" + glFormat.swizzles.r.name() + ", " + glFormat.swizzles.g.name()
+                + ", " + glFormat.swizzles.b.name() + ", " + glFormat.swizzles.a.name() + ")");
     }
 
     private void initSampler(GL4 gl4) {
@@ -289,7 +285,7 @@ public class Test {
         usamplerCubeArray;
 
         public static Sampler get(Texture texture, Gl.Target glTarget, Gl.Format glFormat) {
-            if (jgli.detail.Format.isCompressed(texture.format())) {
+            if (texture.format().isCompressed()) {
                 return sampler2D;
             }
             switch (glTarget) {

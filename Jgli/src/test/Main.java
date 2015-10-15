@@ -196,10 +196,12 @@ public class Main implements GLEventListener, KeyListener {
 //            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_srgb.ktx"));
             /**
-             * Buffer problem.
+             * Buffer problem. 
+             * 
+             * Update: Replace them with the new ones!
              */
-//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc2_2bpp_srgb.ktx"));
-//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc2_4bpp_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_2bpp_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_4bpp_srgb.ktx"));
 //            
 //            tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));
 //            tests.add(new Test(gl4, "kueken7_rgb8_srgb.ktx"));

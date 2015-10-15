@@ -18,8 +18,19 @@ public class Storage {
     private int levels;
     private int blockSize;
     private int[] blockCount;
+    private short[] blockDimensions;
     private int[] dimensions;
     private ByteBuffer data;
+
+    public Storage() {
+        layers = 0;
+        faces = 0;
+        levels = 0;
+        blockSize = 0;
+        blockCount = new int[]{0, 0, 0};
+        blockDimensions = new short[]{0, 0, 0};
+        dimensions = new int[]{0, 0, 0};
+    }
 
     public Storage(jgli.Format format, int[] dimensions, int layers, int faces, int levels) {
 
@@ -28,6 +39,7 @@ public class Storage {
         this.levels = levels;
         blockSize = format.blockSize();
         blockCount = Glm.max(Glm.divide(dimensions, format.blockDimensions()), new int[]{1, 1, 1});
+        blockDimensions = format.blockDimensions();
         this.dimensions = dimensions;
 
         if (layers <= 0) {
@@ -86,6 +98,10 @@ public class Storage {
         return blockSize * Glm.compMul(blockCount(level));
     }
 
+    public short[] blockDimensions() {
+        return blockDimensions;
+    }
+    
     private int[] blockCount(int level) {
 
         if (!(level < levels)) {

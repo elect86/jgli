@@ -29,6 +29,8 @@ import static jgli.detail.LoadDds.DdsFlag.*;
  */
 public class LoadDds {
 
+    public static final int fourCC_Dds = Dx.D3dFormat.jgliMakeFourCC('D', 'D', 'S', ' ');
+
     public enum DdsCubemapFlag {
 
         DDSCAPS2_CUBEMAP(0x00000200),
@@ -161,7 +163,6 @@ public class LoadDds {
 //    public static Texture loadDds(String filename) throws IOException {
 //        return loadDds(new File(LoadDds.class.getResource(filename).getFile()));
 //    }
-
     public static Texture loadDds(File file) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(file);
         FileChannel fileChannel = fileInputStream.getChannel();
@@ -179,7 +180,7 @@ public class LoadDds {
 
         DdsHeader header = new DdsHeader(byteBuffer);
 
-        if (header.magic != Dx.D3dFormat.jgliMakeFourCC('D', 'D', 'S', ' ')) {
+        if (header.magic != fourCC_Dds) {
             return new Texture();
         }
 
@@ -200,7 +201,6 @@ public class LoadDds {
 //        System.out.println("(header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value "
 //                + "| DDPF_YUV.value | DDPF_LUMINANCE.value)) " + (header.format.flags & (DDPF_RGB.value
 //                | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value | DDPF_YUV.value | DDPF_LUMINANCE.value)));
-
         if (((header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value
                 | DDPF_YUV.value | DDPF_LUMINANCE.value))) != 0 && format == FORMAT_INVALID
                 && header.format.flags != DDPF_FOURCC_ALPHAPIXELS.value) {
@@ -253,6 +253,8 @@ public class LoadDds {
                         format = FORMAT_BGRX8_UNORM;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_BGRA8_UNORM).mask))) {
                         format = FORMAT_BGRA8_UNORM;
+                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RGBA8_UNORM).mask))) {
+                        format = FORMAT_RGBA8_UNORM;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RGB10A2_UNORM).mask))) {
                         format = FORMAT_RGB10A2_UNORM;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_LA16_UNORM).mask))) {
@@ -290,12 +292,12 @@ public class LoadDds {
             header.height, depthCount}, Math.max(header10.arraySize, 1), faceCount, mipmapCount);
 
         int sourceSize = offset + texture.size();
-        
+
         if (!(sourceSize == byteBuffer.capacity())) {
             throw new Error("!(offset " + offset + " + texture.size " + texture.size()
                     + " == byteBuffer.capacity()) " + byteBuffer.capacity());
         }
-        
+
         byteBuffer.position(offset);
         texture.setData(byteBuffer.slice());
         byteBuffer.position(0);

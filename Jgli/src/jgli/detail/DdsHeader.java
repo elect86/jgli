@@ -64,6 +64,9 @@ public class DdsHeader {
             reserved2[i] = byteBuffer.getInt();
         }
 
+        /**
+         * G-truc has 124 as he doesnt count the initial word 'magic'.
+         */
         if (DdsHeader.sizeOf != 128) {
             throw new Error("DDS Header size mismatch");
         }

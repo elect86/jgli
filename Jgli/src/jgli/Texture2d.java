@@ -14,7 +14,7 @@ public class Texture2d extends Texture {
     // Create a texture2D view with an existing storage.
     public Texture2d(Texture texture) {
 
-        super(texture, jgli.Target.TARGET_2D, texture.format());
+//        super(texture, jgli.Target.TARGET_2D, texture.format());
     }
 
     public Image level(int level) {

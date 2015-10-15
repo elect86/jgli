@@ -35,7 +35,7 @@ public class Glm {
         return true;
     }
 
-    public static int[] divide(int[] vec0, int[] vec1) {
+    public static int[] divide(int[] vec0, short[] vec1) {
 
         if (vec0.length != vec1.length) {
             throw new Error("Length of vectors differs!");

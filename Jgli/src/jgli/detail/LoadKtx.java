@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
 import jgli.Gl;
 import jgli.Glm;
@@ -22,7 +21,12 @@ import jgli.Texture;
  */
 public class LoadKtx {
 
-    public static jgli.Target getTarget(KtxHeader header) {
+    public static final byte[] fourCC_Ktx10 = new byte[]{(byte) 0xAB, (byte) 0x4B, (byte) 0x54, (byte) 0x58,
+        (byte) 0x20, (byte) 0x31, (byte) 0x31, (byte) 0xBB, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A};
+    public static final byte[] fourCC_Ktx20 = new byte[]{(byte) 0xAB, (byte) 0x4B, (byte) 0x54, (byte) 0x58,
+        (byte) 0x20, (byte) 0x32, (byte) 0x30, (byte) 0xBB, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A};
+
+    public static jgli.Target getTarget(KtxHeader10 header) {
 
         if (header.numberOfFaces > 1) {
 
@@ -56,22 +60,26 @@ public class LoadKtx {
 
     public static Texture loadKtx(ByteBuffer byteBuffer) throws IOException {
 
-        if (!(byteBuffer.capacity() >= KtxHeader.sizeOf)) {
+        if (!(byteBuffer.capacity() >= KtxHeader10.sizeOf)) {
             throw new Error("Data size smaller than dds header size");
         }
 
-        KtxHeader header = new KtxHeader(byteBuffer);
+        // KTX10
+        {
+            KtxHeader10 header = new KtxHeader10(byteBuffer);
 
-        byte[] identifier = new byte[]{(byte) 0xAB, (byte) 0x4B, (byte) 0x54, (byte) 0x58, (byte) 0x20, (byte) 0x31,
-            (byte) 0x31, (byte) 0xBB, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A};
-
-        for (int i = 0; i < identifier.length; i++) {
-            if (header.identifier[i] != identifier[i]) {
-                return new Texture();
+            for (int i = 0; i < fourCC_Ktx10.length; i++) {
+                if (header.identifier[i] != fourCC_Ktx10[i]) {
+                    return new Texture();
+                }
             }
+            return loadKtx10(header, byteBuffer);
         }
+    }
 
-        int offset = KtxHeader.sizeOf;
+    public static Texture loadKtx10(KtxHeader10 header, ByteBuffer byteBuffer) throws IOException {
+
+        int offset = KtxHeader10.sizeOf;
 
         // Skip key value data
         offset += header.bytesOfKeyValueData;
@@ -107,7 +115,6 @@ public class LoadKtx {
 //
 //                    System.out.println("Math.max(" + blockSize + ", Glm.ceilMultiple(" + faceSize + ", 4)) "
 //                            + Math.max(blockSize, Glm.ceilMultiple(faceSize, 4)));
-
                     byteBuffer.position(offset);
                     byteBuffer.limit(offset + faceSize);
                     {

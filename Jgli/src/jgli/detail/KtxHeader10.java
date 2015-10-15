@@ -12,7 +12,7 @@ import java.nio.ByteOrder;
  *
  * @author GBarbieri
  */
-public class KtxHeader {
+public class KtxHeader10 {
 
     public byte[] identifier = new byte[12];
     public int endianness;
@@ -32,7 +32,7 @@ public class KtxHeader {
     public static final int sizeOf = 12 * Byte.BYTES + 13 * Integer.BYTES;
     private static final int littleEndian = 0x01020304;
 
-    public KtxHeader(ByteBuffer byteBuffer) {
+    public KtxHeader10(ByteBuffer byteBuffer) {
 
         for (int i = 0; i < identifier.length; i++) {
             identifier[i] = byteBuffer.get();

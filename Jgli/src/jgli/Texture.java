@@ -14,8 +14,9 @@ import static jgli.Target.*;
  */
 public class Texture {
 
-    protected jgli.Format format;
-    protected jgli.Target target;
+    public Format format;
+    public Target target;
+    public Swizzles swizzles;
     protected int baseLayer;
     protected int maxLayer;
     protected int baseFace;
@@ -25,21 +26,25 @@ public class Texture {
     protected Storage storage;
     protected int size;
 
-    public Texture() {
-
-    }
-
     /**
      * Create an empty texture instance.
-     *
-     * @param target
-     * @param format
-     * @param dimensions
-     * @param layers
-     * @param faces
-     * @param levels
      */
-    public Texture(jgli.Target target, jgli.Format format, int[] dimensions, int layers, int faces, int levels) {
+    public Texture() {
+        storage = new Storage();
+        target = Target.TARGET_INVALID;
+        format = Format.FORMAT_INVALID;
+        baseLayer = maxLayer = 0;
+        baseFace = maxFace = 0;
+        baseLevel = maxLevel = 0;
+        swizzles = new Swizzles(Swizzles.Swizzle.SWIZZLE_ZERO);
+    }
+
+    public Texture(Target target, Format format, int[] dimensions, int layers, int faces, int levels) {
+        this(target, format, dimensions, layers, faces, levels, new Swizzles(Swizzles.Swizzle.SWIZZLE_RED,
+                Swizzles.Swizzle.SWIZZLE_GREEN, Swizzles.Swizzle.SWIZZLE_BLUE, Swizzles.Swizzle.SWIZZLE_ALPHA));
+    }
+
+    public Texture(Target target, Format format, int[] dimensions, int layers, int faces, int levels, Swizzles swizzles) {
 
         this.format = format;
         this.target = target;
@@ -49,6 +54,7 @@ public class Texture {
         this.maxFace = faces - 1;
         this.baseLevel = 0;
         this.maxLevel = levels - 1;
+        this.swizzles = swizzles;
 
         if (!(target != TARGET_CUBE || (target == TARGET_CUBE && dimensions[0] == dimensions[1]))) {
             throw new Error("!(target != TARGET_CUBE || (target == TARGET_CUBE && dimensions[0] == dimensions[1]))");
@@ -62,7 +68,7 @@ public class Texture {
         buildCache();
     }
 
-    public Texture(Texture texture, jgli.Target target, jgli.Format format) {
+    public Texture(Texture texture, Target target, Format format, Swizzles swizzles) {
 
         storage = texture.storage;
         this.target = target;
@@ -73,6 +79,7 @@ public class Texture {
         maxFace = texture.maxFace();
         baseLevel = texture.baseLevel();
         maxLevel = texture.maxLevel();
+        this.swizzles = swizzles;
 
         if (empty()) {
             return;
@@ -104,7 +111,7 @@ public class Texture {
         if (error) {
             throw new Error("wrong parameters");
         }
-        
+
         buildCache();
     }
 
@@ -113,14 +120,14 @@ public class Texture {
     }
 
     public int size(int level) {
-        if (storage.empty()) {
-            throw new Error("no data!");
+
+        if (empty()) {
+            throw new Error("empty");
         }
-        if (!(level >= baseLevel && level <= maxLevel)) {
+        if (!(level >= 0 && level <= levels())) {
             throw new Error("level >= baseLevel && level <= maxLevel");
         }
-
-        return storage.levelSize(level);
+        return storage.levelSize(baseLevel + level);
     }
 
     public final boolean empty() {
@@ -132,7 +139,15 @@ public class Texture {
     }
 
     public int[] dimensions(int level) {
-        return storage.dimensions(baseLevel + level);
+        if (empty()) {
+            throw new Error("empty");
+        }
+        int[] srcDimensions = storage.dimensions(baseLevel() + level);
+        int[] dstDimensions = new int[3];
+        for (int i = 0; i < 3; i++) {
+            dstDimensions[i] = srcDimensions[i] * format().blockDimensions()[i] / storage.blockDimensions()[i];
+        }
+        return Glm.max(dstDimensions, new int[]{1, 1, 1});
     }
 
     public ByteBuffer data(int layer, int face, int level) {
@@ -147,7 +162,7 @@ public class Texture {
 
         storage.setData(data);
     }
-    
+
     public void setData(ByteBuffer data, int layer, int face, int level) {
         storage.setData(data, layer, face, level);
     }
@@ -161,6 +176,9 @@ public class Texture {
     }
 
     public final int layers() {
+        if (empty()) {
+            return 0;
+        }
         return maxLayer - baseLayer + 1;
     }
 
@@ -173,6 +191,9 @@ public class Texture {
     }
 
     public final int faces() {
+        if (empty()) {
+            return 0;
+        }
         return maxFace - baseFace + 1;
     }
 
@@ -185,19 +206,33 @@ public class Texture {
     }
 
     public int levels() {
+        if (empty()) {
+            return 0;
+        }
         return maxLevel - baseLevel + 1;
     }
 
-    public jgli.Format format() {
+    public Format format() {
         return format;
     }
 
-    public jgli.Target target() {
+    public Swizzles swizzles() {
+        Swizzles formatSwizzles = format.getFormatInfo().swizzles;
+        Swizzles customSwizzles = swizzles;
+
+        return new Swizzles(
+                customSwizzles.r.isChannel() ? formatSwizzles.toArray()[customSwizzles.r.ordinal()] : customSwizzles.r,
+                customSwizzles.g.isChannel() ? formatSwizzles.toArray()[customSwizzles.g.ordinal()] : customSwizzles.g,
+                customSwizzles.b.isChannel() ? formatSwizzles.toArray()[customSwizzles.b.ordinal()] : customSwizzles.b,
+                customSwizzles.a.isChannel() ? formatSwizzles.toArray()[customSwizzles.a.ordinal()] : customSwizzles.a);
+    }
+
+    public Target target() {
         return target;
     }
-    
+
     public int size() {
-        if(empty()) {
+        if (empty()) {
             throw new Error("empty");
         }
         return size;
