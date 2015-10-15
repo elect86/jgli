@@ -2,7 +2,7 @@
 
 Java porting of the [g-truc GLI](https://github.com/g-truc/gli)
 
-Every texture listed here works except where differently specified 
+Every format listed here works except where differently specified 
 
             /**
              * To test.
