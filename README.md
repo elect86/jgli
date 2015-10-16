@@ -4,6 +4,8 @@ Java porting of the [g-truc GLI](https://github.com/g-truc/gli)
 
 Every format listed [here](https://github.com/elect86/jgli/blob/master/Jgli/src/jgli/Format.java#L15) is supposed to be supported unless where differently specified [here](https://github.com/elect86/jgli/blob/master/Jgli/src/test/Main.java#L107-L281)
 
+Feel free to help/contribute
+
 ## Release notes
 
 - Added support for many new formats
