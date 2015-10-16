@@ -112,7 +112,7 @@ public class Main implements GLEventListener, KeyListener {
 //            
 //            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
 //            tests.add(new Test(gl4, "cube_rgba8_unorm.ktx"));
-//            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
+            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
             /**

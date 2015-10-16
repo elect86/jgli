@@ -16,14 +16,6 @@ import static jgli.Gl.TypeFormat.*;
  */
 public class Gl {
 
-    private static final Gl instance = new Gl();
-
-    public Gl() {
-        if (table.length != FORMAT_COUNT.value) {
-            throw new Error("GLI error: format descriptor list doesn't match number of supported formats");
-        }
-    }
-
     public Target translate(jgli.Target target) {
         if (Gl.Target.values().length != jgli.Target.TARGET_COUNT.value) {
             throw new Error("GLI error: target descriptor list doesn't match number of supported targets");
@@ -685,4 +677,12 @@ public class Gl {
         new Format(INTERNAL_ATC_RGBA_EXPLICIT_ALPHA, EXTERNAL_NONE, TYPE_NONE), //FORMAT_RGBA_ATC_EXPLICIT_UNORM,
         new Format(INTERNAL_ATC_RGBA_INTERPOLATED_ALPHA, EXTERNAL_NONE, TYPE_NONE) //FORMAT_RGBA_ATC_INTERPOLATED_UNORM,
     };
+
+    public static final Gl instance = new Gl();
+
+    public Gl() {
+        if (table.length != FORMAT_COUNT.value) {
+            throw new Error("GLI error: format descriptor list doesn't match number of supported formats");
+        }
+    }
 }

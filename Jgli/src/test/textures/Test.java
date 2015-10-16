@@ -181,8 +181,8 @@ public class Test {
                 + ", level 0 (" + texture.dimensions(0)[0] + ", " + texture.dimensions(0)[1] + ")"
                 + ", " + glFormat.external.name()
                 + ", " + glFormat.type.name());
-        System.out.println("(" + glFormat.swizzles.r.name() + ", " + glFormat.swizzles.g.name()
-                + ", " + glFormat.swizzles.b.name() + ", " + glFormat.swizzles.a.name() + ")");
+//        System.out.println("(" + glFormat.swizzles.r.name() + ", " + glFormat.swizzles.g.name()
+//                + ", " + glFormat.swizzles.b.name() + ", " + glFormat.swizzles.a.name() + ")");
     }
 
     private void initSampler(GL4 gl4) {
