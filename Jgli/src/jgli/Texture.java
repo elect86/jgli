@@ -220,11 +220,24 @@ public class Texture {
         Swizzles formatSwizzles = format.getFormatInfo().swizzles;
         Swizzles customSwizzles = swizzles;
 
+        System.out.println("customSwizzles.r.isChannel() " + customSwizzles.r.isChannel());
+        System.out.println("customSwizzles.g.isChannel() " + customSwizzles.g.isChannel());
+        System.out.println("customSwizzles.b.isChannel() " + customSwizzles.b.isChannel());
+        System.out.println("customSwizzles.a.isChannel() " + customSwizzles.a.isChannel());
+        System.out.println("customSwizzles.r.value " + customSwizzles.r.value);
+        System.out.println("customSwizzles.g.value " + customSwizzles.g.value);
+        System.out.println("customSwizzles.b.value " + customSwizzles.b.value);
+        System.out.println("customSwizzles.a.value " + customSwizzles.a.value);
+        System.out.println("formatSwizzles.r " + formatSwizzles.r.value);
+        System.out.println("formatSwizzles.g " + formatSwizzles.g.value);
+        System.out.println("formatSwizzles.b " + formatSwizzles.b.value);
+        System.out.println("formatSwizzles.a " + formatSwizzles.a.value);
+
         return new Swizzles(
-                customSwizzles.r.isChannel() ? formatSwizzles.toArray()[customSwizzles.r.ordinal()] : customSwizzles.r,
-                customSwizzles.g.isChannel() ? formatSwizzles.toArray()[customSwizzles.g.ordinal()] : customSwizzles.g,
-                customSwizzles.b.isChannel() ? formatSwizzles.toArray()[customSwizzles.b.ordinal()] : customSwizzles.b,
-                customSwizzles.a.isChannel() ? formatSwizzles.toArray()[customSwizzles.a.ordinal()] : customSwizzles.a);
+                customSwizzles.r.isChannel() ? formatSwizzles.toArray()[customSwizzles.r.value] : customSwizzles.r,
+                customSwizzles.g.isChannel() ? formatSwizzles.toArray()[customSwizzles.g.value] : customSwizzles.g,
+                customSwizzles.b.isChannel() ? formatSwizzles.toArray()[customSwizzles.b.value] : customSwizzles.b,
+                customSwizzles.a.isChannel() ? formatSwizzles.toArray()[customSwizzles.a.value] : customSwizzles.a);
     }
 
     public Target target() {

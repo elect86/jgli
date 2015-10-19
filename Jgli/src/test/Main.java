@@ -22,7 +22,6 @@ import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.glsl.ShaderCode;
 import com.jogamp.opengl.util.glsl.ShaderProgram;
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
@@ -112,7 +111,7 @@ public class Main implements GLEventListener, KeyListener {
 //            
 //            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
 //            tests.add(new Test(gl4, "cube_rgba8_unorm.ktx"));
-            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
             /**

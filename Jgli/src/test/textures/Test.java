@@ -34,6 +34,7 @@ public class Test {
     private int[] objects = new int[Semantic.Object.SIZE];
     private jgli.Gl.Format glFormat;
     private jgli.Gl.Target glTarget;
+    private jgli.Gl.Swizzles glSwizzles;
     private Sampler sampler;
 
     public Test(GL4 gl4, String name) {
@@ -60,6 +61,11 @@ public class Test {
         glFormat = gl.translate(texture.format());
 
         glTarget = gl.translate(texture.target());
+
+        jgli.Swizzles s = texture.swizzles();
+        jgli.Swizzles e = texture.swizzles;
+
+        glSwizzles = gl.translate(texture.swizzles());
 
         sampler = Sampler.get(texture, glTarget, glFormat);
 //        sampler = Sampler.isampler2D;
@@ -169,7 +175,7 @@ public class Test {
             gl4.glTexParameteri(glTarget.value, GL4.GL_TEXTURE_BASE_LEVEL, 0);
             gl4.glTexParameteri(glTarget.value, GL4.GL_TEXTURE_MAX_LEVEL, texture.maxLevel());
 
-            gl4.glTexParameterIiv(glTarget.value, GL4.GL_TEXTURE_SWIZZLE_RGBA, glFormat.swizzles.toArray(), 0);
+            gl4.glTexParameterIiv(glTarget.value, GL4.GL_TEXTURE_SWIZZLE_RGBA, glSwizzles.toArray(), 0);
         }
         gl4.glBindTexture(glTarget.value, 0);
     }
@@ -181,8 +187,8 @@ public class Test {
                 + ", level 0 (" + texture.dimensions(0)[0] + ", " + texture.dimensions(0)[1] + ")"
                 + ", " + glFormat.external.name()
                 + ", " + glFormat.type.name());
-//        System.out.println("(" + glFormat.swizzles.r.name() + ", " + glFormat.swizzles.g.name()
-//                + ", " + glFormat.swizzles.b.name() + ", " + glFormat.swizzles.a.name() + ")");
+        System.out.println("(" + glSwizzles.r.name() + ", " + glSwizzles.g.name() 
+                + ", " + glSwizzles.b.name() + ", " + glSwizzles.a.name() + ")");
     }
 
     private void initSampler(GL4 gl4) {

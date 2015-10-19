@@ -59,7 +59,7 @@ public class Swizzles {
         }
 
         public boolean isChannel() {
-            return value >= SWIZZLE_CHANNEL_FIRST.value && value >= SWIZZLE_CHANNEL_LAST.value;
+            return value >= SWIZZLE_CHANNEL_FIRST.value && value <= SWIZZLE_CHANNEL_LAST.value;
         }
     }
 }

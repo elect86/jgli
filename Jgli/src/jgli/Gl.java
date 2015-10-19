@@ -36,8 +36,8 @@ public class Gl {
             throw new Error("GLI error: swizzle descriptor list doesn't match number of supported swizzles");
         }
 
-        return new Swizzles(Swizzle.values()[swizzle.r.ordinal()], Swizzle.values()[swizzle.g.ordinal()],
-                Swizzle.values()[swizzle.b.ordinal()], Swizzle.values()[swizzle.a.ordinal()]);
+        return new Swizzles(Swizzle.values()[swizzle.r.value], Swizzle.values()[swizzle.g.value],
+                Swizzle.values()[swizzle.b.value], Swizzle.values()[swizzle.a.value]);
     }
 
     public static jgli.Format find(InternalFormat internalFormat, ExternalFormat externalFormat, TypeFormat type) {
