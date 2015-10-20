@@ -6,8 +6,12 @@ Every format listed [here](https://github.com/elect86/jgli/blob/master/Jgli/src/
 
 Feel free to help/contribute
 
+Project based on Gradle. For Eclipse/IntelliJ/Netbeans users, just install the Gradle plugin and you are done.
+
 ## Release notes
 
+- Gradle implemented
+- Fixed Swizzles bug
 - Added support for many new formats
 - Added texture swizzle support #51
 - Fixed PVRTC2
