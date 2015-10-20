@@ -22,11 +22,11 @@ import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.glsl.ShaderCode;
 import com.jogamp.opengl.util.glsl.ShaderProgram;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import jgli.Texture;
-import test.textures.*;
 
 /**
  *
@@ -75,7 +75,7 @@ public class Main implements GLEventListener, KeyListener {
     public static int modelToClipMatrixUL, lodUL, samplerUL, layerUL;
     public int program, currentTest = -1;
     private Texture texture;
-    private final String SHADERS_ROOT = "src/test/shaders";
+    private final String SHADERS_ROOT = "/shaders";
     private ArrayList<Test> tests = new ArrayList<>();
     private long start;
 
@@ -202,7 +202,7 @@ public class Main implements GLEventListener, KeyListener {
 //            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_2bpp_srgb.ktx"));
 //            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_4bpp_srgb.ktx"));
 //            
-//            tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));
+            tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));
 //            tests.add(new Test(gl4, "kueken7_rgb8_srgb.ktx"));
 //            tests.add(new Test(gl4, "kueken7_rgb8_unorm.dds"));        
 //            tests.add(new Test(gl4, "kueken7_rgb8_unorm.ktx"));        

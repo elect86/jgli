@@ -3,24 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.textures;
+package test;
 
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.math.FloatUtil;
-import com.jogamp.opengl.util.GLBuffers;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jgli.Format;
 import jgli.Gl;
 import jgli.GlLogger;
 import jgli.Load;
 import static jgli.Target.*;
 import jgli.Texture;
-import jgli.detail.LoadDds;
-import test.Main;
-import test.Semantic;
 
 /**
  *
@@ -29,7 +23,7 @@ import test.Semantic;
 public class Test {
 
     private String name;
-    private final String data = "/test/data/";
+    private final String TextureRoot = "/textures/";
     private Texture texture;
     private int[] objects = new int[Semantic.Object.SIZE];
     private jgli.Gl.Format glFormat;
@@ -54,16 +48,13 @@ public class Test {
 
         jgli.Gl gl = new jgli.Gl();
 
-        texture = Load.load(data + name);
+        texture = Load.load(TextureRoot + name);
 
         gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
 
         glFormat = gl.translate(texture.format());
 
         glTarget = gl.translate(texture.target());
-
-        jgli.Swizzles s = texture.swizzles();
-        jgli.Swizzles e = texture.swizzles;
 
         glSwizzles = gl.translate(texture.swizzles());
 
@@ -187,8 +178,8 @@ public class Test {
                 + ", level 0 (" + texture.dimensions(0)[0] + ", " + texture.dimensions(0)[1] + ")"
                 + ", " + glFormat.external.name()
                 + ", " + glFormat.type.name());
-        System.out.println("(" + glSwizzles.r.name() + ", " + glSwizzles.g.name() 
-                + ", " + glSwizzles.b.name() + ", " + glSwizzles.a.name() + ")");
+//        System.out.println("(" + glFormat.swizzles.r.name() + ", " + glFormat.swizzles.g.name()
+//                + ", " + glFormat.swizzles.b.name() + ", " + glFormat.swizzles.a.name() + ")");
     }
 
     private void initSampler(GL4 gl4) {
