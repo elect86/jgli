@@ -131,32 +131,4 @@ public class LoadKtx {
 
         return texture;
     }
-
-    public static void main(String[] args) {
-        System.out.println("" + ceilMultiple1(32768, 4));
-        System.out.println("" + ceilMultiple2(32768, 4));
-        System.out.println("" + ceilMultiple3(32768, 4));
-    }
-
-    private static float ceilMultiple1(float source, float multiple) {
-        if (source > 0) {
-            return source + (multiple - (source % multiple));
-        } else {
-            return source + (-source % multiple);
-        }
-    }
-
-    private static float ceilMultiple2(float source, float multiple) {
-        float tmp = source - 1;
-        return tmp + (multiple - (tmp % multiple));
-    }
-
-    private static float ceilMultiple3(float source, float multiple) {
-        if (source > 0) {
-            float tmp = source - 1;
-            return tmp + (multiple - (tmp % multiple));
-        } else {
-            return source + (-source % multiple);
-        }
-    }
 }
