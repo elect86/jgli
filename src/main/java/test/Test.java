@@ -48,9 +48,6 @@ public class Test {
     private void initTexture(GL4 gl4) throws IOException {
 
         jgli.Gl gl = new jgli.Gl();
-
-        File file = new File(TextureRoot + name);
-        System.out.println(file.exists()? "exists" : "does not exist");
         
         texture = Load.load(TextureRoot + name);
 
