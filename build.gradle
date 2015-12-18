@@ -1,6 +1,6 @@
 apply plugin: 'java'
 
-sourceCompatibility = '1.8'
+//sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 // NetBeans will automatically add "run" and "debug" tasks relying on the
@@ -28,8 +28,8 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
     
     compile 'org.jogamp.jogl:jogl-all-main:2.3.2'
-    compile 'org.jogamp.jogl:nativewindow-main:2.3.2'
-    compile 'org.jogamp.jogl:newt-main:2.3.2'
+//    compile 'org.jogamp.jogl:nativewindow-main:2.3.2'
+//    compile 'org.jogamp.jogl:newt-main:2.3.2'
     compile 'org.jogamp.gluegen:gluegen-rt-main:2.3.2'
 }
 
