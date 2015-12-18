@@ -14,9 +14,9 @@ import static jgli.Target.*;
  */
 public class Texture {
 
-    public Format format;
-    public Target target;
-    public Swizzles swizzles;
+    protected Format format;
+    protected Target target;
+    protected Swizzles swizzles;
     protected int baseLayer;
     protected int maxLayer;
     protected int baseFace;
@@ -39,12 +39,26 @@ public class Texture {
         swizzles = new Swizzles(Swizzles.Swizzle.SWIZZLE_ZERO);
     }
 
-    public Texture(Target target, Format format, int[] dimensions, int layers, int faces, int levels) {
+    public Texture(
+            Target target,
+            Format format,
+            int[] dimensions,
+            int layers,
+            int faces,
+            int levels) {
+
         this(target, format, dimensions, layers, faces, levels, new Swizzles(Swizzles.Swizzle.SWIZZLE_RED,
                 Swizzles.Swizzle.SWIZZLE_GREEN, Swizzles.Swizzle.SWIZZLE_BLUE, Swizzles.Swizzle.SWIZZLE_ALPHA));
     }
 
-    public Texture(Target target, Format format, int[] dimensions, int layers, int faces, int levels, Swizzles swizzles) {
+    public Texture(
+            Target target,
+            Format format,
+            int[] dimensions,
+            int layers,
+            int faces,
+            int levels,
+            Swizzles swizzles) {
 
         this.format = format;
         this.target = target;
@@ -68,7 +82,66 @@ public class Texture {
         buildCache();
     }
 
-    public Texture(Texture texture, Target target, Format format, Swizzles swizzles) {
+    public Texture(
+            Texture texture,
+            Target target,
+            Format format,
+            int baseLayer, int maxLayer,
+            int baseFace, int maxFace,
+            int baseLevel, int maxLevel) {
+
+        this(texture, target, format, baseLayer, maxLayer, baseFace, maxFace, baseLevel, maxLevel,
+                new Swizzles(Swizzles.Swizzle.SWIZZLE_RED, Swizzles.Swizzle.SWIZZLE_GREEN,
+                        Swizzles.Swizzle.SWIZZLE_BLUE, Swizzles.Swizzle.SWIZZLE_ALPHA));
+    }
+
+    public Texture(
+            Texture texture,
+            Target target,
+            Format format,
+            int baseLayer, int maxLayer,
+            int baseFace, int maxFace,
+            int baseLevel, int maxLevel,
+            Swizzles swizzles) {
+
+        /**
+         * @TODO, fix storage
+         */
+        storage = texture.storage;
+        this.target = target;
+        this.format = format;
+        this.baseLayer = baseLayer;
+        this.maxLayer = maxLayer;
+        this.baseFace = baseFace;
+        this.maxFace = maxFace;
+        this.baseLevel = baseLevel;
+        this.maxLevel = maxLevel;
+        this.swizzles = swizzles;
+
+        assert (format.blockSize() == texture.format().blockSize());
+        assert (target != TARGET_1D || (target == TARGET_1D && layers() == 1 && faces() == 1 && dimensions()[1] == 1 && dimensions()[2] == 1));
+        assert (target != TARGET_1D_ARRAY || (target == TARGET_1D_ARRAY && layers() >= 1 && faces() == 1 && dimensions()[1] == 1 && dimensions()[2] == 1));
+        assert (target != TARGET_2D || (target == TARGET_2D && layers() == 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] == 1));
+        assert (target != TARGET_2D_ARRAY || (target == TARGET_2D_ARRAY && layers() >= 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] == 1));
+        assert (target != TARGET_3D || (target == TARGET_3D && layers() == 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] >= 1));
+        assert (target != TARGET_CUBE || (target == TARGET_CUBE && layers() == 1 && faces() >= 1 && dimensions()[1] >= 1 && dimensions()[2] == 1));
+        assert (target != TARGET_CUBE_ARRAY || (target == TARGET_CUBE_ARRAY && layers() >= 1 && faces() >= 1 && dimensions()[1] >= 1 && dimensions()[2] == 1));
+    }
+
+    public Texture(
+            Texture texture,
+            Target target,
+            Format format) {
+
+        this(texture, target, format, new Swizzles(Swizzles.Swizzle.SWIZZLE_RED, Swizzles.Swizzle.SWIZZLE_GREEN,
+                Swizzles.Swizzle.SWIZZLE_BLUE, Swizzles.Swizzle.SWIZZLE_ALPHA));
+    }
+
+    public Texture(
+            Texture texture,
+            Target target,
+            Format format,
+            Swizzles swizzles) {
 
         storage = texture.storage;
         this.target = target;
@@ -87,32 +160,38 @@ public class Texture {
 
         boolean error = false;
 
-        if (!(target != TARGET_1D || (target == TARGET_1D && layers() == 1 && faces() == 1 && dimensions()[1] == 1 && dimensions()[2] == 1))) {
-            error = true;
-        }
-        if (!(target != TARGET_1D_ARRAY || (target == TARGET_1D_ARRAY && layers() >= 1 && faces() == 1 && dimensions()[1] == 1 && dimensions()[2] == 1))) {
-            error = true;
-        }
-        if (!(target != TARGET_2D || (target == TARGET_2D && layers() == 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] == 1))) {
-            error = true;
-        }
-        if (!(target != TARGET_2D_ARRAY || (target == TARGET_2D_ARRAY && layers() >= 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] == 1))) {
-            error = true;
-        }
-        if (!(target != TARGET_3D || (target == TARGET_3D && layers() == 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] >= 1))) {
-            error = true;
-        }
-        if (!(target != TARGET_CUBE || (target == TARGET_CUBE && layers() == 1 && faces() >= 1 && dimensions()[1] >= 1 && dimensions()[2] == 1))) {
-            error = true;
-        }
-        if (!(target != TARGET_CUBE_ARRAY || (target == TARGET_CUBE_ARRAY && layers() >= 1 && faces() >= 1 && dimensions()[1] >= 1 && dimensions()[2] == 1))) {
-            error = true;
-        }
+        assert (target != TARGET_1D || (target == TARGET_1D && layers() == 1 && faces() == 1 && dimensions()[1] == 1 && dimensions()[2] == 1));
+        assert (target != TARGET_1D_ARRAY || (target == TARGET_1D_ARRAY && layers() >= 1 && faces() == 1 && dimensions()[1] == 1 && dimensions()[2] == 1));
+        assert (target != TARGET_2D || (target == TARGET_2D && layers() == 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] == 1));
+        assert (target != TARGET_2D_ARRAY || (target == TARGET_2D_ARRAY && layers() >= 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] == 1));
+        assert (target != TARGET_3D || (target == TARGET_3D && layers() == 1 && faces() == 1 && dimensions()[1] >= 1 && dimensions()[2] >= 1));
+        assert (target != TARGET_CUBE || (target == TARGET_CUBE && layers() == 1 && faces() >= 1 && dimensions()[1] >= 1 && dimensions()[2] == 1));
+        assert (target != TARGET_CUBE_ARRAY || (target == TARGET_CUBE_ARRAY && layers() >= 1 && faces() >= 1 && dimensions()[1] >= 1 && dimensions()[2] == 1));
+
         if (error) {
             throw new Error("wrong parameters");
         }
 
         buildCache();
+    }
+
+    public void clear() {
+        
+        assert (!empty());
+        
+        storage.clear();
+    }
+
+    public void clear(byte[] texel) {
+        
+        assert (!empty());
+        assert (format.blockSize() == (texel.length * Byte.BYTES));
+
+        storage.clear(texel);
+    }
+
+    public void clear(int layer, int face, int level, byte[] texel) {
+        storage.clear(layer, face, level, texel);
     }
 
     private void buildCache() {
@@ -134,7 +213,7 @@ public class Texture {
         return storage.empty();
     }
 
-    public final int[] dimensions() {
+    public int[] dimensions() {
         return dimensions(0);
     }
 
@@ -148,6 +227,10 @@ public class Texture {
             dstDimensions[i] = srcDimensions[i] * format().blockDimensions()[i] / storage.blockDimensions()[i];
         }
         return Glm.max(dstDimensions, new int[]{1, 1, 1});
+    }
+
+    public ByteBuffer data() {
+        return storage.data();
     }
 
     public ByteBuffer data(int layer, int face, int level) {

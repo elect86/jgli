@@ -201,7 +201,7 @@ public class Main implements GLEventListener, KeyListener {
 //            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_2bpp_srgb.ktx"));
 //            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_4bpp_srgb.ktx"));
 //            
-            tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));
 //            tests.add(new Test(gl4, "kueken7_rgb8_srgb.ktx"));
 //            tests.add(new Test(gl4, "kueken7_rgb8_unorm.dds"));        
 //            tests.add(new Test(gl4, "kueken7_rgb8_unorm.ktx"));        
@@ -270,7 +270,7 @@ public class Main implements GLEventListener, KeyListener {
 //            
 //        tests.add(new Test(gl4, "kueken7_rgba8_snorm.dds"));
 //        tests.add(new Test(gl4, "kueken7_rgba8_srgb.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgba8_srgb.ktx"));
+        tests.add(new Test(gl4, "kueken7_rgba8_srgb.ktx"));
 //        tests.add(new Test(gl4, "kueken7_rgba8_unorm.dds"));
 //        tests.add(new Test(gl4, "kueken7_rgba8_unorm.ktx"));
 //        tests.add(new Test(gl4, "kueken7_rgba16_sfloat.dds"));        

@@ -7,7 +7,6 @@ package test;
 
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.math.FloatUtil;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,7 +47,7 @@ public class Test {
     private void initTexture(GL4 gl4) throws IOException {
 
         jgli.Gl gl = new jgli.Gl();
-        
+
         texture = Load.load(TextureRoot + name);
 
         gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
@@ -60,7 +59,7 @@ public class Test {
         glSwizzles = gl.translate(texture.swizzles());
 
         sampler = Sampler.get(texture, glTarget, glFormat);
-        
+
         System.out.println("selected sampler " + sampler);
 
         int[] dimensions = texture.dimensions();

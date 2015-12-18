@@ -32,6 +32,12 @@ public class Storage {
         dimensions = new int[]{0, 0, 0};
     }
 
+    public Storage(Storage storage, jgli.Format format, int[] dimensions, int layers, int faces, int levels) {        
+        this(format, dimensions, layers, faces, levels);
+        
+//        for()
+    }
+    
     public Storage(jgli.Format format, int[] dimensions, int layers, int faces, int levels) {
 
         this.layers = layers;
@@ -83,7 +89,6 @@ public class Storage {
 
         // The size of a face is the sum of the size of each level.
         for (int level = baseLevel; level <= maxLevel; level++) {
-
             faceSize += levelSize(level);
         }
         return faceSize;
@@ -101,7 +106,7 @@ public class Storage {
     public short[] blockDimensions() {
         return blockDimensions;
     }
-    
+
     private int[] blockCount(int level) {
 
         if (!(level < levels)) {
@@ -165,5 +170,36 @@ public class Storage {
             baseOffset += levelSize(levelIndex);
         }
         return baseOffset;
+    }
+
+    public void clear() {
+        for (int i = 0; i < data.capacity(); i++) {
+            data.put((byte) 0);
+        }
+        data.rewind();
+    }
+
+    public void clear(byte[] texel) {
+
+        int texelCount = data.capacity() / (texel.length * Byte.BYTES);
+
+        for (int texelIndex = 0; texelIndex < texelCount; texelIndex++) {
+            data.put(texel);
+        }
+        data.rewind();
+    }
+
+    public void clear(int layer, int face, int level, byte[] texel) {
+        
+        int offset = offset(layer, face, level);
+        int size = levelSize(level);
+        
+        data.position(offset);
+        {
+            for (int i = 0; i < (size / texel.length); i++) {
+                data.put(texel);
+            }
+        }
+        data.position(0);
     }
 }
