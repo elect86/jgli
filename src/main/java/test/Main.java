@@ -270,7 +270,7 @@ public class Main implements GLEventListener, KeyListener {
 //            
 //        tests.add(new Test(gl4, "kueken7_rgba8_snorm.dds"));
 //        tests.add(new Test(gl4, "kueken7_rgba8_srgb.dds"));
-        tests.add(new Test(gl4, "kueken7_rgba8_srgb.ktx"));
+//        tests.add(new Test(gl4, "kueken7_rgba8_srgb.ktx"));
 //        tests.add(new Test(gl4, "kueken7_rgba8_unorm.dds"));
 //        tests.add(new Test(gl4, "kueken7_rgba8_unorm.ktx"));
 //        tests.add(new Test(gl4, "kueken7_rgba16_sfloat.dds"));        
