@@ -9,6 +9,6 @@ package jgli;
  *
  * @author GBarbieri
  */
-public class Texture2dArray {
-    
+public class Texture2dArray extends Texture {
+
 }
