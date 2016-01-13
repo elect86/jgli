@@ -21,7 +21,7 @@ public class TextureCube extends Texture {
         }
     }
 
-    public Texture2D_ face(int face) {
-        return new Texture2D_(this, format, baseLayer, maxLayer, baseFace + face, baseFace + face, baseLevel, maxLevel);
+    public Texture2d face(int face) {
+        return new Texture2d(this, format, baseLayer, maxLayer, baseFace + face, baseFace + face, baseLevel, maxLevel);
     }
 }
