@@ -9,18 +9,18 @@ package jgli;
  *
  * @author GBarbieri
  */
-public class Texture2D extends Texture {
+public class Texture2D_ extends Texture {
 
     // Create a texture2D view with an existing storage.
-    public Texture2D(Texture texture) {
+    public Texture2D_(Texture texture) {
         super(texture, jgli.Target.TARGET_2D, texture.format());
     }
 
-    public Texture2D(Format format, int[] dimensions) {
+    public Texture2D_(Format format, int[] dimensions) {
         super(Target.TARGET_2D, format, new int[]{dimensions[0], dimensions[1], 1}, 1, 1, Util.levels(dimensions));
     }
 
-    public Texture2D(Texture texture, Format format, int baseLayer, int maxLayer, int baseFace, int maxFace,
+    public Texture2D_(Texture texture, Format format, int baseLayer, int maxLayer, int baseFace, int maxFace,
             int baseLevel, int maxLevel) {
         super(texture, Target.TARGET_2D, format, baseLayer, maxLayer, baseFace, maxFace, baseLevel, maxLevel);
     }
