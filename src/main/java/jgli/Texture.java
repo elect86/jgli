@@ -216,7 +216,7 @@ public class Texture {
     public int[] dimensions() {
         return dimensions(0);
     }
-
+    
     public int[] dimensions(int level) {
         if (empty()) {
             throw new Error("empty");
