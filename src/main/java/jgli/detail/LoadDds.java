@@ -268,9 +268,9 @@ public class LoadDds {
             }
         } else if (((header.format.flags & DDPF_FOURCC.value) != 0) && (header.format.fourCC != D3DFMT_DX10)
                 && (format == FORMAT_INVALID)) {
-            format = dx.find(header.format.fourCC);
+            format = dx.find(header.format.fourCC, header.format.flags);
         } else if ((header.format.fourCC == D3DFMT_DX10) && (header10.format != DXGI_FORMAT_UNKNOWN)) {
-            format = dx.find(header10.format);
+            format = dx.find(header10.format, header.format.flags);
         }
 
         if (format == FORMAT_INVALID) {
