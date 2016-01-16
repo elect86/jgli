@@ -261,29 +261,33 @@ public class Dx {
     }
 
     public jgli.Format find(D3dFormat fourCC, int flags) {
+        jgli.Format formatResult = FORMAT_INVALID;
         for (int formatIndex = FORMAT_FIRST.value; formatIndex < FORMAT_COUNT.value; formatIndex++) {
             if (table[formatIndex - FORMAT_FIRST.value].d3DFormat != fourCC) {
                 continue;
             }
+            formatResult = jgli.Format.get(formatIndex);
             if ((table[formatIndex - FORMAT_FIRST.value].ddPixelFormat.value & flags) != 0) {
                 continue;
             }
-            return jgli.Format.get(formatIndex);
+            break;
         }
-        return FORMAT_INVALID;
+        return formatResult;
     }
 
     public jgli.Format find(DxgiFormat format, int flags) {
+        jgli.Format formatResult = FORMAT_INVALID;
         for (int formatIndex = FORMAT_FIRST.value; formatIndex < FORMAT_COUNT.value; formatIndex++) {
             if (table[formatIndex - FORMAT_FIRST.value].dxgiFormat != format) {
                 continue;
             }
+            formatResult = jgli.Format.get(formatIndex);
             if ((table[formatIndex - FORMAT_FIRST.value].ddPixelFormat.value & flags) != 0) {
                 continue;
             }
-            return jgli.Format.get(formatIndex);
+            break;
         }
-        return FORMAT_INVALID;
+        return formatResult;
     }
 
     public enum D3dFormat {
