@@ -130,6 +130,14 @@ public class LoadDds {
         private DdsAlphaMode(int value) {
             this.value = value;
         }
+
+        public static DdsAlphaMode get(int value) {
+            if (value >= DDS_ALPHA_MODE_UNKNOWN.value && value <= DDS_ALPHA_MODE_CUSTOM.value) {
+                return DdsAlphaMode.values()[value];
+            } else {
+                return DDS_ALPHA_MODE_UNKNOWN;
+            }
+        }
     }
 
     private static jgli.Target getTarget(DdsHeader header, DdsHeader10 header10) {
