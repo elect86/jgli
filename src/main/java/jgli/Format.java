@@ -354,7 +354,8 @@ public enum Format {
         CAP_LUMINANCE_ALPHA_BIT((short) (1 << 11)),
         CAP_PACKED8_BIT((short) (1 << 12)),
         CAP_PACKED16_BIT((short) (1 << 13)),
-        CAP_PACKED32_BIT((short) (1 << 14));
+        CAP_PACKED32_BIT((short) (1 << 14)),
+        CAP_DDS_GLI_EXT_BIT((short) (1 << 15));
 
         public final int value;
 
