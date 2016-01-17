@@ -221,10 +221,12 @@ public class LoadDds {
                         format = FORMAT_L8_UNORM;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_A8_UNORM).mask))) {
                         format = FORMAT_A8_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R8_UNORM).mask))) {
-                        format = FORMAT_R8_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RG3B2_UNORM).mask))) {
-                        format = FORMAT_RG3B2_UNORM;
+                    } else if (Glm.all(
+                            Glm.equal(header.format.mask, dx.translate(FORMAT_R8_UNORM_PACK8).mask))) {
+                        format = FORMAT_R8_UNORM_PACK8;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_RG3B2_UNORM_PACK8).mask))) {
+                        format = FORMAT_RG3B2_UNORM_PACK8;
                     }
                     break;
 
@@ -232,39 +234,45 @@ public class LoadDds {
 
                     if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_LA8_UNORM).mask))) {
                         format = FORMAT_LA8_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RG8_UNORM).mask))) {
-                        format = FORMAT_RG8_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R5G6B5_UNORM).mask))) {
-                        format = FORMAT_R5G6B5_UNORM;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_RG8_UNORM_PACK8).mask))) {
+                        format = FORMAT_RG8_UNORM_PACK8;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_R5G6B5_UNORM_PACK16).mask))) {
+                        format = FORMAT_R5G6B5_UNORM_PACK16;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_L16_UNORM).mask))) {
                         format = FORMAT_L16_UNORM;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_A16_UNORM).mask))) {
                         format = FORMAT_A16_UNORM;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R16_UNORM).mask))) {
                         format = FORMAT_R16_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RGB5A1_UNORM).mask))) {
-                        format = FORMAT_RGB5A1_UNORM;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_RGB5A1_UNORM_PACK16).mask))) {
+                        format = FORMAT_RGB5A1_UNORM_PACK16;
                     }
                     break;
 
                 case 24:
 
-                    Dx.Format dxFormat = dx.translate(FORMAT_RGB8_UNORM);
+                    Dx.Format dxFormat = dx.translate(FORMAT_RGB8_UNORM_PACK8);
                     if (Glm.all(Glm.equal(header.format.mask, dxFormat.mask))) {
-                        format = FORMAT_RGB8_UNORM;
+                        format = FORMAT_RGB8_UNORM_PACK8;
                     }
                     break;
 
                 case 32:
 
-                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_BGRX8_UNORM).mask))) {
-                        format = FORMAT_BGRX8_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_BGRA8_UNORM).mask))) {
-                        format = FORMAT_BGRA8_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RGBA8_UNORM).mask))) {
-                        format = FORMAT_RGBA8_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RGB10A2_UNORM).mask))) {
-                        format = FORMAT_RGB10A2_UNORM;
+                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_BGR8_UNORM_PACK32).mask))) {
+                        format = FORMAT_BGR8_UNORM_PACK32;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_BGRA8_UNORM_PACK8).mask))) {
+                        format = FORMAT_BGRA8_UNORM_PACK8;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_RGBA8_UNORM_PACK32).mask))) {
+                        format = FORMAT_RGBA8_UNORM_PACK32;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_RGB10A2_UNORM_PACK32).mask))) {
+                        format = FORMAT_RGB10A2_UNORM_PACK32;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_LA16_UNORM).mask))) {
                         format = FORMAT_LA16_UNORM;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RG16_UNORM).mask))) {
