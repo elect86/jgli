@@ -96,7 +96,7 @@ public class Storage {
     }
 
     private int[] blockCount(int level) {
-
+        assert (!empty());
         assert (level >= 0 && level < levels);
 
         return Glm.max(Glm.shiftRight(blockCount, level), new int[]{1, 1, 1});
@@ -112,6 +112,7 @@ public class Storage {
     }
 
     public int[] dimensions(int level) {
+        assert (!empty());
         return Glm.max(Glm.shiftRight(dimensions, level), new int[]{1, 1, 1});
     }
 
