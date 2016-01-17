@@ -10,6 +10,12 @@ Project based on Gradle. For Eclipse/IntelliJ/Netbeans users, just install the G
 
 ## Release notes
 
+- dx: Fix ALPHAPIXELS flags being specified for formats without alpha channels.
+- Improve 16 bits format coverage 
+- Improved assert coverage
+- Fixed DXT1 sRGB enum 
+- documented alpha mode in header10
+- Fixed handling of DDS DDPF_ALPHAPIXELS #68 
 - Gradle implemented
 - Fixed Swizzles bug
 - Added support for many new formats
