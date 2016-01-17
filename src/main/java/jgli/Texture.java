@@ -191,6 +191,11 @@ public class Texture {
     }
 
     public void clear(int layer, int face, int level, byte[] texel) {
+        assert (!empty());
+        assert (format.blockSize() == (texel.length*Byte.BYTES));
+        assert (layer >= 0 && layer < layers() && face >= 0 && face < faces() 
+                && level >= 0 && level < levels());
+
         storage.clear(layer, face, level, texel);
     }
 
@@ -200,12 +205,8 @@ public class Texture {
 
     public int size(int level) {
 
-        if (empty()) {
-            throw new Error("empty");
-        }
-        if (!(level >= 0 && level <= levels())) {
-            throw new Error("level >= baseLevel && level <= maxLevel");
-        }
+        assert (!empty());
+        assert (level >= 0 && level <= levels());
         return storage.levelSize(baseLevel + level);
     }
 
@@ -218,9 +219,9 @@ public class Texture {
     }
     
     public int[] dimensions(int level) {
-        if (empty()) {
-            throw new Error("empty");
-        }
+        assert (!empty());
+        assert (level >= 0 && level < levels());
+        
         int[] srcDimensions = storage.dimensions(baseLevel() + level);
         int[] dstDimensions = new int[3];
         for (int i = 0; i < 3; i++) {
@@ -230,10 +231,18 @@ public class Texture {
     }
 
     public ByteBuffer data() {
+        assert (!empty());
         return storage.data();
     }
 
+    public ByteBuffer data(int level) {
+        return storage.data(0, 0, level);
+    }
+
     public ByteBuffer data(int layer, int face, int level) {
+        assert (!empty());
+        assert (layer >= 0 && layer < layers() && face >= 0 && face < faces() 
+                && level >= 0 && level < levels());
         return storage.data(layer, face, level);
     }
 
@@ -315,9 +324,7 @@ public class Texture {
     }
 
     public int size() {
-        if (empty()) {
-            throw new Error("empty");
-        }
+        assert (!empty()) ;
         return size;
     }
 }

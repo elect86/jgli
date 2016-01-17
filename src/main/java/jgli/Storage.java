@@ -32,12 +32,12 @@ public class Storage {
         dimensions = new int[]{0, 0, 0};
     }
 
-    public Storage(Storage storage, jgli.Format format, int[] dimensions, int layers, int faces, int levels) {        
+    public Storage(Storage storage, jgli.Format format, int[] dimensions, int layers, int faces, int levels) {
         this(format, dimensions, layers, faces, levels);
-        
+
 //        for()
     }
-    
+
     public Storage(jgli.Format format, int[] dimensions, int layers, int faces, int levels) {
 
         this.layers = layers;
@@ -48,30 +48,20 @@ public class Storage {
         blockDimensions = format.blockDimensions();
         this.dimensions = dimensions;
 
-        if (layers <= 0) {
-            throw new Error("layers <= 0!");
-        }
-        if (faces <= 0) {
-            throw new Error("faces <= 0!");
-        }
-        if (levels <= 0) {
-            throw new Error("levels <= 0!");
-        }
-        if (!Glm.all(Glm.greaterThan(dimensions, new byte[]{0, 0, 0}))) {
-            throw new Error("Not all dimensions > 0!");
-        }
+        assert (layers >= 0);
+        assert (faces >= 0);
+        assert (levels >= 0);
+        assert (Glm.all(Glm.greaterThan(dimensions, new byte[]{0, 0, 0})));
 
         data = ByteBuffer.allocateDirect(layerSize(0, faces - 1, 0, levels - 1) * layers);
     }
 
     public final int layerSize(int baseFace, int maxFace, int baseLevel, int maxLevel) {
 
-        if (maxFace >= faces) {
-            throw new Error("maxFace >= faces!");
-        }
-        if (maxLevel >= levels) {
-            throw new Error("maxLevel >= levels!");
-        }
+        assert (baseFace >= 0 && maxFace < faces);
+        assert (baseFace >= 0 && baseFace < faces);
+        assert (maxLevel >= 0 && maxLevel < levels);
+        assert (baseLevel >= 0 && baseLevel < levels);
         /**
          * The size of a layer is the sum of the size of each face. All the
          * faces have the same size.
@@ -81,9 +71,9 @@ public class Storage {
 
     private int faceSize(int baseLevel, int maxLevel) {
 
-        if (maxLevel >= levels) {
-            throw new Error("maxLevel >= levels!");
-        }
+        assert (maxLevel >= 0 && maxLevel < levels);
+        assert (baseLevel >= 0 && baseLevel < levels);
+        assert (baseLevel <= maxLevel);
 
         int faceSize = 0;
 
@@ -96,9 +86,7 @@ public class Storage {
 
     public int levelSize(int level) {
 
-        if (level >= levels) {
-            throw new Error("level >= levels!");
-        }
+        assert (level >= 0 && level < levels);
 
         return blockSize * Glm.compMul(blockCount(level));
     }
@@ -109,9 +97,7 @@ public class Storage {
 
     private int[] blockCount(int level) {
 
-        if (!(level < levels)) {
-            throw new Error("!(level < levels)");
-        }
+        assert (level >= 0 && level < levels);
 
         return Glm.max(Glm.shiftRight(blockCount, level), new int[]{1, 1, 1});
     }
@@ -190,10 +176,10 @@ public class Storage {
     }
 
     public void clear(int layer, int face, int level, byte[] texel) {
-        
+
         int offset = offset(layer, face, level);
         int size = levelSize(level);
-        
+
         data.position(offset);
         {
             for (int i = 0; i < (size / texel.length); i++) {
