@@ -196,7 +196,8 @@ public class LoadDds {
 
         DdsHeader10 header10 = new DdsHeader10();
 
-        if ((header.format.flags & DDPF_FOURCC.value) != 0 && header.format.fourCC == D3DFMT_DX10) {
+        if ((header.format.flags & DDPF_FOURCC.value) != 0
+                && (header.format.fourCC == D3DFMT_DX10 || header.format.fourCC == Dx.D3dFormat.D3DFMT_GLI1)) {
 
             header10 = new DdsHeader10(byteBuffer);
             offset += DdsHeader10.sizeOf;
@@ -206,20 +207,22 @@ public class LoadDds {
 
         jgli.Format format = FORMAT_INVALID;
 
-//        System.out.println("(header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value "
-//                + "| DDPF_YUV.value | DDPF_LUMINANCE.value)) " + (header.format.flags & (DDPF_RGB.value
-//                | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value | DDPF_YUV.value | DDPF_LUMINANCE.value)));
-        if (((header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value
-                | DDPF_YUV.value | DDPF_LUMINANCE.value))) != 0 && format == FORMAT_INVALID
+        boolean a = (header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value
+                | DDPF_YUV.value | DDPF_LUMINANCE.value)) != 0;
+        if (a && format == FORMAT_INVALID
                 && header.format.flags != DDPF_FOURCC_ALPHAPIXELS.value) {
 
             switch (header.format.bpp) {
 
                 case 8:
 
-                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_L8_UNORM_PACK8).mask))) {
+                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RG4_UNORM_PACK8).mask))) {
+                        format = FORMAT_RG4_UNORM_PACK8;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_L8_UNORM_PACK8).mask))) {
                         format = FORMAT_L8_UNORM_PACK8;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_A8_UNORM_PACK8).mask))) {
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_A8_UNORM_PACK8).mask))) {
                         format = FORMAT_A8_UNORM_PACK8;
                     } else if (Glm.all(
                             Glm.equal(header.format.mask, dx.translate(FORMAT_R8_UNORM_PACK8).mask))) {
@@ -232,31 +235,49 @@ public class LoadDds {
 
                 case 16:
 
-                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_LA8_UNORM_PACK8).mask))) {
+                    if (Glm.all(
+                            Glm.equal(header.format.mask, dx.translate(FORMAT_RGBA4_UNORM_PACK16).mask))) {
+                        format = FORMAT_RGBA4_UNORM_PACK16;
+                    } else if (Glm.all(
+                            Glm.equal(header.format.mask, dx.translate(FORMAT_BGRA4_UNORM_PACK16).mask))) {
+                        format = FORMAT_BGRA4_UNORM_PACK16;
+                    } else if (Glm.all(
+                            Glm.equal(header.format.mask, dx.translate(FORMAT_R5G6B5_UNORM_PACK16).mask))) {
+                        format = FORMAT_R5G6B5_UNORM_PACK16;
+                    } else if (Glm.all(
+                            Glm.equal(header.format.mask, dx.translate(FORMAT_B5G6R5_UNORM_PACK16).mask))) {
+                        format = FORMAT_B5G6R5_UNORM_PACK16;
+                    } else if (Glm.all(
+                            Glm.equal(header.format.mask, dx.translate(FORMAT_RGB5A1_UNORM_PACK16).mask))) {
+                        format = FORMAT_RGB5A1_UNORM_PACK16;
+                    } else if (Glm.all(
+                            Glm.equal(header.format.mask, dx.translate(FORMAT_BGR5A1_UNORM_PACK16).mask))) {
+                        format = FORMAT_BGR5A1_UNORM_PACK16;
+                    } else if (Glm.all(
+                            Glm.equal(header.format.mask, dx.translate(FORMAT_LA8_UNORM_PACK8).mask))) {
                         format = FORMAT_LA8_UNORM_PACK8;
                     } else if (Glm.all(Glm.equal(
                             header.format.mask, dx.translate(FORMAT_RG8_UNORM_PACK8).mask))) {
                         format = FORMAT_RG8_UNORM_PACK8;
                     } else if (Glm.all(Glm.equal(
-                            header.format.mask, dx.translate(FORMAT_R5G6B5_UNORM_PACK16).mask))) {
-                        format = FORMAT_R5G6B5_UNORM_PACK16;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_L16_UNORM_PACK16).mask))) {
+                            header.format.mask, dx.translate(FORMAT_L16_UNORM_PACK16).mask))) {
                         format = FORMAT_L16_UNORM_PACK16;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_A16_UNORM_PACK16).mask))) {
-                        format = FORMAT_A16_UNORM_PACK16;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R16_UNORM_PACK16).mask))) {
-                        format = FORMAT_R16_UNORM_PACK16;
                     } else if (Glm.all(Glm.equal(
-                            header.format.mask, dx.translate(FORMAT_RGB5A1_UNORM_PACK16).mask))) {
-                        format = FORMAT_RGB5A1_UNORM_PACK16;
+                            header.format.mask, dx.translate(FORMAT_A16_UNORM_PACK16).mask))) {
+                        format = FORMAT_A16_UNORM_PACK16;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_R16_UNORM_PACK16).mask))) {
+                        format = FORMAT_R16_UNORM_PACK16;
                     }
                     break;
 
                 case 24:
 
-                    Dx.Format dxFormat = dx.translate(FORMAT_RGB8_UNORM_PACK8);
-                    if (Glm.all(Glm.equal(header.format.mask, dxFormat.mask))) {
+                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RGB8_UNORM_PACK8).mask))) {
                         format = FORMAT_RGB8_UNORM_PACK8;
+                    } else if (Glm.all(Glm.equal(
+                            header.format.mask, dx.translate(FORMAT_RGB8_UNORM_PACK8).mask))) {
+                        format = FORMAT_BGR8_UNORM_PACK8;
                     }
                     break;
 
