@@ -217,10 +217,10 @@ public class LoadDds {
 
                 case 8:
 
-                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_L8_UNORM).mask))) {
-                        format = FORMAT_L8_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_A8_UNORM).mask))) {
-                        format = FORMAT_A8_UNORM;
+                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_L8_UNORM_PACK8).mask))) {
+                        format = FORMAT_L8_UNORM_PACK8;
+                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_A8_UNORM_PACK8).mask))) {
+                        format = FORMAT_A8_UNORM_PACK8;
                     } else if (Glm.all(
                             Glm.equal(header.format.mask, dx.translate(FORMAT_R8_UNORM_PACK8).mask))) {
                         format = FORMAT_R8_UNORM_PACK8;
@@ -232,20 +232,20 @@ public class LoadDds {
 
                 case 16:
 
-                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_LA8_UNORM).mask))) {
-                        format = FORMAT_LA8_UNORM;
+                    if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_LA8_UNORM_PACK8).mask))) {
+                        format = FORMAT_LA8_UNORM_PACK8;
                     } else if (Glm.all(Glm.equal(
                             header.format.mask, dx.translate(FORMAT_RG8_UNORM_PACK8).mask))) {
                         format = FORMAT_RG8_UNORM_PACK8;
                     } else if (Glm.all(Glm.equal(
                             header.format.mask, dx.translate(FORMAT_R5G6B5_UNORM_PACK16).mask))) {
                         format = FORMAT_R5G6B5_UNORM_PACK16;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_L16_UNORM).mask))) {
-                        format = FORMAT_L16_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_A16_UNORM).mask))) {
-                        format = FORMAT_A16_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R16_UNORM).mask))) {
-                        format = FORMAT_R16_UNORM;
+                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_L16_UNORM_PACK16).mask))) {
+                        format = FORMAT_L16_UNORM_PACK16;
+                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_A16_UNORM_PACK16).mask))) {
+                        format = FORMAT_A16_UNORM_PACK16;
+                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R16_UNORM_PACK16).mask))) {
+                        format = FORMAT_R16_UNORM_PACK16;
                     } else if (Glm.all(Glm.equal(
                             header.format.mask, dx.translate(FORMAT_RGB5A1_UNORM_PACK16).mask))) {
                         format = FORMAT_RGB5A1_UNORM_PACK16;
@@ -273,12 +273,12 @@ public class LoadDds {
                     } else if (Glm.all(Glm.equal(
                             header.format.mask, dx.translate(FORMAT_RGB10A2_UNORM_PACK32).mask))) {
                         format = FORMAT_RGB10A2_UNORM_PACK32;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_LA16_UNORM).mask))) {
-                        format = FORMAT_LA16_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RG16_UNORM).mask))) {
-                        format = FORMAT_RG16_UNORM;
-                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R32_SFLOAT).mask))) {
-                        format = FORMAT_R32_SFLOAT;
+                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_LA16_UNORM_PACK16).mask))) {
+                        format = FORMAT_LA16_UNORM_PACK16;
+                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RG16_UNORM_PACK16).mask))) {
+                        format = FORMAT_RG16_UNORM_PACK16;
+                    } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R32_SFLOAT_PACK32).mask))) {
+                        format = FORMAT_R32_SFLOAT_PACK32;
                     }
                     break;
             }
