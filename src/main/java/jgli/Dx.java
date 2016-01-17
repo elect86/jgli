@@ -164,7 +164,7 @@ public class Dx {
         new Format(DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_R9G9B9E5_SHAREDEXP, 0), //FORMAT_RGB9E5_UFLOAT,
         //
         new Format(DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_D16_UNORM, 0), //FORMAT_D16_UNORM_PACK16,
-        new Format(DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_D24_UNORM_GLI, 0), //FORMAT_D24_UNORM,
+        new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_D24_UNORM_GLI, 0), //FORMAT_D24_UNORM,
         new Format(DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_D32_FLOAT, 0), //FORMAT_D32_SFLOAT_PACK32,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_S8_UINT_GLI, 0), //FORMAT_S8_UINT_PACK8,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_D16_UNORM_S8_UINT_GLI, 0), //FORMAT_D16_UNORM_S8_UINT_PACK32,
@@ -190,8 +190,8 @@ public class Dx {
         //
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_ETC2_UNORM_GLI, 0), //FORMAT_RGB_ETC2_UNORM_BLOCK8,
         new Format(DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_RGB_ETC2_SRGB_GLI, 0), //FORMAT_RGB_ETC2_SRGB_BLOCK8,
-        new Format(DDPF_FOURCC_ALPHAPIXELS, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_A1_UNORM_GLI, 0), //FORMAT_RGBA_ETC2_A1_UNORM_BLOCK8,
-        new Format(DDPF_FOURCC_ALPHAPIXELS, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_A1_SRGB_GLI, 0), //FORMAT_RGBA_ETC2_A1_SRGB_BLOCK8,
+        new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_A1_UNORM_GLI, 0), //FORMAT_RGBA_ETC2_A1_UNORM_BLOCK8,
+        new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_A1_SRGB_GLI, 0), //FORMAT_RGBA_ETC2_A1_SRGB_BLOCK8,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_UNORM_GLI, 0), //FORMAT_RGBA_ETC2_UNORM_BLOCK8,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_SRGB_GLI, 0), //FORMAT_RGBA_ETC2_SRGB_BLOCK8,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_R11_EAC_UNORM_GLI, 0), //FORMAT_R_EAC_UNORM_BLOCK8,
@@ -228,9 +228,9 @@ public class Dx {
         new Format(DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_ASTC_12X12_UNORM, 0), //RGBA_ASTC_12x12,
         new Format(DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_ASTC_12X12_UNORM_SRGB, 0), //SRGB_ALPHA_ASTC_12x12,
         //
-        new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_PVRTC1_8X8_UNORM_GLI, 0), //FORMAT_RGB_PVRTC1_8X8_UNORM_BLOCK32,
+        new Format(DDPF_FOURCC, D3DFMT_POWERVR_4BPP, DXGI_FORMAT_RGB_PVRTC1_8X8_UNORM_GLI, 0), //FORMAT_RGB_PVRTC1_8X8_UNORM_BLOCK32,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_PVRTC1_8X8_SRGB_GLI, 0), //FORMAT_RGB_PVRTC1_8X8_SRGB_BLOCK32,
-        new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_PVRTC1_16X8_UNORM_GLI, 0), //FORMAT_RGB_PVRTC1_16X8_UNORM_BLOCK32,
+        new Format(DDPF_FOURCC, D3DFMT_POWERVR_2BPP, DXGI_FORMAT_RGB_PVRTC1_16X8_UNORM_GLI, 0), //FORMAT_RGB_PVRTC1_16X8_UNORM_BLOCK32,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_PVRTC1_16X8_SRGB_GLI, 0), //FORMAT_RGB_PVRTC1_16X8_SRGB_BLOCK32,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_PVRTC1_8X8_UNORM_GLI, 0), //FORMAT_RGBA_PVRTC1_8X8_UNORM_BLOCK32,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_PVRTC1_8X8_SRGB_GLI, 0), //FORMAT_RGBA_PVRTC1_8X8_SRGB_BLOCK32,
@@ -241,10 +241,10 @@ public class Dx {
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_PVRTC2_16X8_UNORM_GLI, 0), //FORMAT_RGBA_PVRTC2_16X8_UNORM,
         new Format(DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_PVRTC2_16X8_SRGB_GLI, 0), //FORMAT_RGBA_PVRTC2_16X8_SRGB,
         //
-        new Format(DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ETC, DXGI_FORMAT_RGB_ETC_UNORM_GLI, 0), //FORMAT_RGB_ETC_UNORM_BLOCK8,
-        new Format(DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ATC, DXGI_FORMAT_RGB_ATC_UNORM_GLI, 0), //FORMAT_RGB_ATC_UNORM_BLOCK8,
-        new Format(DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ATCA, DXGI_FORMAT_RGBA_ATCA_UNORM_GLI, 0), //FORMAT_RGBA_ATC_EXPLICIT_UNORM_BLOCK16,
-        new Format(DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ATCI, DXGI_FORMAT_RGBA_ATCI_UNORM_GLI, 0), //FORMAT_RGBA_ATC_INTERPOLATED_UNORM_BLOCK16,
+        new Format(DDPF_FOURCC, D3DFMT_ETC, DXGI_FORMAT_RGB_ETC_UNORM_GLI, 0), //FORMAT_RGB_ETC_UNORM_BLOCK8,
+        new Format(DDPF_FOURCC, D3DFMT_ATC, DXGI_FORMAT_RGB_ATC_UNORM_GLI, 0), //FORMAT_RGB_ATC_UNORM_BLOCK8,
+        new Format(DDPF_FOURCC, D3DFMT_ATCA, DXGI_FORMAT_RGBA_ATCA_UNORM_GLI, 0), //FORMAT_RGBA_ATC_EXPLICIT_UNORM_BLOCK16,
+        new Format(DDPF_FOURCC, D3DFMT_ATCI, DXGI_FORMAT_RGBA_ATCI_UNORM_GLI, 0), //FORMAT_RGBA_ATC_INTERPOLATED_UNORM_BLOCK16,
         //
         new Format(DDPF_LUMINANCE, D3DFMT_L8, DXGI_FORMAT_L8_UNORM_GLI, new int[]{0x000000FF, 0x00000000, 0x00000000, 0x00000000}), //L8_UNORM,
         new Format(DDPF_ALPHA, D3DFMT_A8, DXGI_FORMAT_A8_UNORM_GLI, new int[]{0x00000000, 0x00000000, 0x00000000, 0x000000FF}), //A8_UNORM,
@@ -281,25 +281,28 @@ public class Dx {
                 continue;
             }
             formatResult = jgli.Format.get(formatIndex);
-            if ((table[formatIndex - FORMAT_FIRST.value].ddPixelFormat.value & flags) != 0) {
-                continue;
-            }
             break;
         }
         return formatResult;
     }
 
-    public jgli.Format find(DxgiFormat format, int flags) {
+    public jgli.Format find(D3dFormat fourCC, DxgiFormat format, int flags) {
+
+        assert (fourCC == D3DFMT_DX10 || fourCC == D3DFMT_GLI1);
         jgli.Format formatResult = FORMAT_INVALID;
-        for (int formatIndex = FORMAT_FIRST.value; formatIndex < FORMAT_COUNT.value; formatIndex++) {
-            if (table[formatIndex - FORMAT_FIRST.value].dxgiFormat != format) {
-                continue;
+
+        for (int formatIndex = FORMAT_FIRST.value; formatIndex < FORMAT_LAST.value; formatIndex++) {
+
+            jgli.Format currentFormat = jgli.Format.get(formatIndex);
+            jgli.Format.FormatInfo formatInfo = currentFormat.getFormatInfo();
+
+            Dx.Format dxFormat = table[formatIndex - FORMAT_FIRST.value];
+
+            if (fourCC == D3DFMT_GLI1
+                    && ((formatInfo.flags & Cap.CAP_DDS_GLI_EXT_BIT.value) != 0)
+                    &&  dxFormat.dxgiFormat.GLI == Format.GLI) {
+
             }
-            formatResult = jgli.Format.get(formatIndex);
-            if ((table[formatIndex - FORMAT_FIRST.value].ddPixelFormat.value & flags) != 0) {
-                continue;
-            }
-            break;
         }
         return formatResult;
     }
