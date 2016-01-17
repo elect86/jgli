@@ -276,7 +276,7 @@ public class LoadDds {
                     if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_RGB8_UNORM_PACK8).mask))) {
                         format = FORMAT_RGB8_UNORM_PACK8;
                     } else if (Glm.all(Glm.equal(
-                            header.format.mask, dx.translate(FORMAT_RGB8_UNORM_PACK8).mask))) {
+                            header.format.mask, dx.translate(FORMAT_BGR8_UNORM_PACK8).mask))) {
                         format = FORMAT_BGR8_UNORM_PACK8;
                     }
                     break;
