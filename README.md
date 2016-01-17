@@ -10,6 +10,7 @@ Project based on Gradle. For Eclipse/IntelliJ/Netbeans users, just install the G
 
 ## Release notes
 
+- Improve 16 bits format coverage 
 - Improved assert coverage
 - Fixed DXT1 sRGB enum 
 - documented alpha mode in header10
