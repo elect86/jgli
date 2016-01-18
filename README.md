@@ -1,3 +1,5 @@
+*sync with gli in progress, temporary broken, use last stable build in the meanwhile*
+
 # JGLI
 
 Java porting of the [g-truc GLI](https://github.com/g-truc/gli)
