@@ -11,10 +11,10 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
-import jgli.Dx;
-import static jgli.Dx.D3dFormat.D3DFMT_DX10;
-import static jgli.Dx.Ddpf.*;
-import static jgli.Dx.DxgiFormat.DXGI_FORMAT_UNKNOWN;
+import jgli.dx.Dx;
+import static jgli.dx.Dx.D3dFormat.D3DFMT_DX10;
+import static jgli.dx.Dx.Ddpf.*;
+import static jgli.dx.Dx.DxgiFormat.DXGI_FORMAT_UNKNOWN;
 import static jgli.Format.*;
 import jgli.Glm;
 import static jgli.Target.*;
@@ -22,6 +22,7 @@ import jgli.Texture;
 import static jgli.detail.LoadDds.D3d10ResourceDimension.*;
 import static jgli.detail.LoadDds.DdsCubemapFlag.*;
 import static jgli.detail.LoadDds.DdsFlag.*;
+import static jgli.dx.Dx.D3dFormat.D3DFMT_GLI1;
 
 /**
  *
@@ -209,10 +210,13 @@ public class LoadDds {
 
         boolean a = (header.format.flags & (DDPF_RGB.value | DDPF_ALPHAPIXELS.value | DDPF_ALPHA.value
                 | DDPF_YUV.value | DDPF_LUMINANCE.value)) != 0;
-        if (a && format == FORMAT_INVALID
-                && header.format.flags != DDPF_FOURCC_ALPHAPIXELS.value) {
+        if (a && format == FORMAT_INVALID && header.format.bpp != 0) {
 
             switch (header.format.bpp) {
+
+                default:
+                    assert (false);
+                    break;
 
                 case 8:
 
@@ -230,6 +234,8 @@ public class LoadDds {
                     } else if (Glm.all(Glm.equal(
                             header.format.mask, dx.translate(FORMAT_RG3B2_UNORM_PACK8).mask))) {
                         format = FORMAT_RG3B2_UNORM_PACK8;
+                    } else {
+                        assert (false);
                     }
                     break;
 
@@ -268,6 +274,8 @@ public class LoadDds {
                     } else if (Glm.all(Glm.equal(
                             header.format.mask, dx.translate(FORMAT_R16_UNORM_PACK16).mask))) {
                         format = FORMAT_R16_UNORM_PACK16;
+                    } else {
+                        assert (false);
                     }
                     break;
 
@@ -278,6 +286,8 @@ public class LoadDds {
                     } else if (Glm.all(Glm.equal(
                             header.format.mask, dx.translate(FORMAT_BGR8_UNORM_PACK8).mask))) {
                         format = FORMAT_BGR8_UNORM_PACK8;
+                    } else {
+                        assert (false);
                     }
                     break;
 
@@ -300,14 +310,16 @@ public class LoadDds {
                         format = FORMAT_RG16_UNORM_PACK16;
                     } else if (Glm.all(Glm.equal(header.format.mask, dx.translate(FORMAT_R32_SFLOAT_PACK32).mask))) {
                         format = FORMAT_R32_SFLOAT_PACK32;
+                    } else {
+                        assert (false);
                     }
                     break;
             }
         } else if (((header.format.flags & DDPF_FOURCC.value) != 0) && (header.format.fourCC != D3DFMT_DX10)
                 && (format == FORMAT_INVALID)) {
             format = dx.find(header.format.fourCC, header.format.flags);
-        } else if ((header.format.fourCC == D3DFMT_DX10) && (header10.format != DXGI_FORMAT_UNKNOWN)) {
-            format = dx.find(header10.format, header.format.flags);
+        } else if ((header.format.fourCC == D3DFMT_DX10) || (header.format.fourCC == D3DFMT_GLI1)) {
+            format = dx.find(header.format.fourCC, header10.format, header.format.flags);
         }
 
         if (format == FORMAT_INVALID) {
@@ -338,6 +350,8 @@ public class LoadDds {
         byteBuffer.position(offset);
         texture.setData(byteBuffer.slice());
         byteBuffer.position(0);
+        
+        System.out.println(texture.toString());
 
         return texture;
     }

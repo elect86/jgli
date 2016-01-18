@@ -52,7 +52,8 @@ public class Storage {
         assert (faces >= 0);
         assert (levels >= 0);
         assert (Glm.all(Glm.greaterThan(dimensions, new byte[]{0, 0, 0})));
-
+        int a = layerSize(0, faces - 1, 0, levels - 1) * layers;
+        short[] b = format.blockDimensions();
         data = ByteBuffer.allocateDirect(layerSize(0, faces - 1, 0, levels - 1) * layers);
     }
 
@@ -87,7 +88,7 @@ public class Storage {
     public int levelSize(int level) {
 
         assert (level >= 0 && level < levels);
-
+//int a = blockSize * Glm.compMul(blockCount(level));
         return blockSize * Glm.compMul(blockCount(level));
     }
 
@@ -98,7 +99,8 @@ public class Storage {
     private int[] blockCount(int level) {
 
         assert (level >= 0 && level < levels);
-
+        int[] a = Glm.max(Glm.shiftRight(blockCount, level), new int[]{1, 1, 1});
+        int[] b= Glm.shiftRight(blockCount, level);
         return Glm.max(Glm.shiftRight(blockCount, level), new int[]{1, 1, 1});
     }
 

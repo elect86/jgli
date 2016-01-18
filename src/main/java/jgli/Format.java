@@ -13,7 +13,7 @@ import static jgli.Swizzles.Swizzle.*;
  * @author GBarbieri
  */
 public enum Format {
-
+// Texture data format
     FORMAT_UNDEFINED(0),
     //    
     FORMAT_RG4_UNORM_PACK8, FORMAT_FIRST(FORMAT_RG4_UNORM_PACK8),
@@ -276,6 +276,7 @@ public enum Format {
         Counter.nextValue++;
     }
 
+    // Evaluate whether a format value is value or not
     public boolean isValid() {
         return value >= FORMAT_FIRST.value && value <= FORMAT_LAST.value;
     }
@@ -301,23 +302,24 @@ public enum Format {
         return info.blockSize * 8 / (info.blockDimensions[0] * info.blockDimensions[1] * info.blockDimensions[2]);
     }
 
+    // Evaluate whether a format is compressed
     public boolean isCompressed() {
 
         return (getFormatInfo().flags & CAP_COMPRESSED_BIT.value) != 0;
     }
 
+    // Return the size in bytes of a block for a format.
     public int blockSize() {
-
         return getFormatInfo().blockSize;
     }
 
+    // Return the dimensions in texels of the block for a format
     public short[] blockDimensions() {
-
         return getFormatInfo().blockDimensions;
     }
 
+    // Return the number of components of a format
     public int componentCount() {
-
         return getFormatInfo().component;
     }
 

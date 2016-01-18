@@ -35,7 +35,7 @@ public class Swizzles {
     }
 
     public enum Swizzle {
-
+        // Represent the source of a channel
         SWIZZLE_RED(0),
         SWIZZLE_FIRST(SWIZZLE_RED),
         SWIZZLE_CHANNEL_FIRST(SWIZZLE_RED),
@@ -57,7 +57,7 @@ public class Swizzles {
         private Swizzle(Swizzle swizzle) {
             value = swizzle.value;
         }
-
+        // Determine whether the Swizzle value represent a channel
         public boolean isChannel() {
             return value >= SWIZZLE_CHANNEL_FIRST.value && value <= SWIZZLE_CHANNEL_LAST.value;
         }

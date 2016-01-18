@@ -104,7 +104,8 @@ public class Main implements GLEventListener, KeyListener {
         {
             /**
              * To test.
-             */
+             */            
+            tests.add(new Test(gl4, "array_r8_uint.dds"));
 //            tests.add(new Test(gl4, "array_r8_unorm.dds"));
 //            tests.add(new Test(gl4, "array_r8_unorm.ktx"));
 //            
@@ -254,7 +255,10 @@ public class Main implements GLEventListener, KeyListener {
 //            tests.add(new Test(gl4, "kueken7_rgba_dxt5_srgb.ktx"));
 //            
 //            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.ktx"));  
+            // Ok
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm1.dds")); 
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm2.dds"));
             /**
              * Working althought I miss the ASTC extension, "emulating
              * compressed format not supported in hardware with decompressed

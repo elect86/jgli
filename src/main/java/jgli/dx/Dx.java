@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jgli;
+package jgli.dx;
 
-import static jgli.Dx.D3dFormat.*;
-import static jgli.Dx.Ddpf.*;
-import static jgli.Dx.DxgiFormat.*;
+import static jgli.dx.Dx.D3dFormat.*;
+import static jgli.dx.Dx.Ddpf.*;
+import static jgli.dx.Dx.DxgiFormat.*;
 import static jgli.Format.*;
 
 /**
@@ -289,10 +289,15 @@ public class Dx {
     public jgli.Format find(D3dFormat fourCC, DxgiFormat format, int flags) {
 
         assert (fourCC == D3DFMT_DX10 || fourCC == D3DFMT_GLI1);
+
         jgli.Format formatResult = FORMAT_INVALID;
 
         for (int formatIndex = FORMAT_FIRST.value; formatIndex < FORMAT_LAST.value; formatIndex++) {
-
+            
+            if(formatIndex == 137){
+                System.out.println("block");
+            }
+            
             jgli.Format currentFormat = jgli.Format.get(formatIndex);
             jgli.Format.FormatInfo formatInfo = currentFormat.getFormatInfo();
 
@@ -300,8 +305,18 @@ public class Dx {
 
             if (fourCC == D3DFMT_GLI1
                     && ((formatInfo.flags & Cap.CAP_DDS_GLI_EXT_BIT.value) != 0)
-                    &&  dxFormat.dxgiFormat.GLI == Format.GLI) {
+                    && dxFormat.dxgiFormat.value == format.value) {
 
+                formatResult = jgli.Format.get(formatIndex);
+                break;
+            }
+
+            if (fourCC == D3DFMT_DX10
+                    && !((formatInfo.flags & Cap.CAP_DDS_GLI_EXT_BIT.value) != 0)
+                    && dxFormat.dxgiFormat.value == format.value) {
+
+                formatResult = jgli.Format.get(formatIndex);
+                break;
             }
         }
         return formatResult;
@@ -425,7 +440,9 @@ public class Dx {
     }
 
     public enum DxgiFormat {
-
+        /**
+         * DDS.
+         */
         DXGI_FORMAT_UNKNOWN(0),
         DXGI_FORMAT_R32G32B32A32_TYPELESS(1),
         DXGI_FORMAT_R32G32B32A32_FLOAT(2),
@@ -589,7 +606,11 @@ public class Dx {
         DXGI_FORMAT_ASTC_12X12_UNORM(186),
         DXGI_FORMAT_ASTC_12X12_UNORM_SRGB(187),
         //        
-        DXGI_FORMAT_R64_UINT_GLI(0x80000000),
+        DXGI_FORMAT_FORCE_UINT(0xffffffff),
+        /**
+         * GLI.
+         */
+        DXGI_FORMAT_R64_UINT_GLI(1),
         DXGI_FORMAT_R64_SINT_GLI,
         DXGI_FORMAT_R64_FLOAT_GLI,
         DXGI_FORMAT_R64G64_UINT_GLI,
@@ -601,13 +622,13 @@ public class Dx {
         DXGI_FORMAT_R64G64B64A64_UINT_GLI,
         DXGI_FORMAT_R64G64B64A64_SINT_GLI,
         DXGI_FORMAT_R64G64B64A64_FLOAT_GLI,
-        //        
+        //			
         DXGI_FORMAT_RG4_UNORM_GLI,
         DXGI_FORMAT_RGBA4_UNORM_GLI,
         DXGI_FORMAT_R5G6B5_UNORM_GLI,
         DXGI_FORMAT_R5G5B5A1_UNORM_GLI,
         DXGI_FORMAT_A1B5G5R5_UNORM_GLI,
-        //        
+        //			
         DXGI_FORMAT_R8_SRGB_GLI,
         DXGI_FORMAT_R8_USCALED_GLI,
         DXGI_FORMAT_R8_SSCALED_GLI,
@@ -615,7 +636,7 @@ public class Dx {
         DXGI_FORMAT_R8G8_SRGB_GLI,
         DXGI_FORMAT_R8G8_USCALED_GLI,
         DXGI_FORMAT_R8G8_SSCALED_GLI,
-        //        
+        //			
         DXGI_FORMAT_R8G8B8_UNORM_GLI,
         DXGI_FORMAT_R8G8B8_SNORM_GLI,
         DXGI_FORMAT_R8G8B8_USCALED_GLI,
@@ -623,7 +644,7 @@ public class Dx {
         DXGI_FORMAT_R8G8B8_UINT_GLI,
         DXGI_FORMAT_R8G8B8_SINT_GLI,
         DXGI_FORMAT_R8G8B8_SRGB_GLI,
-        //
+        //			
         DXGI_FORMAT_B8G8R8_UNORM_GLI,
         DXGI_FORMAT_B8G8R8_SNORM_GLI,
         DXGI_FORMAT_B8G8R8_USCALED_GLI,
@@ -631,16 +652,16 @@ public class Dx {
         DXGI_FORMAT_B8G8R8_UINT_GLI,
         DXGI_FORMAT_B8G8R8_SINT_GLI,
         DXGI_FORMAT_B8G8R8_SRGB_GLI,
-        //
+        //			
         DXGI_FORMAT_R8G8B8A8_USCALED_GLI,
         DXGI_FORMAT_R8G8B8A8_SSCALED_GLI,
-        //
+        //			
         DXGI_FORMAT_B8G8R8A8_SNORM_GLI,
         DXGI_FORMAT_B8G8R8A8_USCALED_GLI,
         DXGI_FORMAT_B8G8R8A8_SSCALED_GLI,
         DXGI_FORMAT_B8G8R8A8_UINT_GLI,
         DXGI_FORMAT_B8G8R8A8_SINT_GLI,
-        //
+        //			
         DXGI_FORMAT_R8G8B8A8_PACK_UNORM_GLI,
         DXGI_FORMAT_R8G8B8A8_PACK_SNORM_GLI,
         DXGI_FORMAT_R8G8B8A8_PACK_USCALED_GLI,
@@ -648,12 +669,12 @@ public class Dx {
         DXGI_FORMAT_R8G8B8A8_PACK_UINT_GLI,
         DXGI_FORMAT_R8G8B8A8_PACK_SINT_GLI,
         DXGI_FORMAT_R8G8B8A8_PACK_SRGB_GLI,
-        //        
+        //			
         DXGI_FORMAT_R10G10B10A2_SNORM_GLI,
         DXGI_FORMAT_R10G10B10A2_USCALED_GLI,
         DXGI_FORMAT_R10G10B10A2_SSCALED_GLI,
         DXGI_FORMAT_R10G10B10A2_SINT_GLI,
-        //
+        //			
         DXGI_FORMAT_B10G10R10A2_UNORM_GLI,
         DXGI_FORMAT_B10G10R10A2_SNORM_GLI,
         DXGI_FORMAT_B10G10R10A2_USCALED_GLI,
@@ -665,7 +686,7 @@ public class Dx {
         DXGI_FORMAT_R16_SSCALED_GLI,
         DXGI_FORMAT_R16G16_USCALED_GLI,
         DXGI_FORMAT_R16G16_SSCALED_GLI,
-        //
+        //			
         DXGI_FORMAT_R16G16B16_UNORM_GLI,
         DXGI_FORMAT_R16G16B16_SNORM_GLI,
         DXGI_FORMAT_R16G16B16_USCALED_GLI,
@@ -689,7 +710,7 @@ public class Dx {
         DXGI_FORMAT_LA16_UNORM_GLI,
         //			
         DXGI_FORMAT_R3G3B2_UNORM_GLI,
-        //       
+        //			
         DXGI_FORMAT_BC1_RGB_UNORM_GLI,
         DXGI_FORMAT_BC1_RGB_SRGB_GLI,
         DXGI_FORMAT_RGB_ETC2_UNORM_GLI,
@@ -702,6 +723,7 @@ public class Dx {
         DXGI_FORMAT_R11_EAC_SNORM_GLI,
         DXGI_FORMAT_RG11_EAC_UNORM_GLI,
         DXGI_FORMAT_RG11_EAC_SNORM_GLI,
+        //			
         DXGI_FORMAT_RGB_PVRTC1_8X8_UNORM_GLI,
         DXGI_FORMAT_RGB_PVRTC1_8X8_SRGB_GLI,
         DXGI_FORMAT_RGB_PVRTC1_16X8_UNORM_GLI,
@@ -714,30 +736,27 @@ public class Dx {
         DXGI_FORMAT_RGBA_PVRTC2_8X8_SRGB_GLI,
         DXGI_FORMAT_RGBA_PVRTC2_16X8_UNORM_GLI,
         DXGI_FORMAT_RGBA_PVRTC2_16X8_SRGB_GLI,
+        //			
         DXGI_FORMAT_RGB_ETC_UNORM_GLI,
         DXGI_FORMAT_RGB_ATC_UNORM_GLI,
         DXGI_FORMAT_RGBA_ATCA_UNORM_GLI,
-        DXGI_FORMAT_RGBA_ATCI_UNORM_GLI,
-        //        
-        DXGI_FORMAT_LAST(DXGI_FORMAT_R64G64B64A64_FLOAT_GLI),
-        DXGI_FORMAT_FORCE_UINT(0xffffffff);
+        DXGI_FORMAT_RGBA_ATCI_UNORM_GLI;
 
         public final int value;
 
         private DxgiFormat() {
-            value = Counter.nextValue;
-            Counter.nextValue++;
+            Counter.lastValue++;
+            value = Counter.lastValue;
         }
 
         private DxgiFormat(int value) {
             this.value = value;
-            Counter.nextValue = value++;
+            Counter.lastValue = value;
         }
 
-        private DxgiFormat(DxgiFormat dxgiFormat) {
-            value = dxgiFormat.value;
-        }
-
+//        private DxgiFormat(DxgiFormat dxgiFormat) {
+//            value = dxgiFormat.value;
+//        }
         public static DxgiFormat get(int value) {
             for (DxgiFormat dxgiFormat : values()) {
                 if (dxgiFormat.value == value) {
@@ -752,7 +771,7 @@ public class Dx {
          */
         private static class Counter {
 
-            private static int nextValue = 0;
+            private static int lastValue = 0;
         }
     }
 

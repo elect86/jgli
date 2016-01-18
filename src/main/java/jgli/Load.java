@@ -16,6 +16,7 @@ import jgli.detail.LoadKtx;
  */
 public class Load {
 
+    // Load a texture (DDS, KTX) from file
     public static Texture load(String fileName) throws IOException {
         
         String extension = "";

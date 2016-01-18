@@ -6,7 +6,7 @@
 package jgli.detail;
 
 import java.nio.ByteBuffer;
-import jgli.Dx;
+import jgli.dx.Dx;
 import jgli.detail.LoadDds.D3d10ResourceDimension;
 import static jgli.detail.LoadDds.DdsAlphaMode.DDS_ALPHA_MODE_UNKNOWN;
 

@@ -176,14 +176,14 @@ public class Texture {
     }
 
     public void clear() {
-        
+
         assert (!empty());
-        
+
         storage.clear();
     }
 
     public void clear(byte[] texel) {
-        
+
         assert (!empty());
         assert (format.blockSize() == (texel.length * Byte.BYTES));
 
@@ -192,8 +192,8 @@ public class Texture {
 
     public void clear(int layer, int face, int level, byte[] texel) {
         assert (!empty());
-        assert (format.blockSize() == (texel.length*Byte.BYTES));
-        assert (layer >= 0 && layer < layers() && face >= 0 && face < faces() 
+        assert (format.blockSize() == (texel.length * Byte.BYTES));
+        assert (layer >= 0 && layer < layers() && face >= 0 && face < faces()
                 && level >= 0 && level < levels());
 
         storage.clear(layer, face, level, texel);
@@ -217,11 +217,11 @@ public class Texture {
     public int[] dimensions() {
         return dimensions(0);
     }
-    
+
     public int[] dimensions(int level) {
         assert (!empty());
         assert (level >= 0 && level < levels());
-        
+
         int[] srcDimensions = storage.dimensions(baseLevel() + level);
         int[] dstDimensions = new int[3];
         for (int i = 0; i < 3; i++) {
@@ -241,7 +241,7 @@ public class Texture {
 
     public ByteBuffer data(int layer, int face, int level) {
         assert (!empty());
-        assert (layer >= 0 && layer < layers() && face >= 0 && face < faces() 
+        assert (layer >= 0 && layer < layers() && face >= 0 && face < faces()
                 && level >= 0 && level < levels());
         return storage.data(layer, face, level);
     }
@@ -324,7 +324,19 @@ public class Texture {
     }
 
     public int size() {
-        assert (!empty()) ;
+        assert (!empty());
         return size;
+    }
+
+    @Override
+    public String toString() {
+
+        String result = "baseLayer: " + baseLayer + ", maxLayer: " + maxLayer + "\n";
+        result += "baseFace: " + baseFace + ", maxFace: " + maxFace + "\n";
+        result += "baseLevel: " + baseLayer + ", maxLevel: " + maxLevel + "\n";
+        result += "format: " + format + ", target: " + target + ", size: " + size + "\n";
+        result += "swizzles: (" + swizzles.r + ", " + swizzles.g + ", " + swizzles.b + ", " + swizzles.a + ")\n";
+
+        return result;
     }
 }

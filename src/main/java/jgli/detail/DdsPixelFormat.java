@@ -6,7 +6,7 @@
 package jgli.detail;
 
 import java.nio.ByteBuffer;
-import jgli.Dx;
+import jgli.dx.Dx;
 
 /**
  *
