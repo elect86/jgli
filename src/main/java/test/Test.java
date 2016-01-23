@@ -6,6 +6,7 @@
 package test;
 
 import com.jogamp.opengl.GL4;
+import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.math.FloatUtil;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -82,7 +83,8 @@ public class Test {
                 case TARGET_2D_ARRAY:
                 case TARGET_3D:
                 case TARGET_CUBE_ARRAY:
-                    gl4.glTexStorage3D(glTarget.value, texture.levels(), glFormat.internal.value, dimensions[0],
+                    gl4.glTexStorage3D(glTarget.value, texture.levels(),
+                            glFormat.internal.value, dimensions[0],
                             dimensions[1], texture.target() == TARGET_3D ? dimensions[2] : faceTotal);
                     break;
                 default:
@@ -95,6 +97,12 @@ public class Test {
                     for (int level = 0; level < texture.levels(); level++) {
 
                         dimensions = texture.dimensions(level);
+
+                        System.out.println(
+                                "[layer, face, level]: [" + layer + ", " + face + ", " + level + "], "
+                                + "dimensions (" + dimensions[0] + ", " + dimensions[1] + ", "
+                                + dimensions[2] + "), "
+                                + "capacity: " + texture.data(layer, face, level).capacity() + "\n");
 
                         switch (texture.target()) {
 
@@ -131,6 +139,27 @@ public class Test {
                                 break;
 
                             case TARGET_2D_ARRAY:
+                                if (texture.format().isCompressed()) {
+
+                                    gl4.glCompressedTexSubImage3D(glTarget.value, level, 0, 0, 0, dimensions[0],
+                                            dimensions[1], texture.target() == TARGET_3D ? dimensions[2] : layer,
+                                            glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
+
+                                } else {
+                                    System.out.println("glTexSubImage3D, glTarget: " + glTarget
+                                            + ", level: " + level + ", offset: [" + dimensions[0]
+                                            + ", " + dimensions[1] + ", " + layer + "], glFormat: "
+                                            + glFormat.external + ", type: " + glFormat.type
+                                            + ", data.capacity: " 
+                                            + texture.data(layer, face, level).capacity() + "\n");
+                                    gl4.glTexSubImage3D(glTarget.value, level, 0, 0, layer,
+                                            dimensions[0],
+                                            dimensions[1],
+                                            1,
+                                            glFormat.external.value, glFormat.type.value,
+                                            texture.data(layer, face, level));
+                                }
+                                break;
                             case TARGET_3D:
                             case TARGET_CUBE_ARRAY:
 
@@ -141,13 +170,17 @@ public class Test {
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
 
                                 } else {
-//                                    System.out.println("glTarget: " + glTarget + ", level: " + level + ", dimensions: ("
-//                                            + dimensions[0] + ", " + dimensions[1] + "), layer: " + layer
-//                                            + "), glFormat: " + glFormat.external + ", type: " + glFormat.type
-//                                            + ", data.capacity: " + texture.data(layer, face, level).capacity());
-                                    gl4.glTexSubImage3D(glTarget.value, level, 0, 0, 0, dimensions[0], dimensions[1],
+//                                    System.out.println("glTarget: " + glTarget + ", level: " + level
+//                                            + ", dimensions: [" + dimensions[0] + ", " + dimensions[1]
+//                                            + ", " + layer + "], glFormat: " + glFormat.external
+//                                            + ", type: " + glFormat.type + ", data.capacity: "
+//                                            + texture.data(layer, face, level).capacity() + "\n");
+                                    gl4.glTexSubImage3D(glTarget.value, level, 0, 0, 0,
+                                            dimensions[0],
+                                            dimensions[1],
                                             texture.target() == TARGET_3D ? dimensions[2] : layer,
-                                            glFormat.external.value, glFormat.type.value, texture.data(layer, face, level));
+                                            glFormat.external.value, glFormat.type.value,
+                                            texture.data(layer, face, level));
                                 }
                                 break;
 
@@ -157,9 +190,11 @@ public class Test {
 
                         GlLogger.getMessages(gl4);
 
-                        Main.checkError(gl4, "layer/face/level: (" + layer + ", " + face + ", " + level
-                                + "), dimensions (" + texture.dimensions(level)[0] + ", " + texture.dimensions(level)[1]
-                                + ", " + texture.dimensions(level)[2] + "), " + "capacity: " + texture.data(layer, face, level).capacity());
+                        Main.checkError(gl4,
+                                "layer/face/level: (" + layer + ", " + face + ", " + level + "), "
+                                + "dimensions (" + texture.dimensions(level)[0] + ", "
+                                + texture.dimensions(level)[1] + ", " + texture.dimensions(level)[2] + "), "
+                                + "capacity: " + texture.data(layer, face, level).capacity());
                     }
                 }
             }

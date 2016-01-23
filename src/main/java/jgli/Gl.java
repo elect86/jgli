@@ -16,21 +16,21 @@ import static jgli.Gl.TypeFormat.*;
  */
 public class Gl {
 
-    public Target translate(jgli.Target target) {
+    public static Target translate(jgli.Target target) {
         if (Gl.Target.values().length != jgli.Target.TARGET_COUNT.value) {
             throw new Error("GLI error: target descriptor list doesn't match number of supported targets");
         }
         return Gl.Target.values()[target.value];
     }
 
-    public Format translate(jgli.Format format) {
+    public static Format translate(jgli.Format format) {
         if (!format.isValid()) {
             throw new Error("format is not valid");
         }
         return table[format.value - jgli.Format.FORMAT_FIRST.value];
     }
 
-    public Swizzles translate(jgli.Swizzles swizzle) {
+    public static Swizzles translate(jgli.Swizzles swizzle) {
 
         if (Swizzle.values().length != jgli.Swizzles.Swizzle.SWIZZLE_COUNT.value) {
             throw new Error("GLI error: swizzle descriptor list doesn't match number of supported swizzles");
@@ -40,7 +40,8 @@ public class Gl {
                 Swizzle.values()[swizzle.b.value], Swizzle.values()[swizzle.a.value]);
     }
 
-    public static jgli.Format find(InternalFormat internalFormat, ExternalFormat externalFormat, TypeFormat type) {
+    public static jgli.Format find(InternalFormat internalFormat, ExternalFormat externalFormat, 
+            TypeFormat type) {
 
         for (int formatIndex = jgli.Format.FORMAT_FIRST.value; formatIndex < FORMAT_COUNT.value; formatIndex++) {
 
@@ -55,7 +56,7 @@ public class Gl {
             if (table[index].type != type) {
                 continue;
             }
-            return jgli.Format.values()[formatIndex];
+            return jgli.Format.get(formatIndex);
         }
         return jgli.Format.FORMAT_INVALID;
     }
@@ -459,7 +460,7 @@ public class Gl {
         }
     }
 
-    public class Swizzles {
+    public static class Swizzles {
 
         public Swizzle r;
         public Swizzle g;
@@ -735,7 +736,7 @@ public class Gl {
         new Format(INTERNAL_RG3B2, EXTERNAL_RGB, TYPE_UINT8_RG3B2_REV) //FORMAT_RG3B2_UNORM,
     };
 
-    public static final Gl instance = new Gl();
+    private static final Gl instance = new Gl();
 
     public Gl() {
         if (table.length != FORMAT_COUNT.value) {

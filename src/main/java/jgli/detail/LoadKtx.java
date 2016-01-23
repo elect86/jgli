@@ -84,8 +84,10 @@ public class LoadKtx {
         // Skip key value data
         offset += header.bytesOfKeyValueData;
 
-        jgli.Format format = Gl.find(Gl.InternalFormat.get(header.glInternalFormat),
-                Gl.ExternalFormat.get(header.glFormat), Gl.TypeFormat.get(header.glType));
+        jgli.Gl.InternalFormat internalFormat = Gl.InternalFormat.get(header.glInternalFormat);
+        jgli.Gl.ExternalFormat externalFormat = Gl.ExternalFormat.get(header.glFormat);
+        jgli.Gl.TypeFormat typeFormat = Gl.TypeFormat.get(header.glType);
+        jgli.Format format = Gl.find(internalFormat, externalFormat, typeFormat);
 
         if (format == jgli.Format.FORMAT_INVALID) {
             throw new Error("format invalid!");
