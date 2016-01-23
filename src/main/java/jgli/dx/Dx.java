@@ -294,10 +294,6 @@ public class Dx {
 
         for (int formatIndex = FORMAT_FIRST.value; formatIndex < FORMAT_LAST.value; formatIndex++) {
             
-            if(formatIndex == 137){
-                System.out.println("block");
-            }
-            
             jgli.Format currentFormat = jgli.Format.get(formatIndex);
             jgli.Format.FormatInfo formatInfo = currentFormat.getFormatInfo();
 
