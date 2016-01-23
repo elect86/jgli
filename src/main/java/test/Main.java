@@ -16,6 +16,7 @@ import static com.jogamp.opengl.GL2ES2.*;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.Animator;
@@ -35,12 +36,13 @@ public class Main implements GLEventListener, KeyListener {
 
     public static GLWindow glWindow;
     public static Animator animator;
+    private static boolean compatibilityProfile = true;
 
     public static void main(String[] args) {
 
         Display display = NewtFactory.createDisplay(null);
         Screen screen = NewtFactory.createScreen(display, 0);
-        GLProfile glProfile = GLProfile.get(GLProfile.GL4);
+        GLProfile glProfile = GLProfile.get(compatibilityProfile ? GLProfile.GL4bc : GLProfile.GL4);
         GLCapabilities glCapabilities = new GLCapabilities(glProfile);
         glWindow = GLWindow.create(screen, glCapabilities);
 
@@ -103,22 +105,33 @@ public class Main implements GLEventListener, KeyListener {
         gl4.glPixelStorei(GL4.GL_UNPACK_ALIGNMENT, 1);
         {
 //            tests.add(new Test(gl4, "array_r8_uint.dds")); // ok
-            tests.add(new Test(gl4, "array_r8_uint.ktx")); 
+//            tests.add(new Test(gl4, "array_r8_uint.ktx")); // ok
+//
+//            tests.add(new Test(gl4, "cube_rgba8_unorm.dds")); // ok
+//            tests.add(new Test(gl4, "cube_rgba8_unorm.ktx")); // ok
+            /**
+             * Ok only with compatibility since
+             * GL_ALPHA_8-INTERNAL_ALPHA8-ALPHA8_EXT (0x803C, 32828).
+             */
+//            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
+            /**
+             * It reads DXGI_FORMAT_B8G8R8X8_UNORM_SRGB but it should be
+             * DXGI_FORMAT_B8G8R8_SRGB_GLI instead.
+             */
+//            tests.add(new Test(gl4, "kueken7_bgr8_srgb.dds"));
+            /**
+             * Probably wrong swizzle.
+             */
+//            tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_bgra8_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_bgra8_unorm.ktx"));       
+//            tests.add(new Test(gl4, "kueken7_bgrx8_srgb.dds"));
+            tests.add(new Test(gl4, "kueken7_bgrx8_unorm.dds"));
+
 //            tests.add(new Test(gl4, "array_r8_unorm.dds"));
 //            tests.add(new Test(gl4, "array_r8_unorm.ktx"));
 //            
-//            tests.add(new Test(gl4, "cube_rgba8_unorm.dds"));
-//            tests.add(new Test(gl4, "cube_rgba8_unorm.ktx"));
-//            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
-//            tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
-            /**
-             * Bug, getting FORMAT_RGB8_SRGB instead that FORMAT_BGRX8_SRGB.
-             * This will lead to a wrong exstimated texture size.
-             */
-//            tests.add(new Test(gl4, "kueken7_bgrx8_srgb.dds"));
-//            
-//            tests.add(new Test(gl4, "kueken7_bgrx8_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_l8_unorm.dds"));
             /**
              * Wrong header, header.format.fourCC is D3DFMT_DX10 but

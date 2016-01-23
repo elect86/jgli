@@ -47,17 +47,15 @@ public class Test {
 
     private void initTexture(GL4 gl4) throws IOException {
 
-        jgli.Gl gl = new jgli.Gl();
-
         texture = Load.load(TextureRoot + name);
 
         gl4.glGenTextures(1, objects, Semantic.Object.TEXTURE);
 
-        glFormat = gl.translate(texture.format());
+        glFormat = jgli.Gl.translate(texture.format());
 
-        glTarget = gl.translate(texture.target());
+        glTarget = jgli.Gl.translate(texture.target());
 
-        glSwizzles = gl.translate(texture.swizzles());
+        glSwizzles = jgli.Gl.translate(texture.swizzles());
 
         sampler = Sampler.get(texture, glTarget, glFormat);
 
@@ -90,6 +88,9 @@ public class Test {
                 default:
                     throw new Error("invalid target");
             }
+            GlLogger.getMessages(gl4);
+            Main.checkError(gl4, "glTexStorageND");
+            
             for (int layer = 0; layer < texture.layers(); layer++) {
 
                 for (int face = 0; face < texture.faces(); face++) {
@@ -132,9 +133,11 @@ public class Test {
 
                                 } else {
 
-                                    gl4.glTexSubImage2D(glTarget.value, level, 0, 0, dimensions[0],
+                                    gl4.glTexSubImage2D(glTarget.value, level, 0, 0, 
+                                            dimensions[0],
                                             texture.target() == TARGET_1D_ARRAY ? layer : dimensions[1],
-                                            glFormat.external.value, glFormat.type.value, texture.data(layer, face, level));
+                                            glFormat.external.value, glFormat.type.value, 
+                                            texture.data(layer, face, level));
                                 }
                                 break;
 

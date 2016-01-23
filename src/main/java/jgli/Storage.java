@@ -88,7 +88,7 @@ public class Storage {
     public int levelSize(int level) {
 
         assert (level >= 0 && level < levels);
-//int a = blockSize * Glm.compMul(blockCount(level));
+        int a = blockSize * Glm.compMul(blockCount(level));
         return blockSize * Glm.compMul(blockCount(level));
     }
 
@@ -100,7 +100,7 @@ public class Storage {
 
         assert (level >= 0 && level < levels);
         int[] a = Glm.max(Glm.shiftRight(blockCount, level), new int[]{1, 1, 1});
-        int[] b= Glm.shiftRight(blockCount, level);
+        int[] b = Glm.shiftRight(blockCount, level);
         return Glm.max(Glm.shiftRight(blockCount, level), new int[]{1, 1, 1});
     }
 
