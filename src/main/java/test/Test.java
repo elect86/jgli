@@ -5,6 +5,9 @@
  */
 package test;
 
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2ES2;
+import com.jogamp.opengl.GL2ES3;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.math.FloatUtil;
@@ -90,7 +93,7 @@ public class Test {
             }
             GlLogger.getMessages(gl4);
             Main.checkError(gl4, "glTexStorageND");
-            
+
             for (int layer = 0; layer < texture.layers(); layer++) {
 
                 for (int face = 0; face < texture.faces(); face++) {
@@ -127,16 +130,19 @@ public class Test {
 
                                 if (texture.format().isCompressed()) {
 
-                                    gl4.glCompressedTexSubImage2D(glTarget.value, level, 0, 0, dimensions[0],
+                                    gl4.glCompressedTexSubImage2D(glTarget.value, level, 
+                                            0, 0, 
+                                            dimensions[0],
                                             texture.target() == TARGET_1D_ARRAY ? layer : dimensions[1],
-                                            glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
+                                            glFormat.internal.value, texture.size(level), 
+                                            texture.data(layer, face, level));
 
                                 } else {
 
-                                    gl4.glTexSubImage2D(glTarget.value, level, 0, 0, 
+                                    gl4.glTexSubImage2D(glTarget.value, level, 0, 0,
                                             dimensions[0],
                                             texture.target() == TARGET_1D_ARRAY ? layer : dimensions[1],
-                                            glFormat.external.value, glFormat.type.value, 
+                                            glFormat.external.value, glFormat.type.value,
                                             texture.data(layer, face, level));
                                 }
                                 break;
@@ -149,12 +155,12 @@ public class Test {
                                             glFormat.internal.value, texture.size(level), texture.data(layer, face, level));
 
                                 } else {
-                                    System.out.println("glTexSubImage3D, glTarget: " + glTarget
-                                            + ", level: " + level + ", offset: [" + dimensions[0]
-                                            + ", " + dimensions[1] + ", " + layer + "], glFormat: "
-                                            + glFormat.external + ", type: " + glFormat.type
-                                            + ", data.capacity: " 
-                                            + texture.data(layer, face, level).capacity() + "\n");
+//                                    System.out.println("glTexSubImage3D, glTarget: " + glTarget
+//                                            + ", level: " + level + ", offset: [" + dimensions[0]
+//                                            + ", " + dimensions[1] + ", " + layer + "], glFormat: "
+//                                            + glFormat.external + ", type: " + glFormat.type
+//                                            + ", data.capacity: "
+//                                            + texture.data(layer, face, level).capacity() + "\n");
                                     gl4.glTexSubImage3D(glTarget.value, level, 0, 0, layer,
                                             dimensions[0],
                                             dimensions[1],
@@ -205,6 +211,8 @@ public class Test {
             gl4.glTexParameteri(glTarget.value, GL4.GL_TEXTURE_MAX_LEVEL, texture.maxLevel());
 
             gl4.glTexParameterIiv(glTarget.value, GL4.GL_TEXTURE_SWIZZLE_RGBA, glSwizzles.toArray(), 0);
+//            gl4.glTexParameterIiv(glTarget.value, GL4.GL_TEXTURE_SWIZZLE_RGBA,
+//                    new int[]{GL2ES3.GL_BLUE, GL2ES3.GL_GREEN, GL2ES3.GL_RED, GL.GL_ALPHA}, 0);
         }
         gl4.glBindTexture(glTarget.value, 0);
     }

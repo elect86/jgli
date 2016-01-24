@@ -30,17 +30,17 @@ public class Gl {
         return table[format.value - jgli.Format.FORMAT_FIRST.value];
     }
 
-    public static Swizzles translate(jgli.Swizzles swizzle) {
+    public static Gl.Swizzles translate(jgli.Swizzles swizzle) {
 
-        if (Swizzle.values().length != jgli.Swizzles.Swizzle.SWIZZLE_COUNT.value) {
+        if (Gl.Swizzle.values().length != jgli.Swizzles.Swizzle.SWIZZLE_COUNT.value) {
             throw new Error("GLI error: swizzle descriptor list doesn't match number of supported swizzles");
         }
 
-        return new Swizzles(Swizzle.values()[swizzle.r.value], Swizzle.values()[swizzle.g.value],
-                Swizzle.values()[swizzle.b.value], Swizzle.values()[swizzle.a.value]);
+        return new Gl.Swizzles(Gl.Swizzle.values()[swizzle.r.value], Gl.Swizzle.values()[swizzle.g.value],
+                Gl.Swizzle.values()[swizzle.b.value], Gl.Swizzle.values()[swizzle.a.value]);
     }
 
-    public static jgli.Format find(InternalFormat internalFormat, ExternalFormat externalFormat, 
+    public static jgli.Format find(InternalFormat internalFormat, ExternalFormat externalFormat,
             TypeFormat type) {
 
         for (int formatIndex = jgli.Format.FORMAT_FIRST.value; formatIndex < FORMAT_COUNT.value; formatIndex++) {

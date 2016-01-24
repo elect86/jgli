@@ -49,6 +49,7 @@ public class Texture {
 
         this(target, format, dimensions, layers, faces, levels, new Swizzles(Swizzles.Swizzle.SWIZZLE_RED,
                 Swizzles.Swizzle.SWIZZLE_GREEN, Swizzles.Swizzle.SWIZZLE_BLUE, Swizzles.Swizzle.SWIZZLE_ALPHA));
+//        this(target, format, dimensions, layers, faces, levels, format.getFormatInfo().swizzles);
     }
 
     public Texture(

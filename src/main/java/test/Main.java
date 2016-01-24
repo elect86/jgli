@@ -36,7 +36,7 @@ public class Main implements GLEventListener, KeyListener {
 
     public static GLWindow glWindow;
     public static Animator animator;
-    private static boolean compatibilityProfile = true;
+    private static final boolean compatibilityProfile = true;
 
     public static void main(String[] args) {
 
@@ -110,125 +110,97 @@ public class Main implements GLEventListener, KeyListener {
 //            tests.add(new Test(gl4, "cube_rgba8_unorm.dds")); // ok
 //            tests.add(new Test(gl4, "cube_rgba8_unorm.ktx")); // ok
             /**
-             * Ok only with compatibility since
+             * OK only with compatibility profile since
              * GL_ALPHA_8-INTERNAL_ALPHA8-ALPHA8_EXT (0x803C, 32828).
              */
 //            tests.add(new Test(gl4, "kueken7_a8_unorm.dds"));
             /**
-             * It reads DXGI_FORMAT_B8G8R8X8_UNORM_SRGB but it should be
+             * WRONG, it reads DXGI_FORMAT_B8G8R8X8_UNORM_SRGB but it should be
              * DXGI_FORMAT_B8G8R8_SRGB_GLI instead.
+             * https://github.com/g-truc/gli/issues/78#issuecomment-174299707
              */
 //            tests.add(new Test(gl4, "kueken7_bgr8_srgb.dds"));
             /**
-             * Probably wrong swizzle.
+             * Wrong swizzle. Bug https://github.com/g-truc/gli/issues/79
+             * Temporary solution, do not set it.
              */
 //            tests.add(new Test(gl4, "kueken7_bgra8_srgb.dds"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_srgb.ktx"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_bgra8_unorm.ktx"));       
 //            tests.add(new Test(gl4, "kueken7_bgrx8_srgb.dds"));
-            tests.add(new Test(gl4, "kueken7_bgrx8_unorm.dds"));
-
-//            tests.add(new Test(gl4, "array_r8_unorm.dds"));
-//            tests.add(new Test(gl4, "array_r8_unorm.ktx"));
-//            
-//            tests.add(new Test(gl4, "kueken7_l8_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_bgrx8_unorm.dds"));
             /**
-             * Wrong header, header.format.fourCC is D3DFMT_DX10 but
-             * header10.format is DXGI_FORMAT_UNKNOWN.
+             * OK only with compatibility profile.
+             */
+//            tests.add(new Test(gl4, "kueken7_l8_unorm.dds"));            
+            /**
+             * Broken files,
+             * https://github.com/g-truc/gli/issues/80#issuecomment-174311425.
              */
 //            tests.add(new Test(gl4, "kueken7_la8_unorm.dds"));
-//            
-//            tests.add(new Test(gl4, "kueken7_r_ati1n_unorm.dds"));
             /**
-             * Working althought I miss the ETC extension, "emulating compressed
-             * format not supported in hardware with decompressed images".
-             * https://en.wikipedia.org/wiki/Ericsson_Texture_Compression
+             * Wrong swizzle. Temporary solution, do not set it.
+             * https://github.com/g-truc/gli/issues/79
              */
-//            tests.add(new Test(gl4, "kueken7_r_eac_snorm.ktx"));
-//            tests.add(new Test(gl4, "kueken7_r_eac_unorm.ktx"));
-//            
 //            tests.add(new Test(gl4, "kueken7_r5g6b5_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_r8_snorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_r8_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_r16_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_rg_ati2n_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_r5g6b5_unorm.ktx"));
+//                        
+//            tests.add(new Test(gl4, "kueken7_r8_sint.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_r8_uint.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_r16_unorm.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_r_ati1n_unorm.dds")); // ok
             /**
-             * Working althought I miss the ETC extension, "emulating compressed
+             * Working although I miss the ETC extension, "emulating compressed
              * format not supported in hardware with decompressed images".
              * https://en.wikipedia.org/wiki/Ericsson_Texture_Compression
              */
-//            tests.add(new Test(gl4, "kueken7_rg_eac_snorm.ktx"));            
-//            tests.add(new Test(gl4, "kueken7_rg_eac_unorm.ktx"));            
+//            tests.add(new Test(gl4, "kueken7_r_eac_snorm.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken7_r_eac_unorm.ktx")); // ok
             /**
-             * Working but not sure about the result.
+             * Broken files,
+             * https://github.com/g-truc/gli/issues/80#issuecomment-174311425.
              */
 //            tests.add(new Test(gl4, "kueken7_rg11b10_ufloat.dds"));
 //            tests.add(new Test(gl4, "kueken7_rg11b10_ufloat.ktx"));
-            /**
-             * Untested, I dont have AMD_compressed_ATC_texture.
-             */
-//            tests.add(new Test(gl4, "kueken7_rgb_atc_unorm.dds"));
 //            
-//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_rg_ati2n_unorm.dds")); // ok
             /**
-             * Wrong header, glInternalFormat should be:
-             *
-             * INTERNAL_SRGB_DXT1(0x8C4C)
-             *
-             * instead of:
-             *
-             * INTERNAL_RGB_DXT1(0x83F0).
+             * Wrong swizzle. Temporary solution, do not set it.
              */
-//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgb5a1_unorm.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgb5a1_unorm.ktx")); // ok 
+            /**
+             * Invalid format.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb5a1_unorm_.dds")); 
 //            
-//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_unorm.ktx"));
-//            tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.ktx"));
-//            tests.add(new Test(gl4, "kueken7_rgb_etc2_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb8_srgb.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgb8_unorm.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgb9e5_ufloat.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgb9e5_ufloat.ktx")); // ok
             /**
-             * Working althought I miss the ETC extension, "emulating compressed
-             * format not supported in hardware with decompressed images".
-             * https://en.wikipedia.org/wiki/Ericsson_Texture_Compression
-             */
-//            tests.add(new Test(gl4, "kueken7_rgb_etc2_srgb.ktx"));
-            /**
-             * Wrong header, header.format.fourCC is D3DFMT_DX10 but
-             * header10.format is DXGI_FORMAT_UNKNOWN.
-             */
-//            tests.add(new Test(gl4, "kueken7_rgb_etc2_unorm.dds"));
-            /**
-             * Untested, I dont have GL_IMG_texture_compression_pvrtc.
-             */
-//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_srgb.ktx"));
-//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_srgb.ktx"));
-            /**
-             * Buffer problem.
-             *
-             * Update: Replace them with the new ones!
-             */
-//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_2bpp_srgb.ktx"));
-//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_4bpp_srgb.ktx"));
-//            
-//            tests.add(new Test(gl4, "kueken7_rgb8_srgb.dds"));
-//            tests.add(new Test(gl4, "kueken7_rgb8_srgb.ktx"));
-//            tests.add(new Test(gl4, "kueken7_rgb8_unorm.dds"));        
-//            tests.add(new Test(gl4, "kueken7_rgb8_unorm.ktx"));        
-//            tests.add(new Test(gl4, "kueken7_rgb9e5_ufloat.dds"));
-//            tests.add(new Test(gl4, "kueken7_rgb9e5_ufloat.ktx"));
-            /**
-             * Probabily working but format type enum unsupported by jogl.
+             * Probabily working but files malformed.
              */
 //            tests.add(new Test(gl4, "kueken7_rgb10a2_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_rgb10a2u.dds"));
             /**
-             * Working althought I miss the ASTC extension, "emulating
-             * compressed format not supported in hardware with decompressed
-             * images". https://www.opengl.org/wiki/ASTC_Texture_Compression
+             * Wrong swizzles.
              */
+//            tests.add(new Test(gl4, "kueken7_rgba4_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgba4_unorm.ktx"));
+//            
+//            tests.add(new Test(gl4, "kueken7_rgba8_snorm.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba8_srgb.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba8_srgb.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba8_unorm.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba8_unorm.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba16_sfloat.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba16_sfloat.ktx")); // ok
+            /**
+             * Working although I miss the extension, software emulation.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgba_astc4x4_srgb.dds"));
 //            tests.add(new Test(gl4, "kueken7_rgba_astc4x4_srgb.ktx"));
             /**
              * GL_INVALID_VALUE is generated if imageSize is not consistent with
@@ -237,8 +209,7 @@ public class Main implements GLEventListener, KeyListener {
              */
 //            tests.add(new Test(gl4, "kueken7_rgba_astc8x5_srgb.ktx"));
             /**
-             * Wrong header, header.format.fourCC is D3DFMT_DX10 but
-             * header10.format is DXGI_FORMAT_UNKNOWN.
+             * INVALID FORMAT.
              */
 //            tests.add(new Test(gl4, "kueken7_rgba_astc8x8_unorm.dds"));
             /**
@@ -248,50 +219,95 @@ public class Main implements GLEventListener, KeyListener {
              */
 //            tests.add(new Test(gl4, "kueken7_rgba_astc12x12_srgb.ktx"));
             /**
-             * I cant test, I dont have AMD_compressed_ATC_texture.
+             * I cant test, I don't have AMD_compressed_ATC_texture.
              */
 //            tests.add(new Test(gl4, "kueken7_rgba_atc_explicit_unorm.dds"));
 //            tests.add(new Test(gl4, "kueken7_rgba_atc_interpolate_unorm.dds"));
-//            
-//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_srgb.dds"));
             /**
-             * Wrong header, glInternalFormat should be:
-             *
-             * INTERNAL_SRGB_DXT5
-             *
-             * instead of:
-             *
-             * INTERNAL_RGB_DXT5
+             * Wrong, not detecting srgb space.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt1_srgb.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt1_unorm.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_srgb.dds")); // ok
+            /**
+             * Wrong, not srgb.
              */
 //            tests.add(new Test(gl4, "kueken7_rgba_dxt5_srgb.ktx"));
-//            
-//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.dds"));
-//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.ktx"));  
-            // Ok
-//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm1.dds")); 
-//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm2.dds"));
+//
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm1.dds")); // ok 
+//            tests.add(new Test(gl4, "kueken7_rgba_dxt5_unorm2.dds")); // ok
             /**
-             * Working althought I miss the ASTC extension, "emulating
-             * compressed format not supported in hardware with decompressed
-             * images". https://www.opengl.org/wiki/ASTC_Texture_Compression
+             * Working although I miss the ASTC extension, "emulating compressed
+             * format not supported in hardware with decompressed images".
+             * https://www.opengl.org/wiki/ASTC_Texture_Compression
              */
 //            tests.add(new Test(gl4, "kueken7_rgba_etc2_a1_srgb.ktx"));
 //            tests.add(new Test(gl4, "kueken7_rgba_etc2_srgb.ktx"));
             /**
-             * Wrong header, header.format.fourCC is D3DFMT_DX10 but
-             * header10.format is DXGI_FORMAT_UNKNOWN.
+             * Buffer problem. Caused by: java.lang.IllegalArgumentException at
+             * java.nio.Buffer.limit(Buffer.java:275) at
+             * jgli.detail.LoadKtx.loadKtx10(LoadKtx.java:121)
+             */
+//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_2bpp_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_2bpp_unorm.ktx"));
+            /**
+             * Untested, I don't have GL_IMG_texture_compression_pvrtc.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_4bpp_srgb.ktx"));
+            /**
+             * Format invalid.
              */
 //            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_4bpp_unorm.dds"));
+            /**
+             * Untested, no ext.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgba_pvrtc2_4bpp_unorm.ktx"));
+            /**
+             * Untested, no ext.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_atc_unorm.dds"));
 //            
-//        tests.add(new Test(gl4, "kueken7_rgba8_snorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgba8_srgb.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgba8_srgb.ktx"));
-//        tests.add(new Test(gl4, "kueken7_rgba8_unorm.dds"));
-//        tests.add(new Test(gl4, "kueken7_rgba8_unorm.ktx"));
-//        tests.add(new Test(gl4, "kueken7_rgba16_sfloat.dds"));        
-//        tests.add(new Test(gl4, "kueken7_rgba16_sfloat.ktx"));        
-//        tests.add(new Test(gl4, "kueken8_rgba8_srgb.dds"));
-//        tests.add(new Test(gl4, "kueken8_rgba8_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.dds")); // ok
+            /**
+             * Wrong, not srgb.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_srgb.ktx")); 
+//            
+//            tests.add(new Test(gl4, "kueken7_rgb_dxt1_unorm.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.dds")); // ok
+//            tests.add(new Test(gl4, "kueken7_rgb_etc1_unorm.ktx")); // ok
+            // Rendered right, but wrong format, check
+//            tests.add(new Test(gl4, "kueken7_rgb_etc2_srgb.dds")); // ok
+            /**
+             * Working although I miss the ETC extension, "emulating compressed
+             * format not supported in hardware with decompressed images".
+             * https://en.wikipedia.org/wiki/Ericsson_Texture_Compression
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_etc2_srgb.ktx"));
+            /**
+             * Format invalid.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_etc2_unorm.dds"));
+            /**
+             * Untested, no ext.
+             */
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_2bpp_unorm.dds"));
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_srgb.ktx"));
+//            tests.add(new Test(gl4, "kueken7_rgb_pvrtc_4bpp_unorm.dds"));
+//            
+//            tests.add(new Test(gl4, "kueken7_rg_eac_snorm.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken7_rg_eac_unorm.ktx")); // ok
+            /**
+             * Wrong swizzle.
+             */
+//            tests.add(new Test(gl4, "kueken8_bgr8_unorm.dds")); 
+//            
+//            tests.add(new Test(gl4, "kueken8_rgba8_srgb.dds")); // ok
+//            tests.add(new Test(gl4, "kueken8_rgba8_srgb.ktx")); // ok
+//            tests.add(new Test(gl4, "kueken8_rgba_dxt1_unorm.dds")); //ok
         }
         gl4.glPixelStorei(GL4.GL_UNPACK_ALIGNMENT, alignment[0]);
 

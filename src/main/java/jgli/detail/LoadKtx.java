@@ -130,6 +130,8 @@ public class LoadKtx {
                 }
             }
         }
+        
+        System.out.println(texture.toString());
 
         return texture;
     }
