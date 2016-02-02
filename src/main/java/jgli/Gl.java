@@ -437,6 +437,15 @@ public class Gl {
         private Target(int value) {
             this.value = value;
         }
+
+        public static Target get(int value) {
+            for (Target target : values()) {
+                if (target.value == value) {
+                    return target;
+                }
+            }
+            return TARGET_1D;
+        }
     }
 
     public enum Swizzle {
