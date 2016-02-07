@@ -11,6 +11,10 @@ package jgli;
  */
 public class Util {
 
+//    public static int levels(int dimensions) {
+//        return glm.log2(dimensions) + 1;
+//    }
+    
     public static int levels(int[] dimensions) {
         return (int) (Math.log(Glm.compMax(dimensions)) / Math.log(2) + 1);
     }

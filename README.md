@@ -1,5 +1,3 @@
-*sync with g-truc gli in progress, temporary broken, use 0.7.0.0 stable build or this [very last build](https://drive.google.com/file/d/0B6tV4PM370eSOWJhQW5DZ2pJQ2M/view?usp=sharing) in the meanwhile*
-
 # JGLI
 
 Java porting of the [g-truc GLI](https://github.com/g-truc/gli)
