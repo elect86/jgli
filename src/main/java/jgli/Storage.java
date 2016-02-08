@@ -6,6 +6,7 @@
 package jgli;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  *
@@ -54,7 +55,7 @@ public class Storage {
         assert (Glm.all(Glm.greaterThan(dimensions, new byte[]{0, 0, 0})));
         int a = layerSize(0, faces - 1, 0, levels - 1) * layers;
         short[] b = format.blockDimensions();
-        data = ByteBuffer.allocateDirect(layerSize(0, faces - 1, 0, levels - 1) * layers);
+        data = ByteBuffer.allocateDirect(layerSize(0, faces - 1, 0, levels - 1) * layers).order(ByteOrder.nativeOrder());
     }
 
     public final int layerSize(int baseFace, int maxFace, int baseLevel, int maxLevel) {
