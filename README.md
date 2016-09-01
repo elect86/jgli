@@ -1,4 +1,4 @@
-# JGLI
+# GLI
 
 Java porting of the [g-truc GLI](https://github.com/g-truc/gli)
 
