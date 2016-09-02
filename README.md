@@ -6,7 +6,9 @@ Every format listed [here](https://github.com/elect86/jgli/blob/master/Jgli/src/
 
 Feel free to help/contribute
 
-Project based on Gradle. For Eclipse/IntelliJ/Netbeans users, just install the Gradle plugin and you are done.
+Steps:
+
+- add jars under `\lib`
 
 ## Release notes
 
