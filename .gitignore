@@ -1,2 +1,4 @@
 /build/
 /.nb-gradle/
+/jgli/nbproject/private/
+/gli/nbproject/private/

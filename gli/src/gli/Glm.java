@@ -11,6 +11,7 @@ package gli;
  */
 public class Glm {
 
+    @Deprecated
     public static int[] add(int[] a, int[] b) {
         int[] result = new int[a.length];
         for (int i = 0; i < a.length; i++) {
@@ -19,6 +20,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static boolean all(boolean[] vec) {
 
         for (boolean b : vec) {
@@ -29,6 +31,7 @@ public class Glm {
         return true;
     }
 
+    @Deprecated
     public static float ceilMultiple(float source, float multiple) {
         if (source > 0) {
             float tmp = source - 1;
@@ -38,6 +41,7 @@ public class Glm {
         }
     }
 
+    @Deprecated
     public static int compMax(int[] vec) {
 
         int result = vec[0];
@@ -48,6 +52,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static int compMul(int[] vec) {
 
         int result = 1;
@@ -58,6 +63,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static int[] divide(int[] vec0, short[] vec1) {
 
         if (vec0.length != vec1.length) {
@@ -72,6 +78,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static boolean[] equal(int[] vec0, int[] vec1) {
 
         if (vec0.length != vec1.length) {
@@ -86,6 +93,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static boolean[] greaterThan(int[] vec0, byte[] vec1) {
 
         if (vec0.length != vec1.length) {
@@ -100,6 +108,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static int[] max(int[] vec0, int[] vec1) {
         if (vec0.length != vec1.length) {
             throw new Error("Length of vectors differs!");
@@ -113,6 +122,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static byte[] maxB(byte[] vec0, byte[] vec1) {
 
         if (vec0.length != vec1.length) {
@@ -127,6 +137,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static int[] maxI(byte[] vec0, byte[] vec1) {
 
         if (vec0.length != vec1.length) {
@@ -141,6 +152,7 @@ public class Glm {
         return result;
     }
 
+    @Deprecated
     public static int[] shiftRight(int[] vec, int shift) {
 
         int[] result = new int[vec.length];

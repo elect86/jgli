@@ -28,7 +28,7 @@ public class Test {
 
     private String name;
     private final String TextureRoot = "/textures/";
-    private Texture texture;
+    private gli.Texture texture;
     private int[] objects = new int[Semantic.Object.SIZE];
     private gli.Gl.Format glFormat;
     private gli.Gl.Target glTarget;
