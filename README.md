@@ -1,3 +1,7 @@
+This project isn't being worked anymore, use [this](https://github.com/kotlin-graphics/gli) instead.
+
+If you would like to continue it, let me know
+
 # GLI
 
 Java porting of the [g-truc GLI](https://github.com/g-truc/gli)
